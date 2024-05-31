@@ -21,7 +21,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: Text("Favorite",
+        title: Text("Préférée",
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: titleFont,
@@ -48,14 +48,14 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Sprite Can",
+                            Text("Canette de Sprite",
                               style: TextStyle(
                                   fontSize: titleFont,
                                   fontWeight: FontWeight.w600,
                                   color:AppColors.textBlack,
                               ),
                             ),
-                            Text("325ml, Price",
+                            Text("325ml, Prix",
                               style: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize:smallFont,
@@ -75,7 +75,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
               padding: const EdgeInsets.only(left: 20.0,right: 20,),
               child: AppButton(
                 bgColor: AppColors.bgGreen,
-                  name: "Add All To Cart", onClick: ()=>dialogBox(context)),
+                  name: "Ajouter tout au panier", onClick: ()=>dialogBox(context)),
             )
 
           ],

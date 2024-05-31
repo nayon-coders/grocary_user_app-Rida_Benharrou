@@ -38,7 +38,7 @@ class CategoryCard extends StatelessWidget {
               Center(
                 child: SizedBox(
                   width: 100,
-                  child: Text("Frash Fruits & Vegetable",
+                  child: Text("Fruits et légumes frais",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,

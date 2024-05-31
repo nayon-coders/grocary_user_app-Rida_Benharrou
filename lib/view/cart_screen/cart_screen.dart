@@ -66,7 +66,7 @@ class _CartScreenState extends State<CartScreen> {
                                   color:AppColors.textBlack,
                               ),
                               ),
-                              Text("1kg, Prix",
+                              Text("1 kg, Prix",
                                 style: TextStyle(fontSize: smallFont,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.textGrey),

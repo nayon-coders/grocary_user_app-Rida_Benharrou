@@ -26,13 +26,13 @@ class ItemCard extends StatelessWidget {
             SizedBox(height: 20,),
             Image.asset(Assets.potato,height:90,width:double.infinity,fit: BoxFit.contain,),
             SizedBox(height: 20,),
-            Text("Potato",
+            Text("Pomme de terre",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: normalFont,
                   color: Colors.black),
             ),
-            Text("1kg",
+            Text("1 kg",
               style: TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: smallFont,
@@ -44,7 +44,7 @@ class ItemCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("৳50",
+                Text("50 ৳",
                   style: TextStyle(
                       fontSize: normalFont,
                       fontWeight: FontWeight.w500,

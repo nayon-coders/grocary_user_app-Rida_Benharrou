@@ -72,7 +72,7 @@ class _DetailScreenState extends State<DetailScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Naturel Red Apple",
+                Text("Pomme Rouge Naturelle",
                   style: TextStyle(
                       fontSize: titleFont,
                       fontWeight: FontWeight.w600,
@@ -82,7 +82,7 @@ class _DetailScreenState extends State<DetailScreen> {
               ],
             ),
             SizedBox(height: 5,),
-            Text("1kg price",
+            Text("prix 1kg",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: smallFont,
@@ -135,20 +135,20 @@ class _DetailScreenState extends State<DetailScreen> {
             ),
             SizedBox(height: 15,),
             ExpansionTile(
-                title:Text("Product Details"),
+                title:Text("détails du produit"),
               children: [
-                Text("Apples are nutritious. Apples may be good for "
-                    "weight loss. apples may be good for your heart. "
-                    "As part of a healtful and varied diet.")
+                Text("Les pommes sont nutritives. Les pommes peuvent être "
+                    "bonnes pour perdre du poids. les pommes peuvent être bonnes "
+                    "pour votre cœur. Dans le cadre d'une alimentation saine et variée.")
               ],
             ),
-            ExpansionTile(title: Text("Nutritions")),
+           const ExpansionTile(title: Text("Nutrition")),
             ExpansionTile(
               title:Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Review"),
+                  Text("Revoir"),
                   Row(
                     children: [
                       Icon(Icons.star,color: Colors.orangeAccent,size: 15,),
@@ -176,7 +176,7 @@ class _DetailScreenState extends State<DetailScreen> {
         padding: const EdgeInsets.all(30.0),
         child: AppButton(
           bgColor: AppColors.bgGreen,
-          name: "Add To Basket",
+          name: "Ajouter au panier",
           onClick: (){
 
           },

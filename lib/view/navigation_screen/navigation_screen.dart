@@ -55,23 +55,23 @@ class _NavigationScreenState extends State<NavigationScreen> {
               BottomNavigationBarItem(
 
                 icon: Icon(Icons.house_outlined),
-              label: "Shope",
+              label: "Boutique",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu_open),
-                label: "Explore",
+                label: "Explorer",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart),
-                label: "Cart",
+                label: "Chariot",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border),
-                label: "Favorite",
+                label: "Préférée",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: "Account",
+                label: "Compte",
               ),
             ]
         ),

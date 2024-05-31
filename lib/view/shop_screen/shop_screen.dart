@@ -44,15 +44,15 @@ class _ShopScreenState extends State<ShopScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Icon(Icons.location_on,color: Colors.black,),
-                  Text("Dhaka,GreenModelTown",style:TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: Colors.black),)
+                  Text("Dhaka, ville modèle verte",style:TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: AppColors.textBlack),)
                 ],
               ),
             ),
             SizedBox(height: 20,),
             AppInput(
               controller: _search,
-              prefixIcon: Icon(Icons.search,color: Colors.black,),
-              hintText: "Search store",
+              prefixIcon: Icon(Icons.search,color: AppColors.textBlack,),
+              hintText: "Rechercher un magasin",
             ),
 
             SizedBox(height: 5,),
@@ -62,10 +62,10 @@ class _ShopScreenState extends State<ShopScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Exclusive Offer",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                Text("Offre exclusive",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: AppColors.textBlack),),
                 InkWell(
                   onTap: (){},
-                    child: Text("See all",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+                    child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
             ],
             ),
@@ -85,10 +85,10 @@ class _ShopScreenState extends State<ShopScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Best Selling",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                Text("Meilleure vente",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: AppColors.textBlack),),
                 InkWell(
                   onTap: (){},
-                    child: Text("See all",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+                    child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
               ],
             ),
@@ -107,10 +107,10 @@ class _ShopScreenState extends State<ShopScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Groceries",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                Text("Épiceries",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: AppColors.textBlack),),
                 InkWell(
                     onTap: (){},
-                    child: Text("See all",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+                    child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
               ],
             ),

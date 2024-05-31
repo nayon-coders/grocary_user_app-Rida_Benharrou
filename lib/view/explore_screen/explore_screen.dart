@@ -26,7 +26,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Text("Find Products",
+              child: Text("Trouver des produits",
                 style: TextStyle(
                     fontSize: titleFont,
                     fontWeight: FontWeight.w600,
@@ -42,7 +42,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   child: AppInput(
                     prefixIcon: Icon(Icons.search,color: Colors.black,),
                       controller: _searchController,
-                      hintText: "Search Store",
+                      hintText: "Rechercher dans le magasin",
                   ),
                 ),
                 SizedBox(width: 15,),

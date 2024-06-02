@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
+import '../../widget/app_network_images.dart';
 
 class DetailScreen extends StatefulWidget {
-  const DetailScreen({super.key,});
+  const DetailScreen({super.key, required this.productModel,});
+
+  final ProductModel productModel;
 
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
 
 class _DetailScreenState extends State<DetailScreen> {
-  int _initial = 0;
+  int _initial = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -28,15 +32,34 @@ class _DetailScreenState extends State<DetailScreen> {
             Stack(
               alignment: Alignment.center,
               children: [
+                widget.productModel!.discountPrice! != "0" ? Positioned(
+                  right: 10, top: 10,
+                  child: Container(
+                    width: 80,
+                    height: 30,
+                    decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(100)
+                    ),
+                    child: Center(child: Text("\$${widget.productModel!.discountPrice!} OFF",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontSize: 13, color: Colors.white
+                        )
+                    ),),
+                  ),
+                ) : Center(),
                 Container(
                   height: MediaQuery.of(context).size.height*0.40,
                   width: double.infinity,
+                  padding: EdgeInsets.all(50),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20)
                     ),
-                    image: DecorationImage(image: AssetImage(Assets.potato,),fit: BoxFit.contain),
+                  ),
+                  child: AppNetworkImage(src: widget.productModel.images![0], fit: BoxFit.contain, height:  MediaQuery.of(context).size.height*0.35
                   ),
                 ),
                 Positioned(
@@ -59,9 +82,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                 color: Colors.black
                             ),
                             child: Center(child: Icon(Icons.keyboard_arrow_left,color: Colors.white,)))),
-                    Icon(Icons.file_upload_outlined,color: Colors.black,),
                   ],
-                
+
                 ),)
                 
               ],
@@ -72,21 +94,28 @@ class _DetailScreenState extends State<DetailScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text("Naturel Red Apple",
-                  style: TextStyle(
-                      fontSize: titleFont,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.black),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width-100,
+                  child: Text("${widget.productModel!.name.toString()}",
+                    style: TextStyle(
+                        fontSize: titleFont,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black),
+                  ),
                 ),
                 Icon(Icons.favorite_border,color: AppColors.textGrey,),
               ],
             ),
             SizedBox(height: 5,),
-            Text("1kg price",
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: smallFont,
-                  color: AppColors.textGrey,
+            SizedBox(
+              width: MediaQuery.of(context).size.width-100,
+              child: Text("${widget.productModel!.categoryS!.categoryName.toString()}",
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: smallFont,
+                    color: AppColors.textGrey,
+                ),
               ),
             ),
             SizedBox(height: 10,),
@@ -103,12 +132,22 @@ class _DetailScreenState extends State<DetailScreen> {
                       InkWell(
                         onTap:(){
                           setState(() {
-                            _initial--;
+                            if(_initial > 1){
+                              _initial--;
+                            }
                           });
                         },
-                          child: Icon(Icons.remove,color: AppColors.textGrey,)),
+                          child:  Container(
+                              width: 40, height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.black,
+                                border: Border.all(color:Colors.black,width: .9),
+                              ),
+                              child: Icon(Icons.remove,color: Colors.white,))),
+                      SizedBox(width: 10,),
                       Container(
-                        padding: EdgeInsets.only(left: 10,right: 10,top: 5,bottom: 5),
+                        width: 40, height: 40,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(color: AppColors.textGrey,width: .9),
@@ -118,51 +157,64 @@ class _DetailScreenState extends State<DetailScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(width: 10,),
                       InkWell(
                          onTap: (){
                            setState(() {
                              _initial++;
                            });
                          },
-                          child: Icon(Icons.add,color: AppColors.bgGreen,))
+                          child:  Container(
+                              width: 40, height: 40,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.black,
+                                border: Border.all(color:Colors.black,width: .9),
+                              ),
+                              child: Icon(Icons.add,color: Colors.white,))),
+
                 
                     ],
                   ),
                 ),
-                Text("\$4.99",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
-                
+                Column(
+                  children: [
+
+                    Text("\$${double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),),
+                  ],
+                )
+
               ],
             ),
-            SizedBox(height: 15,),
-            ExpansionTile(
-                title:Text("Product Details"),
-              children: [
-                Text("Apples are nutritious. Apples may be good for "
-                    "weight loss. apples may be good for your heart. "
-                    "As part of a healtful and varied diet.")
-              ],
-            ),
-            ExpansionTile(title: Text("Nutritions")),
-            ExpansionTile(
-              title:Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("Review"),
-                  Row(
-                    children: [
-                      Icon(Icons.star,color: Colors.orangeAccent,size: 15,),
-                      Icon(Icons.star,color: Colors.orangeAccent,size: 15,),
-                      Icon(Icons.star,color: Colors.orangeAccent,size: 15,),
-                
-                    ],
-                  ),
-                ],
-                
+            SizedBox(height: 10,),
+            Text("${widget.productModel.productType}",
+              style: TextStyle(
+                  fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey
               ),
             ),
-                
-                
+            SizedBox(height: 20,),
+            Text("Détails du produit",
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: Colors.black,
+                fontSize: 14,
+              ),
+            ),
+            Text("${widget.productModel.shortDescription}",
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+                color: Colors.black,
+                fontSize: 12,
+              ),
+            ),
+
+            SizedBox(height: 15,),
+            ExpansionTile(
+                title:Text("Détails du produit"),
+              children: [
+                Text("${widget.productModel.longDescription!}")
+              ],
+            ),
             /// TODO:Product price
                 
             ///TODO:product quantity and buy button
@@ -173,10 +225,10 @@ class _DetailScreenState extends State<DetailScreen> {
         ),
       ),
       bottomNavigationBar:Padding(
-        padding: const EdgeInsets.all(30.0),
+        padding: const EdgeInsets.only(left: 40.0, right: 40, bottom: 20, top: 10),
         child: AppButton(
           bgColor: AppColors.bgGreen,
-          name: "Add To Basket",
+          name: "Ajouter au panier",
           onClick: (){
 
           },

@@ -16,7 +16,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   static const List pages =[
-    ShopScreen(),
+    home(),
     ExploreScreen(),
     CartScreen(),
     FavoriteScreen(),

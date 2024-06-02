@@ -48,7 +48,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   ),
                 ),
                 Image.asset(
-                    Assets.gajorIcon,
+                    Assets.logo,
                     height: 60,
                     width: double.infinity,
                     fit: BoxFit.contain,
@@ -101,7 +101,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     child: Text("Mot de passe oublié?",
                       style: TextStyle(fontSize: normalFont,
                           fontWeight: FontWeight.w500,
-                          color:AppColors.textBlack),
+                          color:Colors.blue),
                     ),
                   ),
                 ),

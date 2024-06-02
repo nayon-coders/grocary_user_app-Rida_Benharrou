@@ -23,6 +23,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
 
+
+  List accountType = ["Customer", "Seller", "Whole Seller"];
+  List selectedType = [];
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
@@ -36,28 +40,25 @@ class _SignUpScreenState extends State<SignUpScreen> {
               alignment: Alignment.center,
               children: [
                 Container(
-                  height: 200,
+                  height: 80,
+                  margin: EdgeInsets.only(top: 20),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
+                    //image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
                   ),
+                  child: Center(
+                    child: Image.asset(Assets.logo, width: 300,),
                 ),
-                Image.asset(
-                  Assets.gajorIcon,
-                  height: 60,
-                  width: double.infinity,
-                  fit: BoxFit.contain,
-                ),
-
-
+                )
               ],
             ),
            Padding(
-             padding: const EdgeInsets.all(20.0),
+             padding: const EdgeInsets.only(left: 20.0, right: 20, bottom: 50),
              child: Column(
                mainAxisAlignment: MainAxisAlignment.start,
                crossAxisAlignment: CrossAxisAlignment.start,
                children: [
+
                  Text("S'inscrire",
                    style: TextStyle(
                      fontWeight: FontWeight.w600,
@@ -73,7 +74,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      color: AppColors.textGrey,
                    ),
                  ),
+
                  SizedBox(height: 30,),
+
+                 Text("Choisir qui tu es ?",
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16
+                  )
+                 ),
+                  SizedBox(height: 10,),
+
+                  SizedBox(height: 40,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap:true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: accountType.length,
+                      itemBuilder: (_, index){
+                        return InkWell(
+                          onTap: (){
+                            setState(() {
+                              selectedType.clear();
+                              selectedType.add(accountType[index]);
+                            });
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 10),
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color:selectedType.contains(accountType[index])  ? AppColors.bgGreen : Colors.white,
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(width: 1, color: selectedType.contains(accountType[index]) ? Colors.white :   AppColors.bgGreen ,)
+                              ),
+                              child: Text(
+                                "I'am ${accountType[index]}",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                     fontSize: 12,
+                                     color: selectedType.contains(accountType[index]) ? Colors.white :   AppColors.bgGreen
+                              ),
+                              )
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                 SizedBox(height: 20,),
                  Text("Nom d'utilisateur",
                    style: TextStyle(
                        fontSize: normalFont,
@@ -92,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                  AppField(
                    controller: _emailController,
                    hintText: "E-mail",
-                   suffixIcon: Icon(Icons.check,color: AppColors.bgGreen,),),
+                   ),
                  SizedBox(height: 20,),
                  Text("Mot de passe",
                    style: TextStyle(fontSize: normalFont,

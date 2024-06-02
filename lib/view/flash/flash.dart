@@ -23,12 +23,12 @@ class _FlashScreenState extends State<FlashScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      backgroundColor: AppColors.bgGreen,
+      //backgroundColor: AppColors.bgGreen,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(Assets.logo,height: 80,width: double.infinity,),
+          Image.asset(Assets.logo,height: 200,width: double.infinity,),
         ],
       ),
     ));

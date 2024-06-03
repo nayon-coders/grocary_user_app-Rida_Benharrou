@@ -254,7 +254,8 @@ class _DetailScreenState extends State<DetailScreen> {
             ],
           ),
         ),
-        bottomNavigationBar: Padding(
+        bottomNavigationBar: Container(
+          height: 80,
           padding: const EdgeInsets.only(left: 40.0, right: 40, bottom: 10, top: 10),
           child: Row(
             children: [

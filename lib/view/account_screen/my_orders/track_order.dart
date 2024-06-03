@@ -30,7 +30,8 @@ class _TrackOrderState extends State<TrackOrder> {
   }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
+
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
@@ -164,7 +165,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         title: const Text("Order Placed"),
                         subtitle: const Text("we have Placed your order"),
                       content: Icon(Icons.delivery_dining,color: Colors.orange,size: 40,),
-              
+
                     ),
                     Step(
                       isActive: activeStep>=1,
@@ -194,14 +195,14 @@ class _TrackOrderState extends State<TrackOrder> {
                       subtitle: const Text("we have recived your order"),
                       content: Icon(Icons.delivery_dining,color: Colors.orange,size: 40,),
                     ),
-              
-              
+
+
               ]),
             ),
 
           ],
         ),
       ),
-    ));
+    );
   }
 }

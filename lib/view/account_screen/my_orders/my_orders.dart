@@ -17,7 +17,7 @@ class _MyOrdersState extends State<MyOrders> {
   @override
   Widget build(BuildContext context) {
 
-    return SafeArea(child: Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
@@ -147,6 +147,6 @@ class _MyOrdersState extends State<MyOrders> {
           ],
         ),
       ),
-    ));
+    );
   }
 }

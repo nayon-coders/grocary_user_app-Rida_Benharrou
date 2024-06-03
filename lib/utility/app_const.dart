@@ -13,6 +13,7 @@ String appSettingCollection = "app_setting";
 String favCollection = "favorite";
 String userCollection = "users";
 String cartCollection = "cart";
+String addressCollection = "user_delivery_address";
 
 
 

@@ -6,6 +6,7 @@ import 'package:nectar/controller/cart_controller.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/cart_screen/widget/bottomsheet_list.dart';
+import 'package:nectar/view/cart_screen/widget/order_popup.dart';
 import 'package:nectar/view/order_accepted/order_accepted.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_network_images.dart';
@@ -201,103 +202,7 @@ class _CartScreenState extends State<CartScreen> {
                       onClick: (){
                       print("qty ---- $qty");
                       showModalBottomSheet(context: context, builder:(BuildContext context){
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          height: 600,
-                          width: double.infinity,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListTile(
-                                title: Text("Vérifier",
-                                style: TextStyle(
-                                    fontSize: titleFont,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                                trailing: InkWell(
-                                  onTap: ()=>Navigator.pop(context),
-                                    child: Icon(Icons.close,color: Colors.black,)),
-                              ),
-                              Divider(color: Colors.grey.shade200,),
-                              ListbottomSheet(
-                                title: "Livraison",
-                                subtitle: Text("Sélectionnez la méthode",style: TextStyle(color: Colors.black,fontSize: 15,fontWeight: FontWeight.w500),),
-                                onClick: (){},
-                              ),
-                              Divider(color: Colors.grey.shade200,),
-                              ListbottomSheet(
-                                title: "Paiement",
-                                subtitle: Icon(Icons.credit_card,color: Colors.orange,),
-                                onClick: (){},
-                              ),
-                              Divider(color: Colors.grey.shade200,),
-                              ListbottomSheet(
-                                title: "Code promo",
-                                subtitle: Text("Choisissez une remise",style: TextStyle(
-                                    color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-                                onClick: (){},
-                              ),
-                              Divider(color: Colors.grey.shade200,),
-                              ListbottomSheet(
-                                title: "Coût total",
-                                subtitle: Text("\$13.97",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-                                onClick: (){},
-                              ),
-                              Divider(color: Colors.grey.shade200,),
-                              SizedBox(height: 30,),
-                              SizedBox(
-                                width:200,
-                                child: RichText(text: TextSpan(
-                                  text: "En passant une commande, vous acceptez notre  ",
-                                  style: TextStyle(fontSize:smallFont,color: AppColors.textGrey),
-                                  children: [
-                                    TextSpan(
-                                      text: " Termes ",
-                                      style: TextStyle(
-                                          fontSize: smallFont,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " Et ",
-                                      style: TextStyle(
-                                          fontSize: smallFont,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.textGrey,
-                                      ),
-                                    ),
-                                    TextSpan(
-                                      text: " Conditions",
-                                      style: TextStyle(
-                                          fontSize: smallFont,
-                                          fontWeight: FontWeight.w500,
-                                          color:Colors.black,
-                                      ),
-                                    ),
-                                  ]
-                                )),
-                              ),
-                              Spacer(),
-                              Center(
-                                child: SizedBox(
-                                  width:300,
-                                    child:
-                                    AppButton(
-                                        name: "Passer la commande",
-                                        onClick: (){
-                                          Navigator.pop(context);
-                                          Navigator.push(context,
-                                              MaterialPageRoute(builder: (context)=>OrderAccepted()));
-
-                                        })),
-                              )
-                            ],
-                          ),
-                        );
+                        return OrderPopup();
                       });
                       }
                   ),

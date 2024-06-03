@@ -14,6 +14,7 @@ String favCollection = "favorite";
 String userCollection = "users";
 String cartCollection = "cart";
 String addressCollection = "user_delivery_address";
+String ordersCollection = "orders";
 
 
 

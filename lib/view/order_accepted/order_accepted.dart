@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_button.dart';
 
 import '../../utility/app_color.dart';
@@ -63,13 +64,9 @@ class _OrderAcceptedState extends State<OrderAccepted> {
 
         child: Column(
           children: [
-            AppButton(name: "Suivi de commande", onClick: (){}),
-            SizedBox(height: 10,),
-            TextButton(onPressed: ()=>Navigator.pop(context), child: Text("De retour à la maison",
-              style: TextStyle(fontSize: normalFont,
-                  fontWeight: FontWeight.w400,
-                  color: AppColors.textBlack),
-            ))
+            AppButton(name: "Continuer vos achats", onClick: (){
+              Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>NavigationScreen()), (route) => false);
+            }),
 
           ],
         ),

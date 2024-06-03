@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/controller/auth_controller.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 
 import '../../utility/app_color.dart';
 import '../../utility/assets.dart';
@@ -16,11 +18,11 @@ class _FlashScreenState extends State<FlashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Future.delayed(Duration(seconds: 5),(){
-      Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+    Future.delayed(Duration(seconds: 1),(){
+     FirebaseAuth.instance.currentUser != null
+         ?  Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen()))
+         :  Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
     });
-
-    AuthController.accountRole();
 
   }
   @override

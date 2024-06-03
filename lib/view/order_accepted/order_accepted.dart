@@ -33,7 +33,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
           SizedBox(height: 15,),
           SizedBox(
             width: 230,
-            child: Text("Your Order has been accepted",
+            child: Text("Votre commande a été acceptée",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.w600,
@@ -45,7 +45,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
           SizedBox(height: 15,),
           SizedBox(
             width: 200,
-            child: Text("Your items has been placed and is on it’s way to being processed",
+            child: Text("Vos articles ont été placés et sont en cours de traitement",
               textAlign: TextAlign.center,
               style: TextStyle(
                   fontWeight: FontWeight.w500,
@@ -63,9 +63,9 @@ class _OrderAcceptedState extends State<OrderAccepted> {
 
         child: Column(
           children: [
-            AppButton(name: "Track Order", onClick: (){}),
+            AppButton(name: "Suivi de commande", onClick: (){}),
             SizedBox(height: 10,),
-            TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Back to home",
+            TextButton(onPressed: ()=>Navigator.pop(context), child: Text("De retour à la maison",
               style: TextStyle(fontSize: normalFont,
                   fontWeight: FontWeight.w400,
                   color: AppColors.textBlack),

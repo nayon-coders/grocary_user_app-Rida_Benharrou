@@ -14,7 +14,6 @@ class CategoryCard extends StatelessWidget {
       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>BeveragesScreen())),
       child: Container(
         padding: EdgeInsets.only(top: 20,bottom: 10,left: 10,right: 10),
-        width: 220,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color:AppColors.cardColor.withOpacity(.3),
@@ -24,25 +23,16 @@ class CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                padding: EdgeInsets.all(10),
-                height: 90,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  image: DecorationImage(image: AssetImage(Assets.potato),fit: BoxFit.contain),
-
-                ),
-              ),
+              Image.asset(Assets.sprite,height: 50,),
 
               SizedBox(height:20,),
               Center(
                 child: SizedBox(
-                  width: 100,
-                  child: Text("Frash Fruits & Vegetable",
+                  child: Text("Fruits et légumes frais",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: normalFont,
+                        fontSize: 12,
                         color: Colors.black),
                   ),
                 ),

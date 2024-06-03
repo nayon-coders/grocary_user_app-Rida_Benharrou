@@ -8,11 +8,13 @@ class AppButton extends StatelessWidget {
     required this.onClick,
     this.bgColor=AppColors.bgGreen,
     this.textColor = Colors.white,
+    this.isLoading = false
   });
   final String name;
   final VoidCallback onClick;
   final Color bgColor;
   final Color textColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class AppButton extends StatelessWidget {
           color: bgColor,
         ),
         child: Center(
-          child: Text(name,
+          child: isLoading ? CircularProgressIndicator(color: Colors.white,) : Text(name,
             style: TextStyle(
               fontSize: normalFont,
               fontWeight: FontWeight.w600,

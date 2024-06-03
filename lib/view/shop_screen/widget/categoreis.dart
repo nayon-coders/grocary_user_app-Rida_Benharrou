@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/model/category_model.dart';
 import 'package:nectar/utility/app_const.dart';
+import 'package:nectar/view/category_prodouct/category_product.dart';
+import 'package:nectar/view/explore_screen/explore_screen.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/app_shimmer.dart';
 
@@ -23,7 +26,7 @@ class Categoreis extends StatelessWidget {
           children: [
             Text("Catégorie's",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
-                onTap: (){},
+                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen(pageIndex: 1,))),
                 child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
           ],
@@ -66,24 +69,27 @@ class Categoreis extends StatelessWidget {
               itemCount: category.length,
               itemBuilder: (context, index) {
                 var data = category[index];
-                return Container(
-                  padding: EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(width: 1, color: Colors.grey.shade200)
+                return InkWell(
+                  onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!))),
+                  child: Container(
+                    padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(width: 1, color: Colors.grey.shade200)
+                      ),
+                    child: Column(
+                      children: [
+                        AppNetworkImage(src: data.categoryImage!, height: 60, width: 60,),
+                        SizedBox(height: 9,),
+                        Text("${data.categoryName}",
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black
+                          ),
+                        )
+                      ],
                     ),
-                  child: Column(
-                    children: [
-                      AppNetworkImage(src: data.categoryImage!, height: 60, width: 60,),
-                      SizedBox(height: 9,),
-                      Text("${data.categoryName}",
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black
-                        ),
-                      )
-                    ],
                   ),
                 );
               },

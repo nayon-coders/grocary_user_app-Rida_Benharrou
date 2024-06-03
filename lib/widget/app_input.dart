@@ -6,12 +6,13 @@ class AppInput extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.prefixIcon,
-    this.suffixIcon,
+    this.suffixIcon, this.validator,
   });
   final TextEditingController controller;
   final String hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
+  final String? Function(String?)? validator;
 
 
   @override
@@ -19,6 +20,7 @@ class AppInput extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextFormField(
+        validator: validator,
         controller: controller,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,

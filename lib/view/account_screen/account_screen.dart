@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
+import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
 import 'package:nectar/view/auth/login_screen.dart';
@@ -62,7 +64,9 @@ class _AccountScreenState extends State<AccountScreen> {
             ProfileMenus(
               text: "Ordres",
               icon: Icons.shopping_bag_outlined,
-              onClick: (){},
+              onClick: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrders()));
+              },
             ),
             ProfileMenus(
               text: "Mes Details",
@@ -72,7 +76,7 @@ class _AccountScreenState extends State<AccountScreen> {
             ProfileMenus(
               text: "Adresse de livraison",
               icon: Icons.location_on_outlined,
-              onClick: (){},
+              onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>DeliveryAddress())),
             ),
             ProfileMenus(
               text: "Aide",

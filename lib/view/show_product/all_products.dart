@@ -1,36 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/controller/product_controller.dart';
-import 'package:nectar/model/product_model.dart';
-import 'package:nectar/widget/app_shimmer.dart';
 
-import '../../../utility/app_color.dart';
-import '../../../utility/fontsize.dart';
-import 'item_card.dart';
+import '../../controller/product_controller.dart';
+import '../../generated/assets.dart';
+import '../../model/product_model.dart';
+import '../../utility/app_color.dart';
+import '../../utility/fontsize.dart';
+import '../../widget/app_network_images.dart';
+import '../../widget/app_shimmer.dart';
+import '../shop_screen/widget/item_card.dart';
 
 
-class NewItems extends StatelessWidget {
-  const NewItems({super.key});
+class AllProducts extends StatefulWidget {
+  final String title;
+  const AllProducts({super.key, required this.title});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Nouveaux articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
-            InkWell(
-                onTap: (){},
-                child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+  State<AllProducts> createState() => _AllProductsState();
+}
 
-          ],
-        ),
-        SizedBox(height: 10,),
-        StreamBuilder(
-            stream: ProductController.getNewProduct(),
+class _AllProductsState extends State<AllProducts> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+          title: Text("${widget.title}",
+            style: TextStyle(
+              fontSize: titleFont,
+              fontWeight: FontWeight.w600,
+              color: Colors.black,
+            ),
+          ),
+          backgroundColor: Colors.white
+      ),
+      backgroundColor: Colors.white,
+
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: StreamBuilder(
+            stream: ProductController.getOfferProduct(),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting){
                 return SizedBox(
@@ -55,13 +62,12 @@ class NewItems extends StatelessWidget {
 
               print("products --- ${products.length}");
 
-              return GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
+              return  GridView.builder(
+
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
+                  crossAxisSpacing: 7.0,
+                  mainAxisSpacing: 15.0,
                   mainAxisExtent: 270,
                 ),
                 itemCount: products.length > 8 ? 8 : products.length,
@@ -71,7 +77,7 @@ class NewItems extends StatelessWidget {
               );
             }
         ),
-      ],
+      ),
     );
   }
 }

@@ -1,7 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/controller/auth_controller.dart';
+import 'package:nectar/controller/cart_controller.dart';
+import 'package:nectar/controller/favourite_controller.dart';
+import 'package:nectar/controller/product_controller.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/cart_screen/cart_screen.dart';
+import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
@@ -19,221 +27,302 @@ class DetailScreen extends StatefulWidget {
 class _DetailScreenState extends State<DetailScreen> {
   int _initial = 1;
 
+  String? role;
+  var totalCart;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    AuthController.accountRole().then((value) => setState(()=> role = value ));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child:Scaffold(
-      backgroundColor:AppColors.bgWhite,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                widget.productModel!.discountPrice! != "0" ? Positioned(
-                  right: 10, top: 10,
-                  child: Container(
-                    width: 80,
-                    height: 30,
+    return Container(
+      color: Colors.white,
+      child: SafeArea(child:Scaffold(
+        backgroundColor:AppColors.bgWhite,
+        body: SingleChildScrollView(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  widget.productModel!.discountPrice! != "0" ? Positioned(
+                    right: 10, top: 10,
+                    child: Container(
+                      width: 80,
+                      height: 30,
+                      decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(100)
+                      ),
+                      child: Center(child: Text("\$${widget.productModel!.discountPrice!} OFF",
+                          style: TextStyle(
+                              fontWeight: FontWeight.normal,
+                              fontSize: 13, color: Colors.white
+                          )
+                      ),),
+                    ),
+                  ) : Center(),
+                  Container(
+                    height: MediaQuery.of(context).size.height*0.40,
+                    width: double.infinity,
+                    padding: EdgeInsets.all(50),
                     decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(100)
+                      borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(20),
+                          bottomRight: Radius.circular(20)
+                      ),
                     ),
-                    child: Center(child: Text("\$${widget.productModel!.discountPrice!} OFF",
-                        style: TextStyle(
-                            fontWeight: FontWeight.normal,
-                            fontSize: 13, color: Colors.white
-                        )
-                    ),),
-                  ),
-                ) : Center(),
-                Container(
-                  height: MediaQuery.of(context).size.height*0.40,
-                  width: double.infinity,
-                  padding: EdgeInsets.all(50),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(20),
-                        bottomRight: Radius.circular(20)
+                    child: AppNetworkImage(src: widget.productModel.images![0], fit: BoxFit.contain, height:  MediaQuery.of(context).size.height*0.35
                     ),
                   ),
-                  child: AppNetworkImage(src: widget.productModel.images![0], fit: BoxFit.contain, height:  MediaQuery.of(context).size.height*0.35
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    InkWell(
-                        onTap:(){
-                          Navigator.pop(context);
-                        },
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black
-                            ),
-                            child: Center(child: Icon(Icons.keyboard_arrow_left,color: Colors.white,)))),
-                  ],
-
-                ),)
-                
-              ],
-            ),
-            ///TODO:Product name
-            SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width-100,
-                  child: Text("${widget.productModel!.name.toString()}",
-                    style: TextStyle(
-                        fontSize: titleFont,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black),
-                  ),
-                ),
-                Icon(Icons.favorite_border,color: AppColors.textGrey,),
-              ],
-            ),
-            SizedBox(height: 5,),
-            SizedBox(
-              width: MediaQuery.of(context).size.width-100,
-              child: Text("${widget.productModel!.categoryS!.categoryName.toString()}",
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                    fontWeight: FontWeight.w600,
-                    fontSize: smallFont,
-                    color: AppColors.textGrey,
-                ),
-              ),
-            ),
-            SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  width: 150,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap:(){
-                          setState(() {
-                            if(_initial > 1){
-                              _initial--;
-                            }
-                          });
-                        },
-                          child:  Container(
-                              width: 40, height: 40,
+                          onTap:(){
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                              height: 30,
+                              width: 30,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black,
-                                border: Border.all(color:Colors.black,width: .9),
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black
                               ),
-                              child: Icon(Icons.remove,color: Colors.white,))),
-                      SizedBox(width: 10,),
-                      Container(
-                        width: 40, height: 40,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          border: Border.all(color: AppColors.textGrey,width: .9),
-                        ),
-                        child: Center(
-                          child: Text("${_initial}",style: TextStyle(fontSize: titleFont,color: Colors.black,fontWeight: FontWeight.w600),
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10,),
-                      InkWell(
-                         onTap: (){
-                           setState(() {
-                             _initial++;
-                           });
-                         },
-                          child:  Container(
-                              width: 40, height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Colors.black,
-                                border: Border.all(color:Colors.black,width: .9),
-                              ),
-                              child: Icon(Icons.add,color: Colors.white,))),
-
-                
+                              child: Center(child: Icon(Icons.keyboard_arrow_left,color: Colors.white,)))),
                     ],
+
+                  ),)
+
+                ],
+              ),
+              ///TODO:Product name
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width-100,
+                    child: Text("${widget.productModel!.name.toString()}",
+                      style: TextStyle(
+                          fontSize: titleFont,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black),
+                    ),
+                  ),
+                 FavWidgets(id: widget.productModel.id.toString()),
+
+                ],
+              ),
+              SizedBox(height: 5,),
+              SizedBox(
+                width: MediaQuery.of(context).size.width-100,
+                child: Text("${widget.productModel!.categoryS!.categoryName.toString()}",
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: smallFont,
+                      color: AppColors.textGrey,
                   ),
                 ),
-                Column(
-                  children: [
-
-                    Text("\$${double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),),
-                  ],
-                )
-
-              ],
-            ),
-            SizedBox(height: 10,),
-            Text("${widget.productModel.productType}",
-              style: TextStyle(
-                  fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey
               ),
-            ),
-            SizedBox(height: 20,),
-            Text("Détails du produit",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.black,
-                fontSize: 14,
-              ),
-            ),
-            Text("${widget.productModel.shortDescription}",
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-                color: Colors.black,
-                fontSize: 12,
-              ),
-            ),
+              SizedBox(height: 10,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 150,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        InkWell(
+                          onTap:(){
+                            setState(() {
+                              if(_initial > 1){
+                                _initial--;
+                              }
+                            });
+                          },
+                            child:  Container(
+                                width: 40, height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black,
+                                  border: Border.all(color:Colors.black,width: .9),
+                                ),
+                                child: Icon(Icons.remove,color: Colors.white,))),
+                        SizedBox(width: 10,),
+                        Container(
+                          width: 40, height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(color: AppColors.textGrey,width: .9),
+                          ),
+                          child: Center(
+                            child: Text("${_initial}",style: TextStyle(fontSize: titleFont,color: Colors.black,fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        InkWell(
+                           onTap: (){
+                             setState(() {
+                               _initial++;
+                             });
+                           },
+                            child:  Container(
+                                width: 40, height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Colors.black,
+                                  border: Border.all(color:Colors.black,width: .9),
+                                ),
+                                child: Icon(Icons.add,color: Colors.white,))),
 
-            SizedBox(height: 15,),
-            ExpansionTile(
-                title:Text("Détails du produit"),
-              children: [
-                Text("${widget.productModel.longDescription!}")
-              ],
-            ),
-            /// TODO:Product price
-                
-            ///TODO:product quantity and buy button
-                
-                
-            /// TODO:payment method
-          ],
+
+                      ],
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      role != null ? Text("$role Prix", style: TextStyle(color: Colors.red),) : Center(),
+                      role != null
+                          ? role == "Customer"
+                          ? Text("\$${double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),) 
+                          : role == "Seller" 
+                          ? Text("\$${double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),) 
+                          : role == "Whole Seller" 
+                          ? Text("\$${double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
+                          : Text("Logiin") : CircularProgressIndicator(),
+
+
+                    ],
+                  )
+
+                ],
+              ),
+              SizedBox(height: 10,),
+              Text("${widget.productModel.productType}",
+                style: TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey
+                ),
+              ),
+              SizedBox(height: 20,),
+              Text("Détails du produit",
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
+              ),
+              Text("${widget.productModel.shortDescription}",
+                style: TextStyle(
+                  fontWeight: FontWeight.w400,
+                  color: Colors.black,
+                  fontSize: 12,
+                ),
+              ),
+
+              SizedBox(height: 15,),
+              ExpansionTile(
+                  title:Text("Détails du produit"),
+                children: [
+                  Text("${widget.productModel.longDescription!}")
+                ],
+              ),
+              /// TODO:Product price
+
+              ///TODO:product quantity and buy button
+
+
+              /// TODO:payment method
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar:Padding(
-        padding: const EdgeInsets.only(left: 40.0, right: 40, bottom: 20, top: 10),
-        child: AppButton(
-          bgColor: AppColors.bgGreen,
-          name: "Ajouter au panier",
-          onClick: (){
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.only(left: 40.0, right: 40, bottom: 10, top: 10),
+          child: Row(
+            children: [
+              SizedBox(
+                width: MediaQuery.of(context).size.width*.60,
+                child: AppButton(
+                  bgColor: AppColors.bgGreen,
+                  name: "Ajouter au panier",
+                  onClick: (){
+                    //add to cart
+                    CartController.addToCar(context, widget.productModel.id.toString(), _initial.toString());
 
-          },
+                  },
+                ),
+              ),
+              SizedBox(width: 10,),
+              TotalCartCountWidgets()
+            ],
+          ),
         ),
-      ),
-    ));
+      )),
+    );
   }
 }
+
+
+
+
+
+class TotalCartCountWidgets extends StatelessWidget {
+  const TotalCartCountWidgets({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: CartController.getCart(),
+      builder: (context, snapshot) {
+        if(snapshot.connectionState == ConnectionState.waiting){
+          return Center(child:  CircularProgressIndicator(),);
+        }
+        return InkWell(
+          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen(pageIndex: 2,))),
+          child: Container(
+            width: 60,
+            height: 50,
+            decoration: BoxDecoration(
+              color: AppColors.mainColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Stack(
+              children: [
+                Positioned(
+                  right: 7,
+                  top: 2,
+                  child: Text("${snapshot.data!.docs.length??0}",
+                    style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white
+                    ),
+                  ),
+                ),
+                Center(child: Icon(Icons.shopping_cart, color: Colors.white, size: 25,)),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
+

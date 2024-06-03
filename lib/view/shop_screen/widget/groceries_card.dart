@@ -24,7 +24,7 @@ class GroceriesCard extends StatelessWidget {
           children: [
             Image.asset(Assets.dal,height:50,width:90,fit: BoxFit.contain,),
             SizedBox(height: 5,),
-            Text("Pulses",
+            Text("Les légumineuses",
               style: TextStyle(
                   fontWeight: FontWeight.w600,
                   fontSize: titleFont,

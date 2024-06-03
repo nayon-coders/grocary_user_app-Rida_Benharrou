@@ -20,7 +20,7 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
         leading: InkWell(
           onTap: ()=>Navigator.pop(context),
             child: Icon(Icons.arrow_back_ios_sharp,color: Colors.black,)),
-        title: Text("Beverages",
+        title: Text("Breuvages",
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: bigFont,

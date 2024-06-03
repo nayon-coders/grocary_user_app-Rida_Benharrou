@@ -7,7 +7,8 @@ import 'package:nectar/view/favorite_screen/favorite_screen.dart';
 import 'package:nectar/view/shop_screen/shop_screen.dart';
 
 class NavigationScreen extends StatefulWidget {
-  const NavigationScreen({super.key});
+  final int pageIndex;
+  const NavigationScreen({super.key, this.pageIndex = 0});
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -16,7 +17,7 @@ class NavigationScreen extends StatefulWidget {
 class _NavigationScreenState extends State<NavigationScreen> {
   int _selectedIndex = 0;
   static const List pages =[
-    home(),
+    Home(),
     ExploreScreen(),
     CartScreen(),
     FavoriteScreen(),
@@ -28,9 +29,16 @@ class _NavigationScreenState extends State<NavigationScreen> {
       _selectedIndex = index;
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _selectedIndex = widget.pageIndex;
+  }
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
       backgroundColor:Colors.white,
       body: Center(
         child: pages.elementAt(_selectedIndex),
@@ -55,28 +63,28 @@ class _NavigationScreenState extends State<NavigationScreen> {
               BottomNavigationBarItem(
 
                 icon: Icon(Icons.house_outlined),
-              label: "Shope",
+              label: "Boutique",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.menu_open),
-                label: "Explore",
+                label: "Explorer",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_cart),
-                label: "Cart",
+                label: "Chariot",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite_border),
-                label: "Favorite",
+                label: "Préférée",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.person),
-                label: "Account",
+                label: "Compte",
               ),
             ]
         ),
       ),
 
-    ));
+    );
   }
 }

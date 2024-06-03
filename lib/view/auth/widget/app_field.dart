@@ -30,19 +30,24 @@ class AppField extends StatelessWidget {
           fillColor: Colors.white,
           hintText: hintText,
           hintStyle: TextStyle(fontSize: smallFont,fontWeight: FontWeight.w500,color:AppColors.textGrey),
-          border:  UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
+          border: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey.shade200),
           ),
-          focusedBorder:   UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          enabledBorder:  UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          disabledBorder:   UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
+          focusedBorder:  OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade200),
+            ),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.grey.shade200),
+              ),
         ),
+
+        validator: (v){
+          if(v!.isEmpty){
+            return "This filed must not be empty";
+          }else{
+            return null;
+          }
+        },
 
       ),
     );

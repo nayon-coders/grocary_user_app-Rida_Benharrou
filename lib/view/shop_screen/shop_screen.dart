@@ -14,14 +14,14 @@ import 'package:nectar/widget/app_input.dart';
 import '../../utility/app_color.dart';
 import '../../widget/slider.dart';
 
-class home extends StatefulWidget {
-  const home({super.key});
+class Home extends StatefulWidget {
+  const Home({super.key});
 
   @override
-  State<home> createState() => _homeState();
+  State<Home> createState() => _HomeState();
 }
 
-class _homeState extends State<home> {
+class _HomeState extends State<Home> {
   final List<Widget> images=[
     Image.asset(Assets.banner,height: 200,width:double.infinity,fit: BoxFit.cover,),
     Image.asset(Assets.slider2,height: 200,width:double.infinity,fit: BoxFit.cover,),

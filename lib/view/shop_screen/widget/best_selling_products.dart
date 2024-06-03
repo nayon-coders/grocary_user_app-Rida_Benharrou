@@ -5,6 +5,7 @@ import 'package:nectar/widget/app_shimmer.dart';
 
 import '../../../utility/app_color.dart';
 import '../../../utility/fontsize.dart';
+import '../../show_product/all_products.dart';
 import 'item_card.dart';
 
 
@@ -23,7 +24,7 @@ class BestSellingProducts extends StatelessWidget {
           children: [
             Text("Meilleure vente",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
-                onTap: (){},
+                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Offre exclusive",))),
                 child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
           ],
@@ -62,7 +63,7 @@ class BestSellingProducts extends StatelessWidget {
                     itemCount: products.length,
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context,index){
-                      return ItemCard(productModel: products[index],);
+                      return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
                     }),
               );
             }

@@ -1,36 +1,41 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/controller/product_controller.dart';
-import 'package:nectar/model/product_model.dart';
-import 'package:nectar/widget/app_shimmer.dart';
+import 'package:nectar/utility/app_color.dart';
+import 'package:nectar/utility/assets.dart';
+import 'package:nectar/utility/fontsize.dart';
 
-import '../../../utility/app_color.dart';
-import '../../../utility/fontsize.dart';
-import 'item_card.dart';
+import '../../controller/product_controller.dart';
+import '../../model/product_model.dart';
+import '../../widget/app_shimmer.dart';
+import '../shop_screen/widget/item_card.dart';
 
+class CategoryProduct extends StatefulWidget {
+  final String categoryName;
+  const CategoryProduct({super.key, required this.categoryName});
 
-class NewItems extends StatelessWidget {
-  const NewItems({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Text("Nouveaux articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
-            InkWell(
-                onTap: (){},
-                child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+  State<CategoryProduct> createState() => _CategoryProductState();
+}
 
-          ],
+class _CategoryProductState extends State<CategoryProduct> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("${widget.categoryName}",
+          style: TextStyle(
+            fontSize: titleFont,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
         ),
-        SizedBox(height: 10,),
-        StreamBuilder(
-            stream: ProductController.getNewProduct(),
+        backgroundColor: Colors.white
+      ),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: StreamBuilder(
+            stream: ProductController.getCategroyWishProduct(widget.categoryName!),
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting){
                 return SizedBox(
@@ -55,23 +60,26 @@ class NewItems extends StatelessWidget {
 
               print("products --- ${products.length}");
 
-              return GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
+              return products.isNotEmpty ? GridView.builder(
+
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
                   mainAxisExtent: 270,
                 ),
-                itemCount: products.length > 8 ? 8 : products.length,
+                itemCount:  products.length,
                 itemBuilder: (context, index) {
                   return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
                 },
-              );
+              ) : Center(child: Padding(
+                padding: const EdgeInsets.all(50.0),
+                child: Image.asset(Assets.norProduct),
+              ),);
             }
         ),
-      ],
+      ),
+
     );
   }
 }

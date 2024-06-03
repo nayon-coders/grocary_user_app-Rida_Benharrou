@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar/controller/auth_controller.dart';
 
 import '../../utility/app_color.dart';
 import '../../utility/assets.dart';
@@ -18,6 +19,8 @@ class _FlashScreenState extends State<FlashScreen> {
     Future.delayed(Duration(seconds: 5),(){
       Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
     });
+
+    AuthController.accountRole();
 
   }
   @override

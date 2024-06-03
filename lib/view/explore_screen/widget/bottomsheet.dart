@@ -11,7 +11,7 @@ void bottomShit(BuildContext context,bool value,) {
       color: Color(0xffF2F3F2),
       child: Column(
         children: [
-          Text("Categories",
+          Text("Catégories",
             style: TextStyle(
                 fontSize: bigFont,
                 fontWeight: FontWeight.w600,

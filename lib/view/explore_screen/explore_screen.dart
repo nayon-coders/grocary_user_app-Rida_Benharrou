@@ -1,10 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/category_prodouct/category_product.dart';
 import 'package:nectar/view/explore_screen/widget/category_card.dart';
-import 'package:nectar/view/shop_screen/widget/item_card.dart';
 import 'package:nectar/widget/app_input.dart';
+
+import '../../generated/assets.dart';
+import '../../model/category_model.dart';
+import '../../utility/app_const.dart';
+import '../../widget/app_network_images.dart';
+import '../../widget/app_shimmer.dart';
+import '../shop_screen/widget/categoreis.dart';
 
 class ExploreScreen extends StatefulWidget {
   const ExploreScreen({super.key});
@@ -17,7 +25,18 @@ class _ExploreScreenState extends State<ExploreScreen> {
   final _searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text("Trouver des produits",
+          style: TextStyle(
+            fontSize: titleFont,
+            fontWeight: FontWeight.w600,
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Colors.white,
+      ),
       backgroundColor: AppColors.bgWhite,
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -25,53 +44,79 @@ class _ExploreScreenState extends State<ExploreScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child: Text("Find Products",
-                style: TextStyle(
-                    fontSize: titleFont,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                ),
-              ),
-            ),
-            SizedBox(height: 10,),
-            Row(
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width*0.75,
-                  child: AppInput(
-                    prefixIcon: Icon(Icons.search,color: Colors.black,),
-                      controller: _searchController,
-                      hintText: "Search Store",
-                  ),
-                ),
-                SizedBox(width: 15,),
-                InkWell(
-                  onTap: (){
-
-                  },
-                    child: Icon(Icons.swap_horiz,size: 30,color: AppColors.textBlack,),
-                ),
-              ],
-            ),
-            SizedBox(height: 10,),
             Expanded(
-              child: GridView.builder(
-                itemCount: 10,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                    childAspectRatio: 0.85,
-                  ),
-                  itemBuilder: (context,index){
-                    return CategoryCard();
-                  },
-                  ),
+              child:    StreamBuilder(
+                  stream: FirebaseFirestore.instance.collection(categoryCollection).snapshots(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                        ),
+                        itemCount: 8,
+                        itemBuilder: (context, index) {
+                          return AppShimmer();
+                        },
+                      );
+                    }
+
+                    //store category into category list
+                    List<CategoryModel> category = [];
+                    for(var i in snapshot.data!.docs){
+                      category.add(CategoryModel.fromJson(i.data()));
+                    }
+
+                    return category.isNotEmpty ? GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          mainAxisExtent: 170
+                      ),
+                      itemCount: category.length,
+                      itemBuilder: (context, index) {
+                        var data = category[index];
+                        return InkWell(
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.categoryName!))),
+                          child: Container(
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                color: AppColors.bgGreen.withOpacity(0.2),
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(width: 1, color: Colors.grey.shade200)
+                            ),
+                            child: Column(
+                              children: [
+                                AppNetworkImage(src: data.categoryImage!, height: 100, width: 100,),
+                                SizedBox(height: 9,),
+                                Text("${data.categoryName}",
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )  : Center(child: Padding(
+                      padding:  EdgeInsets.all(50.0),
+                      child: Image.asset(Assets.imagesNoPrd),
+                    ),);
+                  }
+              ),
             ),
           ],
         ),
       ),
-    ));
+    );
   }
 }

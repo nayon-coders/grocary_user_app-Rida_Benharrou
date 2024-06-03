@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:nectar/controller/product_controller.dart';
 import 'package:nectar/model/product_model.dart';
+import 'package:nectar/view/show_product/all_products.dart';
 import 'package:nectar/widget/app_shimmer.dart';
 
 import '../../../utility/app_color.dart';
@@ -13,6 +14,7 @@ class OfferProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ProductModel productModel;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +25,7 @@ class OfferProducts extends StatelessWidget {
           children: [
             Text("Offre exclusive",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
-                onTap: (){},
+                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Offre exclusive",))),
                 child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
           ],
@@ -62,7 +64,7 @@ class OfferProducts extends StatelessWidget {
                   itemCount: products.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context,index){
-                    return ItemCard(productModel: products[index],);
+                    return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
                   }),
             );
           }

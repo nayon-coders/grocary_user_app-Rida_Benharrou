@@ -12,6 +12,7 @@ class DeliveryAddress extends StatefulWidget {
 }
 
 class _DeliveryAddressState extends State<DeliveryAddress> {
+  bool onClick = false;
   final _formKey = GlobalKey<FormState>();
   void validateAndSave(){
     final form = _formKey.currentState;
@@ -46,12 +47,41 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         backgroundColor: AppColors.bgWhite,
         leading: InkWell(
           onTap: ()=>Navigator.pop(context),
-            child: Icon(Icons.arrow_back,color: AppColors.textBlack,size: 30,)),
+            child: Icon(Icons.arrow_back_ios_sharp,color: AppColors.textBlack,size: 30,)),
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(15),
         child: Column(
           children: [
+            ///ToDo two button home and other
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 150,
+                  child: AppButton(
+                    bgColor: onClick?AppColors.mainColor:Colors.green,
+                      name: "Home Address", onClick: (){
+                      setState(() {
+                        onClick = onClick;
+                      });
+                  }),
+                ),
+                SizedBox(
+                  width: 150,
+                  child: AppButton(
+                    bgColor: onClick?AppColors.mainColor:Colors.green,
+                      name: "Other Address", onClick: (){
+                    setState(() {
+                      onClick =! onClick;
+                    });
+                  }),
+                ),
+
+              ],
+            ),
+            SizedBox(height: 20,),
             Container(
               padding: EdgeInsets.all(15),
               decoration: BoxDecoration(

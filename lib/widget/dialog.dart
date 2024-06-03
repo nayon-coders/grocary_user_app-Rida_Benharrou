@@ -7,7 +7,7 @@ import 'package:nectar/widget/app_button.dart';
 import '../utility/app_color.dart';
 
 void dialogBox(BuildContext context) {
-  showDialog(context: context, builder: (BuildContext cobtex){
+  showDialog(context: context, builder: (BuildContext context){
     return Dialog(
       
       child: Container(

@@ -7,6 +7,7 @@ import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/detail_screen.dart';
+import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/dialog.dart';
@@ -88,7 +89,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 ),
                               ],
                             ),
-                            trailing: Icon(Icons.keyboard_arrow_right,color: Colors.black,),
+                            trailing: FavWidgets(id: data.id.toString())
 
                           );
                         }) : Center(

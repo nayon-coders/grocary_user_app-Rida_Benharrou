@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar/controller/order_controller.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/app_const.dart';
@@ -25,9 +28,13 @@ class _OrderPopupState extends State<OrderPopup> {
 
   var selectedAddress;
   getSelectedAddress(address){
-    selectedAddress = address;
+    setState(() {
+      selectedAddress = address;
+    });
     print("selectedAddress --- ${selectedAddress}");
   }
+
+  bool _isErrorForAddress =  false;
 
 
   var total = 0.00;
@@ -138,16 +145,19 @@ class _OrderPopupState extends State<OrderPopup> {
                 AppButton(
                     name: "Passer la commande",
                     onClick: (){
-                      if(selectedAddress != null){
+                      if(selectedAddress == null){
+                        Navigator.pop(context);
                         appSnackBar(context: context, text: "Veuillez sélectionner votre adresse de livraison", bgColor: Colors.red);
                         return;
                       }
+                      int id = Random().nextInt(99999);
                       Map<String, dynamic> orders = {
+                        "id" : id.toString(),
                         "items" : widget.orderInfo,
                         "status" : "Pending",
                         "delivery_address" : selectedAddress,
                         "payment_method" : "Cash on delivery (COD)",
-                        "date": DateTime.now(),
+                        "date": DateFormat("dd-mm-yyyy h:m a").format(DateTime.now()),
                         "user" : FirebaseAuth.instance.currentUser!.email
                       };
                       OrderController.placeOrder(context, orders, widget.docIds);

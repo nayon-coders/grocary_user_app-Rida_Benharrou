@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:nectar/controller/auth_controller.dart';
+import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/view/auth/signup_screen.dart';
 import 'package:nectar/widget/app_button.dart';
@@ -72,7 +74,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               SizedBox(height: 40,),
               AppButton(
                 bgColor: AppColors.bgGreen,
-                name: "Continuer", onClick: (){},
+                name: "Continuer", onClick: (){
+                  if(_emailController.text.isNotEmpty){
+                    AuthController.forgotPassword(email: _emailController.text, context: context); 
+                  }else{
+                    appSnackBar(context: context, text: "L'e-mail est requis", bgColor: Colors.red);
+                  }
+              },
 
               ),
 

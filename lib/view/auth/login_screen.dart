@@ -103,9 +103,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     alignment: Alignment.centerRight,
                     child: InkWell(
                       onTap: (){
-                        if(_formKey.currentState!.validate()){
-                          AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
-                        }
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
                       },
                       child: Text("Mot de passe oublié?",
                         style: TextStyle(fontSize: normalFont,
@@ -117,13 +115,17 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(height: 40,),
                   AppButton(
                     bgColor: AppColors.bgGreen,
-                    name: "Se connecter", onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>NavigationScreen())),
+                    name: "Se connecter", onClick: ()async{
+                      if(_formKey.currentState!.validate()){
+                        await AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
+                      }
+                  },
 
                   ),
                   SizedBox(height: 20,),
                   Center(
                     child: InkWell(
-                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpScreen())),
+
                       child: RichText(text: TextSpan(
                           text: "Vous n'avez pas de compte ? ",
                           style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: Colors.black),

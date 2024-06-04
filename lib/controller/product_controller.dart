@@ -15,6 +15,12 @@ class ProductController{
     return _firestore.collection(productCollection).where("discount_price", isNotEqualTo: "0").snapshots();
   }
 
+
+  //get offer/discrount products
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProduct (){
+    return _firestore.collection(productCollection).where("discount_price", isNotEqualTo: "0").snapshots();
+  }
+
   //get offer/discrount products
   static Stream<QuerySnapshot<Map<String, dynamic>>> getBestSellingProducts (){
     return _firestore.collection(productCollection).where("best_selling", isEqualTo: "1").snapshots();

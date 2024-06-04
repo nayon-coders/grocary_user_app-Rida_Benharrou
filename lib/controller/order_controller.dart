@@ -26,6 +26,12 @@ class OrderController{
     }catch(e){
       print("placeOrder ---- $e");
     }
+
+  }
+
+  //get order list
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getOrders(){
+    return _firestore.collection(ordersCollection).where("user", isEqualTo: _auth.currentUser!.email).snapshots();
   }
 
 

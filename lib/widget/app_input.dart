@@ -7,12 +7,18 @@ class AppInput extends StatelessWidget {
     required this.hintText,
     this.prefixIcon,
     this.suffixIcon, this.validator,
+    this.readOnly = false,
+    this.onClick,
+    this.onChanged
   });
   final TextEditingController controller;
   final String hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
+  final bool readOnly;
+  final VoidCallback? onClick;
+  final Function(String)? onChanged;
 
 
   @override
@@ -20,8 +26,11 @@ class AppInput extends StatelessWidget {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       child: TextFormField(
+        onTap: onClick,
+        readOnly: readOnly,
         validator: validator,
         controller: controller,
+        onChanged: onChanged,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,

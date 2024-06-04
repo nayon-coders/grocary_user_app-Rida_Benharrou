@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/search_product.dart';
 import 'package:nectar/view/shop_screen/widget/best_selling_products.dart';
 import 'package:nectar/view/shop_screen/widget/categoreis.dart';
 import 'package:nectar/view/shop_screen/widget/groceries_card.dart';
@@ -54,9 +55,11 @@ class _HomeState extends State<Home> {
             ),
             SizedBox(height: 20,),
             AppInput(
+              readOnly: true,
+              onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> SearchProduct())),
               controller: _search,
               prefixIcon: Icon(Icons.search,color: Colors.black,),
-              hintText: "Search store",
+              hintText: "Rechercher un produit....",
             ),
 
             SizedBox(height: 5,),

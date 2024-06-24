@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/controller/address_controller.dart';
-import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 
-import '../../../model/address_model.dart';
 import '../../../utility/fontsize.dart';
 
 class SelectDeliveryAddress extends StatelessWidget {
-  final Function(String) callback;
-  const SelectDeliveryAddress({super.key, required this.callback});
+  const SelectDeliveryAddress({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -31,48 +27,24 @@ class SelectDeliveryAddress extends StatelessWidget {
               ),
               body: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: StreamBuilder(
-                  stream: AddressController.getAddress(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return Center(child: CircularProgressIndicator(),);
-                    }
-                    List<AddressModel> address = [];
-
-                    for(var i in snapshot.data!.docs){
-                      address.add(AddressModel.fromJson(i.data()));
-                    }
-                    return address.isNotEmpty ? ListView.builder(
-                      itemCount: address.length,
-                      itemBuilder: (context, index){
-                        var data = address[index];
-                        return Container(
-                          margin: EdgeInsets.only(bottom: 10),
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(width: 1, color: Colors.grey)
-                          ),
-                          child: InkWell(
-                            onTap: (){
-                              callback("${data.zip}, ${data.streetNumber}, ${data.streetName}, ${data.state}, ${data.city}, ${data.country}");
-                              Navigator.pop(context);
-                            },
-                            child: ListTile(
-
-                              title: Text("${data.addressType}"),
-                              subtitle: Text("${data.zip}, ${data.streetNumber}, ${data.streetName}, ${data.state}, ${data.city}, ${data.country}"),
-                            ),
-                          ),
-                        );
-                      },
-                    ) : Center(
-                      child: TextButton(
-                        child: Text("Add delivery address"),
-                        onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> DeliveryAddress())),
+                child: ListView.builder(
+                  itemCount: 1,
+                  itemBuilder: (context, index){
+                    return InkWell(
+                      onTap: ()=>Navigator.pop(context),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(width: 1, color: Colors.grey)
+                        ),
+                        child: ListTile(
+                          title: Text("Paiement à la livraison (COD)"),
+                          subtitle: Text("Vous pouvez payer lorsque vous recevez le produit."),
+                        ),
                       ),
                     );
-                  }
+                  },
                 ),
               )
           ),

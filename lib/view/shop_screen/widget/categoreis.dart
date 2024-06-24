@@ -40,7 +40,7 @@ class Categoreis extends StatelessWidget {
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 4,
+                  crossAxisCount: 3,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 10.0,
                 ),
@@ -57,42 +57,44 @@ class Categoreis extends StatelessWidget {
               category.add(CategoryModel.fromJson(i.data()));
             }
 
-            return category.isNotEmpty ? GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 10.0,
-                mainAxisExtent: 100
-              ),
-              itemCount: category.length,
-              itemBuilder: (context, index) {
-                var data = category[index];
-                return InkWell(
-                  onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!))),
-                  child: Container(
-                    padding: EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        border: Border.all(width: 1, color: Colors.grey.shade200)
-                      ),
-                    child: Column(
-                      children: [
-                        AppNetworkImage(src: data.categoryImage!, height: 60, width: 60,),
-                        SizedBox(height: 9,),
-                        Text("${data.categoryName}",
-                          style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black
+            return category.isNotEmpty ? SizedBox(
+              height: 150,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+
+                itemCount: category.length,
+                itemBuilder: (context, index) {
+                  var data = category[index];
+                  return InkWell(
+                    onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!))),
+                    child: Container(
+                      width: 120,
+                      margin: EdgeInsets.only(right: 15),
+                      padding: EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: Color(0xffcadaca),
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(width: 1, color: Colors.grey.shade200)
+                        ),
+                      child: Column(
+                        children: [
+
+                          Text("${data.categoryName}",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black
+                            ),
                           ),
-                        )
-                      ],
+                          SizedBox(height: 9,),
+                          AppNetworkImage(src: data.categoryImage!, height: 100,),
+
+                        ],
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             )  : Center(child: Text("Category is empty"),);
           }
         ),

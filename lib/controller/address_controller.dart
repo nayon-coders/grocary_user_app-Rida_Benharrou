@@ -15,7 +15,6 @@ class AddressController{
     try{
       _firestore.collection(addressCollection).add(addressModel.toJson());
       appSnackBar(context: context, text: "L'adresse a été ajoutée", bgColor: Colors.green);
-      Navigator.pop(context);
     }catch(e){
       print("addAddress ---- ${e}"); 
     }
@@ -27,32 +26,6 @@ class AddressController{
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAddress(){
     return _firestore.collection(addressCollection).where("email", isEqualTo: _auth.currentUser!.email).snapshots();
   }
-
-
-
-  //edit address
-  static editAddress(BuildContext context, AddressModel addressModel, String docID){
-    try{
-      _firestore.collection(addressCollection).doc(docID).update(addressModel.toJson());
-      appSnackBar(context: context, text: "L'adresse a été modifiée", bgColor: Colors.green);
-      Navigator.pop(context);
-    }catch(e){
-      print("addAddress ---- ${e}");
-    }
-  }
-
-
-  //delete address
-  static deleteAddress(context, docId){
-    try{
-      _firestore.collection(addressCollection).doc(docId).delete();
-      appSnackBar(context: context, text: "L'adresse a été supprimée", bgColor: Colors.green);
-      Navigator.pop(context);
-    }catch(e){
-      print("deleteAddress $e");
-    }
-  }
-
 
 
 }

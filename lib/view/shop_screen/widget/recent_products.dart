@@ -45,7 +45,6 @@ class NewItems extends StatelessWidget {
                 );
               }
 
-
               //store data into product model list
               List<ProductModel> products = [];
 
@@ -60,9 +59,9 @@ class NewItems extends StatelessWidget {
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                  mainAxisExtent: 270,
+                  crossAxisSpacing: 10.0,
+                  mainAxisSpacing: 20.0,
+                  mainAxisExtent: 250,
                 ),
                 itemCount: products.length > 8 ? 8 : products.length,
                 itemBuilder: (context, index) {

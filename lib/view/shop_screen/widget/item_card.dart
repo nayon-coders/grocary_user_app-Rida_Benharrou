@@ -25,32 +25,60 @@ class ItemCard extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border.all(color: Colors.grey.shade100),
           borderRadius: BorderRadius.circular(10),
-          color: Colors.white,
+          color: Colors.grey.shade50,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              spreadRadius: .3,
+              blurRadius: 0.5,
+              offset: Offset(0, 1)
+            )
+          ]
         ),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              productModel!.discountPrice! != "0" ? Align(
-                alignment: Alignment.centerRight,
-                child: Container(
-                  alignment: Alignment.centerRight,
-                  width: 60,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(100)
-                  ),
-                  child: Center(child: Text("\$${productModel!.discountPrice!} OFF",
-                    style: TextStyle(
-                      fontWeight: FontWeight.normal,
-                      fontSize: 10, color: Colors.white
-                    )
-                  ),),
-                ),
-              ) : SizedBox(height: 20,),
-              AppNetworkImage(src: productModel!.images![0].toString(),height:100,width:double.infinity,fit: BoxFit.contain,),
+              ///Edit offer banner
+              // productModel!.discountPrice! != "0" ? Align(
+              //   alignment: Alignment.centerRight,
+              //   child: Container(
+              //     alignment: Alignment.centerRight,
+              //     width: 60,
+              //     height: 20,
+              //     decoration: BoxDecoration(
+              //         color: Colors.red,
+              //         borderRadius: BorderRadius.circular(100)
+              //     ),
+              //     child: Center(child: Text("\$${productModel!.discountPrice!} OFF",
+              //       style: TextStyle(
+              //         fontWeight: FontWeight.normal,
+              //         fontSize: 10, color: Colors.white
+              //       )
+              //     ),),
+              //   ),
+              // ) : SizedBox(height: 20,),
+              ///Edit Text Top position
+              Stack(
+                children: [
+                  AppNetworkImage(src: productModel!.images![0].toString(),height:100,width:double.infinity,fit: BoxFit.cover,),
+                  Positioned(
+                    bottom: 5,
+                      right: 5,
+                      child: InkWell(
+                    child: Container(
+                      height: 30,
+                      width: 30,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color:Colors.white ,
+                      ),
+                      child: Center(child: Icon(Icons.add,color: AppColors.bgGreen,)),
+                    ),
+                  ))
+                ],
+              ),
               SizedBox(height: 20,),
               Text("${productModel!.name.toString()}",
                 maxLines: 1,
@@ -61,12 +89,14 @@ class ItemCard extends StatelessWidget {
                     fontSize: normalFont,
                     color: Colors.black),
               ),
+              SizedBox(height: 10,),
               Text("${productModel!.categoryS!.categoryName}",
                 style: TextStyle(
                     fontWeight: FontWeight.w500,
                     fontSize: smallFont,
                     color: Colors.black),
               ),
+
               SizedBox(height: 5,),
               double.parse(productModel!.regularPrice!) > double.parse(productModel!.sellingPrice!) ? Text("\$${productModel!.regularPrice}",
                 style: TextStyle(
@@ -76,30 +106,11 @@ class ItemCard extends StatelessWidget {
                     color: Colors.red),
               ) : Center(),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text("\$${productModel!.sellingPrice}",
-                    style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black),
-                  ),
-                  InkWell(
-                    child: Container(
-                      height: 40,
-                      width: 40,
-                      padding: EdgeInsets.only(left: 5,right: 5),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: AppColors.bgGreen,
-                      ),
-                      child: Center(child: Icon(Icons.add,color: Colors.white,)),
-                    ),
-                  )
-
-                ],
+              Text("\$${productModel!.sellingPrice}",
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black),
               ),
 
             ],

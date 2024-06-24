@@ -57,7 +57,7 @@ class BestSellingProducts extends StatelessWidget {
               print("products --- ${products.length}");
 
               return SizedBox(
-                height: 270,
+                height: 250,
                 child: ListView.builder(
                     padding: EdgeInsets.only(right: 10),
                     itemCount: products.length,

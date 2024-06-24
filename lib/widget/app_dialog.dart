@@ -5,19 +5,19 @@ import 'package:nectar/widget/app_button.dart';
 
 import '../utility/app_color.dart';
 
-void AppDialog({required BuildContext context,required String title,required String subtitle, required VoidCallback  onDelete}){
+void AppDialog(BuildContext context, String title, subtitle,){
   showDialog(context: context, builder: (BuildContext context){
     return AlertDialog(
       scrollable: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
       title: Text(title,
         style: TextStyle(
           fontSize: titleFont,
             fontWeight: FontWeight.w600,
-            color: Colors.black),
+            color: AppColors.bgWhite),
       ),
       content: Text(subtitle,
-        style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: Colors.black),
+        style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: AppColors.bgWhite),
       ),
       actions: [
         SizedBox(
@@ -25,7 +25,7 @@ void AppDialog({required BuildContext context,required String title,required Str
           child: AppButton(
 
               name: "Delete",
-              onClick: onDelete,
+              onClick: ()=>Navigator.pop(context),
             bgColor: Colors.blue,
           ),
         ),

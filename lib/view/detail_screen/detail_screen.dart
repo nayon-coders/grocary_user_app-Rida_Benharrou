@@ -5,15 +5,19 @@ import 'package:nectar/controller/cart_controller.dart';
 import 'package:nectar/controller/favourite_controller.dart';
 import 'package:nectar/controller/product_controller.dart';
 import 'package:nectar/model/product_model.dart';
+import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/cart_screen/cart_screen.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
+import 'package:nectar/view/shop_screen/widget/recent_products.dart';
 
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
 import '../../widget/app_network_images.dart';
+import '../../widget/app_shimmer.dart';
+import '../shop_screen/widget/item_card.dart';
 
 class DetailScreen extends StatefulWidget {
   const DetailScreen({super.key, required this.productModel,});
@@ -41,7 +45,26 @@ class _DetailScreenState extends State<DetailScreen> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: SafeArea(child:Scaffold(
+      child: Scaffold(
+        appBar: AppBar(
+          leading: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+                onTap:(){
+                  Navigator.pop(context);
+                },
+                child: Container(
+                    height: 20,
+                    width: 20,
+
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black
+                    ),
+                    child: Center(child: Icon(Icons.keyboard_arrow_left,color: Colors.white,)))),
+          ),
+          backgroundColor: AppColors.bgWhite,
+        ),
         backgroundColor:AppColors.bgWhite,
         body: SingleChildScrollView(
           padding: EdgeInsets.all(20),
@@ -82,30 +105,6 @@ class _DetailScreenState extends State<DetailScreen> {
                     child: AppNetworkImage(src: widget.productModel.images![0], fit: BoxFit.contain, height:  MediaQuery.of(context).size.height*0.35
                     ),
                   ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      InkWell(
-                          onTap:(){
-                            Navigator.pop(context);
-                          },
-                          child: Container(
-                              height: 30,
-                              width: 30,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black
-                              ),
-                              child: Center(child: Icon(Icons.keyboard_arrow_left,color: Colors.white,)))),
-                    ],
-
-                  ),)
-
                 ],
               ),
               ///TODO:Product name
@@ -130,7 +129,7 @@ class _DetailScreenState extends State<DetailScreen> {
               SizedBox(height: 5,),
               SizedBox(
                 width: MediaQuery.of(context).size.width-100,
-                child: Text("${widget.productModel!.categoryS!.categoryName.toString()}",
+                child: Text("${widget.productModel.categoryS!.categoryName.toString()}",
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                       fontWeight: FontWeight.w600,
@@ -140,74 +139,39 @@ class _DetailScreenState extends State<DetailScreen> {
                 ),
               ),
               SizedBox(height: 10,),
+              Text("${widget.productModel.productType}",
+                style: TextStyle(
+                    fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey
+                ),
+              ),
+              SizedBox(height: 10,),
+
+
+              ///Edit increment
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(
-                    width: 150,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap:(){
-                            setState(() {
-                              if(_initial > 1){
-                                _initial--;
-                              }
-                            });
-                          },
-                            child:  Container(
-                                width: 40, height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black,
-                                  border: Border.all(color:Colors.black,width: .9),
-                                ),
-                                child: Icon(Icons.remove,color: Colors.white,))),
-                        SizedBox(width: 10,),
-                        Container(
-                          width: 40, height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(color: AppColors.textGrey,width: .9),
-                          ),
-                          child: Center(
-                            child: Text("${_initial}",style: TextStyle(fontSize: titleFont,color: Colors.black,fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                        ),
-                        SizedBox(width: 10,),
-                        InkWell(
-                           onTap: (){
-                             setState(() {
-                               _initial++;
-                             });
-                           },
-                            child:  Container(
-                                width: 40, height: 40,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black,
-                                  border: Border.all(color:Colors.black,width: .9),
-                                ),
-                                child: Icon(Icons.add,color: Colors.white,))),
+                  AppButton(
+                    bgColor: AppColors.bgGreen,
+                    name: "Ajouter au panier",
+                    onClick: (){
+                      //add to cart
+                      CartController.addToCar(context, widget.productModel.id.toString(), _initial.toString());
 
-
-                      ],
-                    ),
+                    },
                   ),
+
                   Column(
                     children: [
                       role != null ? Text("$role Prix", style: TextStyle(color: Colors.red),) : Center(),
                       role != null
-                          ? role == "Customer"
-                          ? Text("\$${double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),) 
-                          : role == "Seller" 
-                          ? Text("\$${double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),) 
-                          : role == "Whole Seller" 
-                          ? Text("\$${double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString()) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
+                          ? role == restaurantAccount
+                          ? Text("\$${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
+                          : role == sellerAccount
+                          ? Text("\$${(double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
+                          : role == wholeSellerAccount
+                          ? Text("\$${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: titleFont,color: Colors.black),)
                           : Text("Logiin") : CircularProgressIndicator(),
 
 
@@ -216,67 +180,88 @@ class _DetailScreenState extends State<DetailScreen> {
 
                 ],
               ),
-              SizedBox(height: 10,),
-              Text("${widget.productModel.productType}",
-                style: TextStyle(
-                    fontSize: 12, fontWeight: FontWeight.w600, color: Colors.grey
-                ),
-              ),
-              SizedBox(height: 20,),
-              Text("Détails du produit",
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
-                  fontSize: 14,
-                ),
-              ),
-              Text("${widget.productModel.shortDescription}",
-                style: TextStyle(
-                  fontWeight: FontWeight.w400,
-                  color: Colors.black,
-                  fontSize: 12,
-                ),
-              ),
+
+              // SizedBox(height: 20,),
+              // Text("Détails du produit",
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.w600,
+              //     color: Colors.black,
+              //     fontSize: 14,
+              //   ),
+              // ),
+              // Text("${widget.productModel.shortDescription}",
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.w400,
+              //     color: Colors.black,
+              //     fontSize: 12,
+              //   ),
+              // ),
 
               SizedBox(height: 15,),
               ExpansionTile(
+
+                collapsedBackgroundColor: Colors.grey.shade300,
+
                   title:Text("Détails du produit"),
                 children: [
                   Text("${widget.productModel.longDescription!}")
                 ],
               ),
-              /// TODO:Product price
 
-              ///TODO:product quantity and buy button
-
-
-              /// TODO:payment method
-            ],
-          ),
-        ),
-        bottomNavigationBar: Container(
-          height: 80,
-          padding: const EdgeInsets.only(left: 40.0, right: 40, bottom: 10, top: 10),
-          child: Row(
-            children: [
-              SizedBox(
-                width: MediaQuery.of(context).size.width*.60,
-                child: AppButton(
-                  bgColor: AppColors.bgGreen,
-                  name: "Ajouter au panier",
-                  onClick: (){
-                    //add to cart
-                    CartController.addToCar(context, widget.productModel.id.toString(), _initial.toString());
-
-                  },
+              SizedBox(height: 20,),
+              Text("Produit similaire",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black
                 ),
               ),
-              SizedBox(width: 10,),
-              TotalCartCountWidgets()
+              SizedBox(height: 10,),
+              StreamBuilder(
+                  stream: ProductController.getNewProduct(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return SizedBox(
+                        height: 250,
+                        child: ListView.builder(
+                            padding: EdgeInsets.only(right: 10),
+                            itemCount: 5,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context,index){
+                              return AppShimmer();
+                            }),
+                      );
+                    }
+
+                    //store data into product model list
+                    List<ProductModel> products = [];
+
+                    for(var i in snapshot.data!.docs){
+                      products.add(ProductModel.fromJson(i.data()));
+                    }
+
+                    print("products --- ${products.length}");
+
+                    return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10.0,
+                        mainAxisSpacing: 20.0,
+                        mainAxisExtent: 250,
+                      ),
+                      itemCount: products.length > 6 ? 6 : products.length,
+                      itemBuilder: (context, index) {
+                        return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
+                      },
+                    );
+                  }
+              ),
             ],
           ),
         ),
-      )),
+      ),
     );
   }
 }

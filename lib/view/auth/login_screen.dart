@@ -25,7 +25,10 @@ class _LogInScreenState extends State<LogInScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
+  bool _obscureText = true;
+  bool _isLoading = false;
+
+  final _key = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -36,34 +39,34 @@ class _LogInScreenState extends State<LogInScreen> {
 
       body: SingleChildScrollView(
         // padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Container(
-                  height: 200,
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
-                  ),
-                ),
-                Image.asset(
-                    Assets.logo,
-                    height: 60,
+        child: Form(
+          key: _key,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  Container(
+                    height: 200,
                     width: double.infinity,
-                    fit: BoxFit.contain,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
+                    ),
                   ),
+                  Image.asset(
+                      Assets.logo,
+                      height: 60,
+                      width: double.infinity,
+                      fit: BoxFit.contain,
+                    ),
 
 
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKey,
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(20.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,18 +96,24 @@ class _LogInScreenState extends State<LogInScreen> {
                       fontWeight: FontWeight.w600,
                       color: AppColors.textGrey,
                     ),),
-                  AppField(
-                    controller: _passwordController,
-                    hintText: "Mot de passe",
-                    suffixIcon: Icon(Icons.remove_red_eye,color: AppColors.textGrey,),
-                  ),
+                    AppField(
+                        controller: _passwordController,
+                        hintText: "Mot de passe",
+                        obscureText: _obscureText,
+                        suffixIcon: IconButton(
+                          onPressed: (){
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+
+                          },
+                          icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
+                        )),
                   SizedBox(height: 15,),
                   Align(
                     alignment: Alignment.centerRight,
                     child: InkWell(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=> ForgotPassword()));
-                      },
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>ForgotPassword())),
                       child: Text("Mot de passe oublié?",
                         style: TextStyle(fontSize: normalFont,
                             fontWeight: FontWeight.w500,
@@ -115,17 +124,21 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(height: 40,),
                   AppButton(
                     bgColor: AppColors.bgGreen,
-                    name: "Se connecter", onClick: ()async{
-                      if(_formKey.currentState!.validate()){
-                        await AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
+                    name: "Se connecter",
+                    isLoading: _isLoading,
+                    onClick: ()async{
+                      setState(() => _isLoading = true);
+                      if(_key.currentState!.validate()){
+                       await AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
                       }
-                  },
+                      setState(() => _isLoading = false);
 
+                    },
                   ),
                   SizedBox(height: 20,),
                   Center(
                     child: InkWell(
-
+                      onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpScreen())),
                       child: RichText(text: TextSpan(
                           text: "Vous n'avez pas de compte ? ",
                           style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: Colors.black),
@@ -140,8 +153,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   )
                 ],),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     ),

@@ -13,22 +13,18 @@ class AddressModel {
   final String? country;
   final String? state;
   final String? city;
-  final String? streetName;
   final String? streetNumber;
   final String? zip;
   final String? email;
-  final String? addressType;
 
-  AddressModel( {
+  AddressModel({
     this.id,
     this.country,
     this.state,
     this.city,
-    this.streetName,
+    this.streetNumber,
     this.zip,
     this.email,
-    this.streetNumber,
-    this.addressType
   });
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
@@ -36,11 +32,9 @@ class AddressModel {
     country: json["country"],
     state: json["state"],
     city: json["city"],
-    streetName: json["street_name"],
+    streetNumber: json["street_number"],
     zip: json["zip"],
     email: json["email"],
-    streetNumber: json["street_number"],
-    addressType: json["address_type"]
   );
 
   Map<String, dynamic> toJson() => {
@@ -49,9 +43,7 @@ class AddressModel {
     "state": state,
     "city": city,
     "street_number": streetNumber,
-    "street_name" : streetName,
     "zip": zip,
     "email": email,
-    "address_type" : addressType
   };
 }

@@ -66,11 +66,10 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBSYzUTpZoxgn8fWcE180XoKb0YxzTjBzo',
-    appId: '1:656750425910:ios:5090dc90512fc048356597',
+    appId: '1:656750425910:ios:dab17e618cb7be62356597',
     messagingSenderId: '656750425910',
     projectId: 'grocaryecommerce',
     storageBucket: 'grocaryecommerce.appspot.com',
-    iosBundleId: 'com.commandespros.nayon.coders.app',
+    iosBundleId: 'com.example.nectar',
   );
-
 }

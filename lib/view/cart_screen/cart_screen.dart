@@ -27,8 +27,6 @@ class _CartScreenState extends State<CartScreen> {
   int _initial = 1;
 
   List qty = [];
-  List productPrice = [];
-  List docIds = [];
 
   List<ProductModel> productModel = [];
 
@@ -43,7 +41,6 @@ class _CartScreenState extends State<CartScreen> {
       for(var i in value.docs){
         if(i.exists){
           qty.add(int.parse("${i.data()["qty"]}"));
-          docIds.add(i.id);
         }
       }
     });
@@ -97,11 +94,8 @@ class _CartScreenState extends State<CartScreen> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                       itemBuilder: (context,index){
-
                       var data = snapshot.data![index];
                       productModel.add(data);
-
-                      productPrice.add(role != null ? role == "Customer" ? data.regularPrice! : role == "Seller" ? data.sellingPrice! : data.wholePrice! : 00);
                       return ListTile(
                       shape: Border.symmetric(horizontal: BorderSide(color:Colors.grey.shade200)),
                       contentPadding: EdgeInsets.all(10),
@@ -208,15 +202,7 @@ class _CartScreenState extends State<CartScreen> {
                       onClick: (){
                       print("qty ---- $qty");
                       showModalBottomSheet(context: context, builder:(BuildContext context){
-                        List orderInfo = [];
-                        for(var i=0; i<qty.length; i++){
-                          orderInfo.add({
-                            "qty" : qty[i],
-                            "product" : productModel[i].toJson(),
-                            "price" : productPrice[i]
-                          });
-                        }
-                        return OrderPopup(orderInfo: orderInfo, docIds: docIds,);
+                        return OrderPopup();
                       });
                       }
                   ),

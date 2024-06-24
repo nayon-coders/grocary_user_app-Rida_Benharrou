@@ -14,9 +14,7 @@ class FavWidgets extends StatelessWidget {
       stream: FavouriteController.getFavouriteLise(),
       builder: (context, snapshot) {
         if(snapshot.connectionState == ConnectionState.waiting){
-          return SizedBox(
-              width: 30, height: 30,
-              child: Center(child: CircularProgressIndicator(),));
+          return Center(child: CircularProgressIndicator(),);
         }
 
         bool isAvailAvail = false;
@@ -27,14 +25,11 @@ class FavWidgets extends StatelessWidget {
             docId = i.id;
           }
         }
-        return SizedBox(
-          width: 30, height: 30,
-          child: InkWell(
-              onTap: (){
-                isAvailAvail ?  FavouriteController.removeFavouriteList( context, docId.toString(),): FavouriteController.addFavourite(id.toString(), context);
-              },
-              child: isAvailAvail?     Icon( Icons.favorite,color: Colors.red,) :  Icon( Icons.favorite_border,color: AppColors.textGrey,)),
-        );
+        return InkWell(
+            onTap: (){
+              isAvailAvail ?  FavouriteController.removeFavouriteList( context, docId.toString(),): FavouriteController.addFavourite(id.toString(), context);
+            },
+            child: isAvailAvail?     Icon( Icons.favorite,color: Colors.red,) :  Icon( Icons.favorite_border,color: AppColors.textGrey,));
       }
     );
   }

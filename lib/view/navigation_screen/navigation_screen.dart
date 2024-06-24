@@ -50,7 +50,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ),
         child: BottomNavigationBar(
           elevation: 0,
-          backgroundColor: Colors.grey.shade100,
+          backgroundColor: Colors.white,
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
           onTap: onItem,
@@ -62,24 +62,24 @@ class _NavigationScreenState extends State<NavigationScreen> {
             items: [
               BottomNavigationBarItem(
 
-                icon: Icon(Icons.house_outlined),
-              label: "Boutique",
+                icon: Icon(Icons.dashboard),
+              label: "Explorer",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.menu_open),
-                label: "Explorer",
+                icon: Icon(Icons.percent_outlined),
+                label: "Deals",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.shopping_cart),
-                label: "Chariot",
+                icon: Icon(Icons.shopping_basket_outlined),
+                label: "Cart",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.favorite_border),
-                label: "Préférée",
+                icon: Icon(Icons.manage_search),
+                label: "Browse",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Compte",
+                icon: Icon(Icons.perm_identity),
+                label: "Profile",
               ),
             ]
         ),

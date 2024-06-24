@@ -31,9 +31,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _passwordController = TextEditingController();
 
 
-  List accountType = ["Customer", "Seller", "Whole Seller"];
+  List accountType = [restaurantAccount, sellerAccount, wholeSellerAccount];
   List selectedType = [];
   bool _isLoading = false;
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               });
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 10),
+                              margin: EdgeInsets.only(right: 7),
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
                                   color:selectedType.contains(accountType[index])  ? AppColors.bgGreen : Colors.white,
@@ -158,7 +159,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                    AppField(
                      controller: _passwordController,
                      hintText: "Mot de passe",
-                     suffixIcon: Icon(Icons.remove_red_eye,color: AppColors.textGrey,),),
+                     obscureText: _obscureText,
+                     suffixIcon: IconButton(
+                       onPressed: (){
+                         setState(() {
+                           _obscureText = !_obscureText;
+                         });
+
+                       },
+                       icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
+                     )),
                    SizedBox(height: 20,),
                    SizedBox(
                      width: 270,

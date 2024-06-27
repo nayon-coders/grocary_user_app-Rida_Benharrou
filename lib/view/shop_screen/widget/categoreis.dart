@@ -54,7 +54,7 @@ class Categoreis extends StatelessWidget {
             //store category into category list
             List<CategoryModel> category = [];
             for(var i in snapshot.data!.docs){
-              category.add(CategoryModel.fromJson(i.data()));
+              category.add(CategoryModel.fromSnapshot(i));
             }
 
             return category.isNotEmpty ? SizedBox(
@@ -66,11 +66,10 @@ class Categoreis extends StatelessWidget {
                 itemBuilder: (context, index) {
                   var data = category[index];
                   return InkWell(
-                    onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!))),
+                    onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!,  categoryProduct: data,))),
                     child: Container(
-                      width: 120,
                       margin: EdgeInsets.only(right: 15),
-                      padding: EdgeInsets.all(5),
+                      padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
                           color: Color(0xffcadaca),
                           borderRadius: BorderRadius.circular(5),
@@ -87,7 +86,7 @@ class Categoreis extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 9,),
-                          AppNetworkImage(src: data.categoryImage!, height: 100,),
+                          AppNetworkImage(src: data.categoryImage!, height: 80,),
 
                         ],
                       ),

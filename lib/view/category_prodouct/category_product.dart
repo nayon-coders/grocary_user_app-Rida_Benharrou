@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/model/category_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 
 import '../../controller/product_controller.dart';
 import '../../model/product_model.dart';
+import '../../utility/app_const.dart';
 import '../../widget/app_shimmer.dart';
 import '../shop_screen/widget/categoreis.dart';
 import '../shop_screen/widget/item_card.dart';
@@ -12,7 +15,8 @@ import '../shop_screen/widget/offer_products.dart';
 
 class CategoryProduct extends StatefulWidget {
   final String categoryName;
-  const CategoryProduct({super.key, required this.categoryName});
+  final CategoryModel categoryProduct;
+  const CategoryProduct({super.key, required this.categoryName, required this.categoryProduct});
 
 
   @override
@@ -20,10 +24,57 @@ class CategoryProduct extends StatefulWidget {
 }
 
 class _CategoryProductState extends State<CategoryProduct> {
+
+  bool _isLoading = false;
+  List<Widget> _subCategory = [
+
+  ];
+
+  var clickedSubCategory;
+
+
+  Future? subcategory;
+  getSubCategory()async{
+
+    setState(() => _isLoading = true);
+    _subCategory.clear();
+   var subCategory = await FirebaseFirestore.instance.collection(categoryCollection).doc(widget.categoryProduct!.docId).collection("sub_category").get();
+   for(var i in subCategory.docs){
+    setState(() {
+      _subCategory.add(Tab(
+
+        child: TextButton(
+          onPressed: (){
+            setState(() {
+              sellerAccount = i.data()["name"].toString();
+            });
+            print("sellerAccount --- ${sellerAccount}");
+          },
+          child: Text("${i.data()["name"].toString()}"),
+        )
+      )) ;
+    });
+   }
+    setState(() => _isLoading = false);
+
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print("widget.categoryProduct!.docId ${widget.categoryProduct!.docId}");
+    subcategory = getSubCategory();
+  }
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: _subCategory.length,
       child: Scaffold(
         appBar: AppBar(
           title: Text("${widget.categoryName}",
@@ -37,7 +88,7 @@ class _CategoryProductState extends State<CategoryProduct> {
           backgroundColor: Colors.white
         ),
         backgroundColor: Colors.white,
-        body: Column(
+        body: _isLoading ? Center(child: CircularProgressIndicator(),) :  Column(
           children: [
             SizedBox(height: 10,),
             ///add Category list
@@ -69,11 +120,9 @@ class _CategoryProductState extends State<CategoryProduct> {
             // ),
             ///Add Tabbar
             TabBar(
-                tabs:[
-              Tab(text: "Notre Seletction",),
-              Tab(text: "Notre Seletction",),
-              Tab(text: "Notre Seletction",),
-            ]),
+              isScrollable: true,
+                tabs:_subCategory,
+            ),
             SizedBox(height: 10,),
             Expanded(
               flex: 2,
@@ -96,10 +145,23 @@ class _CategoryProductState extends State<CategoryProduct> {
                       }
                       //store data into product model list
                       List<ProductModel> products = [];
+                      List<ProductModel> subCategoryproducts = [];
 
-                      for(var i in snapshot.data!.docs){
-                        products.add(ProductModel.fromJson(i.data()));
+
+                      if(clickedSubCategory != null){
+                        products.clear();
+                        for(var i in snapshot.data!.docs){
+                          if(i.data()["name"] = clickedSubCategory){
+                            subCategoryproducts.add(ProductModel.fromJson(i.data()));
+                          }
+
+                        }
+                      }else{
+                        for(var i in snapshot.data!.docs){
+                          products.add(ProductModel.fromJson(i.data()));
+                        }
                       }
+
 
                       print("products --- ${products.length}");
 
@@ -113,7 +175,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                         ),
                         itemCount:  products.length,
                         itemBuilder: (context, index) {
-                          return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
+                          return subCategoryproducts.isNotEmpty &&  subCategoryproducts[index].status == "Active" ?  ItemCard(productModel: subCategoryproducts[index],) : products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
                         },
                       ) : Center(child: Padding(
                         padding: const EdgeInsets.all(50.0),

@@ -67,7 +67,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     //store category into category list
                     List<CategoryModel> category = [];
                     for(var i in snapshot.data!.docs){
-                      category.add(CategoryModel.fromJson(i.data()));
+                      category.add(CategoryModel.fromSnapshot(i));
                     }
 
                     return category.isNotEmpty ? GridView.builder(
@@ -83,7 +83,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       itemBuilder: (context, index) {
                         var data = category[index];
                         return InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.categoryName!))),
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.categoryName!, categoryProduct: data,))),
                           child: Container(
                             padding: EdgeInsets.all(15),
                             decoration: BoxDecoration(

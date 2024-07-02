@@ -97,15 +97,6 @@ class ItemCard extends StatelessWidget {
                     color: Colors.black),
               ),
 
-              SizedBox(height: 5,),
-              double.parse(productModel!.regularPrice!) > double.parse(productModel!.sellingPrice!) ? Text("\$${productModel!.regularPrice}",
-                style: TextStyle(
-                    decoration: TextDecoration.lineThrough,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.red),
-              ) : Center(),
-
               Text("\$${productModel!.sellingPrice}",
                 style: TextStyle(
                     fontSize: 16,

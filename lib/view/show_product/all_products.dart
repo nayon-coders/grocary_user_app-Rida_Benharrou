@@ -41,7 +41,7 @@ class _AllProductsState extends State<AllProducts> {
             builder: (context, snapshot) {
               if(snapshot.connectionState == ConnectionState.waiting){
                 return SizedBox(
-                  height: 250,
+                  height: 220,
                   child: ListView.builder(
                       padding: EdgeInsets.only(right: 10),
                       itemCount: 5,
@@ -68,7 +68,7 @@ class _AllProductsState extends State<AllProducts> {
                   crossAxisCount: 2,
                   crossAxisSpacing: 7.0,
                   mainAxisSpacing: 15.0,
-                  mainAxisExtent: 270,
+                  mainAxisExtent: 240,
                 ),
                 itemCount: products.length > 8 ? 8 : products.length,
                 itemBuilder: (context, index) {

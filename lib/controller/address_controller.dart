@@ -15,8 +15,21 @@ class AddressController{
     try{
       _firestore.collection(addressCollection).add(addressModel.toJson());
       appSnackBar(context: context, text: "L'adresse a été ajoutée", bgColor: Colors.green);
+      Navigator.pop(context);
     }catch(e){
       print("addAddress ---- ${e}"); 
+    }
+  }
+
+
+  //add address
+  static editAddress(BuildContext context, AddressModel addressModel, String docId){
+    try{
+      _firestore.collection(addressCollection).doc(docId).update(addressModel.toJson());
+      appSnackBar(context: context, text: "L'adresse a été modifiée.", bgColor: Colors.green);
+      Navigator.pop(context);
+    }catch(e){
+      print("addAddress ---- ${e}");
     }
   }
   
@@ -27,5 +40,18 @@ class AddressController{
     return _firestore.collection(addressCollection).where("email", isEqualTo: _auth.currentUser!.email).snapshots();
   }
 
+
+
+  //get address
+  static deleteAddress(context, id)async{
+    try{
+      _firestore.collection(addressCollection).doc(id).delete(); 
+      appSnackBar(context: context, text: "L'adresse a été supprimée.", bgColor: Colors.green);
+      Navigator.pop(context);
+    }catch (e){
+      appSnackBar(context: context, text: "Something went wrong", bgColor: Colors.red);
+
+    }
+  }
 
 }

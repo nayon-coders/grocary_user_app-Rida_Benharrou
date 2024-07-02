@@ -35,7 +35,7 @@ class CartController{
   //remove from cart
   static removeFromCart(context, id)async{
     try{
-      _firestore.collection(cartCollection).doc(id).delete();
+     await _firestore.collection(cartCollection).doc(id).delete();
       appSnackBar(context: context, text: "Le produit a été supprimé du panier", bgColor: Colors.green);
     }catch(e){
       print("removeFromCart --- ${e}");
@@ -51,7 +51,7 @@ class CartController{
         for(var i in favValue.docs){
           await FirebaseFirestore.instance.collection(productCollection).where("id", isEqualTo: i.data()["id"]).get().then((value){
             for(var prd in value.docs){
-              products.add(ProductModel.fromJson(prd.data()));
+              products.add(ProductModel.fromSnapshot(prd));
             }
           });
         }
@@ -62,6 +62,8 @@ class CartController{
       return products;
     }
    }
+
+   //remove
 
 
    //count cart leng

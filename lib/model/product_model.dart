@@ -4,12 +4,15 @@
 
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 ProductModel productModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
 
 String productModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel {
   final String? id;
+  final String? docId;
   final String? name;
   final String? shortDescription;
   final String? longDescription;
@@ -20,15 +23,16 @@ class ProductModel {
   final String? sellingPrice;
   final String? discountPrice;
   final CategoryS? categoryS;
+  final String? subCategory;
   final Variants? variants;
   final String? status;
   final String? isStock;
   final String? productType;
   final String? createAt;
-  final String? bestSelling;
 
   ProductModel({
     this.id,
+    this.docId,
     this.name,
     this.shortDescription,
     this.longDescription,
@@ -44,7 +48,7 @@ class ProductModel {
     this.isStock,
     this.productType,
     this.createAt,
-    this.bestSelling
+    this.subCategory
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -63,8 +67,30 @@ class ProductModel {
     status: json["status"],
     isStock: json["is_stock"],
     productType: json["product_type"],
-    bestSelling: json["best_selling"],
     createAt: json["create_at"],
+    subCategory: json["sub_category"],
+  );
+
+
+  factory ProductModel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> json) => ProductModel(
+    id: json["id"],
+    docId: json.id,
+    name: json["name"],
+    shortDescription: json["short_description"],
+    longDescription: json["long_description"],
+    productsTags: json["products_tags"] == null ? [] : List<dynamic>.from(json["products_tags"]!.map((x) => x)),
+    images: json["images"] == null ? [] : List<dynamic>.from(json["images"]!.map((x) => x)),
+    regularPrice: json["regular_price"],
+    wholePrice: json["whole_price"],
+    sellingPrice: json["selling_price"],
+    discountPrice: json["discount_price"],
+    categoryS: json["category's"] == null ? null : CategoryS.fromJson(json["category's"]),
+    variants: json["variants"] == null ? null : Variants.fromJson(json["variants"]),
+    status: json["status"],
+    isStock: json["is_stock"],
+    productType: json["product_type"],
+    createAt: json["create_at"],
+    subCategory: json["sub_category"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -83,8 +109,8 @@ class ProductModel {
     "status": status,
     "is_stock": isStock,
     "product_type": productType,
-    "best_selling" : bestSelling,
     "create_at": createAt,
+    "sub_category" : subCategory
 
   };
 }

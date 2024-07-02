@@ -28,7 +28,11 @@ class _CartScreenState extends State<CartScreen> {
 
   List qty = [];
 
+
+  double totalPrice = 0;
+
   List<ProductModel> productModel = [];
+  List<String> _cartProductId = [];
 
   Future<List<ProductModel>>? carFuture;
 
@@ -40,6 +44,9 @@ class _CartScreenState extends State<CartScreen> {
     FirebaseFirestore.instance.collection(cartCollection).where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email).get().then((value) {
       for(var i in value.docs){
         if(i.exists){
+          setState(() {
+            _cartProductId.add(i.id);
+          });
           qty.add(int.parse("${i.data()["qty"]}"));
         }
       }
@@ -53,7 +60,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState(); 
+    super.initState();
     getCartFuture();
     getCartItems();
     AuthController.accountRole().then((value) => setState(()=> role = value ));
@@ -87,6 +94,15 @@ class _CartScreenState extends State<CartScreen> {
             }
 
 
+            productModel.clear();
+            totalPrice = 0.0;
+
+            for(var i in snapshot!.data!){
+              productModel.add(i);
+            }
+
+
+
             return snapshot.data!.isNotEmpty ? Column(
               children: [
                 Expanded(
@@ -95,7 +111,24 @@ class _CartScreenState extends State<CartScreen> {
                     itemCount: snapshot.data!.length,
                       itemBuilder: (context,index){
                       var data = snapshot.data![index];
-                      productModel.add(data);
+                      //totalPrice = 0.0;
+                   
+
+                      //totalPrice = 0.0;
+                      if(role != null && role == "Customer"){
+                        print("customer --- ${data.regularPrice}");
+                        totalPrice = totalPrice + (double.parse(data.regularPrice!) * qty[index]);
+                      }else if( role == "Seller"){
+                        print("seller price --- ${data.sellingPrice}");
+                        totalPrice = totalPrice + ((double.parse(data.sellingPrice!) * qty[index]));
+
+                        print("total seller price --- ${totalPrice}");
+
+                      }else{
+                        print("whole seller --- ${data.wholePrice}");
+                        totalPrice =  totalPrice + (double.parse(data.wholePrice!) * qty[index]);
+                      }
+
                       return ListTile(
                       shape: Border.symmetric(horizontal: BorderSide(color:Colors.grey.shade200)),
                       contentPadding: EdgeInsets.all(10),
@@ -130,7 +163,13 @@ class _CartScreenState extends State<CartScreen> {
                               ),
 
                               InkWell(
-                                  onTap:(){},
+                                  onTap:()async{
+                                    await CartController.removeFromCart(context, _cartProductId[index]);
+                                    getCartFuture();
+                                    setState(() {
+
+                                    });
+                                  },
                                   child: Icon(Icons.close,color: AppColors.textGrey,))
                             ],
                           ),
@@ -186,7 +225,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ],
                               ),
-                               Text("\$${role != null ? role == "Customer" ? double.parse(data.regularPrice!) * qty[index] : role == "Seller" ? double.parse(data.sellingPrice!) * qty[index] : double.parse(data.wholePrice!) * qty[index] : 00}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
+                               Text("\$${(role != null ? role == "Customer" ? double.parse(data.regularPrice!) * qty[index] : role == "Seller" ? double.parse(data.sellingPrice!) * qty[index] : double.parse(data.wholePrice!) * qty[index] : 00).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
                             ],
                           )
                         ],
@@ -201,8 +240,14 @@ class _CartScreenState extends State<CartScreen> {
                       name: "Aller à la caisse",
                       onClick: (){
                       print("qty ---- $qty");
+
                       showModalBottomSheet(context: context, builder:(BuildContext context){
-                        return OrderPopup();
+                        return OrderPopup(
+                          docId: _cartProductId,
+                           productList: productModel,
+                          qty: qty,
+                          totalPrice: totalPrice.toString()
+                        );
                       });
                       }
                   ),
@@ -217,6 +262,8 @@ class _CartScreenState extends State<CartScreen> {
       )
     ));
   }
+
+
 }
 
 

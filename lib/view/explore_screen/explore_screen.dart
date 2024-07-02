@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/model/sub_category_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
@@ -46,7 +47,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
           children: [
             Expanded(
               child:    StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection(categoryCollection).snapshots(),
+                  stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
                   builder: (context, snapshot) {
                     if(snapshot.connectionState == ConnectionState.waiting){
                       return GridView.builder(
@@ -65,25 +66,25 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     }
 
                     //store category into category list
-                    List<CategoryModel> category = [];
+                    List<SubCategoryModel> category = [];
                     for(var i in snapshot.data!.docs){
-                      category.add(CategoryModel.fromSnapshot(i));
+                      category.add(SubCategoryModel.fromJson(i));
                     }
 
                     return category.isNotEmpty ? GridView.builder(
-                      physics: NeverScrollableScrollPhysics(),
+                     // physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 10.0,
                           mainAxisSpacing: 10.0,
-                          mainAxisExtent: 170
+                          mainAxisExtent: 190
                       ),
                       itemCount: category.length,
                       itemBuilder: (context, index) {
                         var data = category[index];
                         return InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.categoryName!, categoryProduct: data,))),
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
                           child: Container(
                             padding: EdgeInsets.all(15),
                             decoration: BoxDecoration(
@@ -93,15 +94,16 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             ),
                             child: Column(
                               children: [
-                                AppNetworkImage(src: data.categoryImage!, height: 100, width: 100,),
-                                SizedBox(height: 9,),
-                                Text("${data.categoryName}",
+                                Text("${data.name}",
                                   style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.black
                                   ),
-                                )
+                                ),
+                                Spacer(),
+                                AppNetworkImage(src: data.image!, height: 90, width: 90,),
+
                               ],
                             ),
                           ),

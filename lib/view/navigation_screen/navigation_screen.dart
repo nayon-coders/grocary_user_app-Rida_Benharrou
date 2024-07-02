@@ -75,7 +75,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search),
-                label: "Browse",
+                label: "Favorite",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.perm_identity),

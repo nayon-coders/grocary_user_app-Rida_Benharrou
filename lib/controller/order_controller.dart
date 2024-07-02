@@ -11,9 +11,9 @@ class OrderController{
 
 
   //place order
-  static placeOrder(BuildContext context, Map<String, dynamic> orders, List docId){
+  static Future placeOrder(BuildContext context, Map<String, dynamic> orders, List<String> docId)async{
     try{
-      _firestore.collection(ordersCollection).add(orders).then((value){
+     await _firestore.collection(ordersCollection).add(orders).then((value){
         //delete all cart item
         for(var i =0; i<docId.length; i++){
           _firestore.collection(cartCollection).doc(docId[i]).delete();
@@ -31,7 +31,7 @@ class OrderController{
 
   //get order list
   static Stream<QuerySnapshot<Map<String, dynamic>>> getOrders(){
-    return _firestore.collection(ordersCollection).where("user", isEqualTo: _auth.currentUser!.email).snapshots();
+    return _firestore.collection(ordersCollection).where("create_by", isEqualTo: _auth.currentUser!.email).snapshots();
   }
 
 

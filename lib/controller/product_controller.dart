@@ -32,5 +32,11 @@ class ProductController{
   }
 
 
+  //get  category wish product
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getSubCategroyWishProduct (categoryName){
+    return _firestore.collection(productCollection).where("sub_category", isEqualTo: categoryName).snapshots();
+  }
+
+
 
 }

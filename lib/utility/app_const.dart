@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 
 String categoryCollection = "category";
+String subCategoryCollection = "sub_category";
 String productCollection = "products";
 String variantCollection = "variants";
 String bannerCollection = "banners";
@@ -23,6 +24,10 @@ String restaurantAccount = "Restaurant";
 String wholeSellerAccount = "Whole Seller";
 String sellerAccount = "Seller";
 
+
+List orderStatus = [
+  "Pending", "Accept", "Cancel", "Reject", "Delivered"
+];
 
 
 

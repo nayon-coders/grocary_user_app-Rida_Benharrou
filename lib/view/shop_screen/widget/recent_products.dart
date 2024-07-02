@@ -22,9 +22,6 @@ class NewItems extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text("Nouveaux articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
-            InkWell(
-                onTap: (){},
-                child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
 
           ],
         ),
@@ -61,7 +58,7 @@ class NewItems extends StatelessWidget {
                   crossAxisCount: 2,
                   crossAxisSpacing: 10.0,
                   mainAxisSpacing: 20.0,
-                  mainAxisExtent: 250,
+                  mainAxisExtent: 230,
                 ),
                 itemCount: products.length > 8 ? 8 : products.length,
                 itemBuilder: (context, index) {

@@ -2,14 +2,19 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/account_screen/about_us.dart';
 import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
 import 'package:nectar/view/auth/login_screen.dart';
+import 'package:nectar/widget/app_dialog.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utility/app_color.dart';
 
@@ -40,24 +45,30 @@ class _AccountScreenState extends State<AccountScreen> {
                   width: 100,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: AssetImage(Assets.man),fit: BoxFit.cover),
                   ),
+                  child: Icon(Icons.person, color: Colors.grey, size: 40,),
 
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+                FutureBuilder(
+                  future: AuthController.getMyInfo(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Center();
+                    }
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Chakib KB",style: TextStyle(fontSize: titleFont,color: Colors.black),),
-                        SizedBox(width: 6,),
-                        Icon(Icons.edit,color: Colors.green,)
+                        Row(
+                          children: [
+                            Text("${snapshot.data!.docs[0].data()["name"]}",style: TextStyle(fontSize: titleFont,color: Colors.black),),
+                            SizedBox(width: 6,),
+                          ],
+                        ),
+                        Text("${snapshot.data!.docs[0].data()["email"]}",style: TextStyle(fontSize: smallFont,color: AppColors.textGrey),),
                       ],
-                    ),
-                    Text("shakib.app.dev@gmail.com",style: TextStyle(fontSize: smallFont,color: AppColors.textGrey),),
-
-                  ],
+                    );
+                  }
                 )
               ],
             ),
@@ -69,34 +80,66 @@ class _AccountScreenState extends State<AccountScreen> {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrders()));
               },
             ),
-            ProfileMenus(
-              text: "Mes Details",
-              icon: Icons.perm_identity,
-              onClick: (){},
-            ),
+
             ProfileMenus(
               text: "Adresse de livraison",
               icon: Icons.location_on_outlined,
               onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
             ),
             ProfileMenus(
-              text: "Aide",
+              text: "Contactez-nous",
               icon: Icons.help_outline_outlined,
-              onClick: (){},
+              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/contactez-nous")),
             ),
             ProfileMenus(
-              text: "À propos de nous",
+              text: "Termes et Conditions",
               icon: Icons.info_outline,
-              onClick: (){},
+              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
+            ),
+            ProfileMenus(
+              text: "Politique de Confidentialité",
+              icon: Icons.info_outline,
+              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+            ),
+            ProfileMenus(
+              text: "Delete account",
+              icon: Icons.delete,
+              onClick: (){
+                AppDialog(
+                    context,
+                    "Es-tu sûr?",
+                    "Es-tu sûr? Voulez-vous supprimer votre compte ?",
+                        () async{
+                          await AuthController.deleteAccout(context);
+                        }
+                );
+              },
             ),
           ],
         ),
       ),
       bottomNavigationBar: SignOutButton(
         name:"Se déconnecter",
-        onClick: ()=>Navigator.pop(context),
+        onClick:(){
+          AppDialog(
+              context,
+              "Es-tu sûr?",
+              "Es-tu sûr? Voulez-vous vous déconnecter?",
+                  () async{
+                await AuthController.logOut(context);
+              }
+          );
+        },
       ),
     ));
+  }
+
+
+
+  Future<void> _launchUrl(url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
 

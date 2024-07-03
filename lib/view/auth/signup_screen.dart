@@ -29,6 +29,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _emailController = TextEditingController();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
+  final _companyController = TextEditingController();
+  final _brandController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _postCodeController = TextEditingController();
+  final _cityController = TextEditingController();
+  final _stratController = TextEditingController();
 
 
   List accountType = [restaurantAccount, sellerAccount, wholeSellerAccount];
@@ -152,6 +158,79 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      hintText: "E-mail",
                      ),
                    SizedBox(height: 20,),
+                   Text("Société (company) ",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _companyController,
+                     hintText: "Société (company) ",
+                   ),
+                   SizedBox(height: 20,),
+
+                   Text("Enseigne (company name)",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _brandController,
+                     hintText: "Enseigne (company name)",
+                   ),
+                   SizedBox(height: 20,),
+
+
+                   Text("Adresse (address)",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _addressController,
+                     hintText: "Adresse (address)",
+                   ),
+                   SizedBox(height: 20,),
+                   Text("Ville (city)",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _cityController,
+                     hintText: "Ville (city)",
+                   ),
+                   SizedBox(height: 20,),
+
+
+
+                   Text("Siret",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _stratController,
+                     hintText: "Siret",
+                   ),
+                   SizedBox(height: 20,),
+
+                   Text("Code postal(zip)",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _postCodeController,
+                     hintText: "Code postal(zip)",
+                   ),
+                   SizedBox(height: 20,),
+
+
+
+
+
+
                    Text("Mot de passe",
                      style: TextStyle(fontSize: normalFont,
                          fontWeight: FontWeight.w500,
@@ -206,6 +285,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            id: id.toString(),
                            email: _emailController.text,
                            name: _usernameController.text,
+                           company: _cityController.text,
+                           brand: _brandController.text,
+                           address: _addressController.text,
+                           city: _cityController.text,
+                           postCode: _postCodeController.text,
+                           siret: _stratController.text,
+                           status: "Pending",
                            accountType: selectedType[0],
                          );
                          AuthController.userRegistration(context: context, userModel: userModel, pass: _passwordController.text);

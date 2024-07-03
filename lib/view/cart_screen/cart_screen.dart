@@ -30,6 +30,7 @@ class _CartScreenState extends State<CartScreen> {
 
 
   double totalPrice = 0;
+  List<double> itemPrice = [];
 
   List<ProductModel> productModel = [];
   List<String> _cartProductId = [];
@@ -117,16 +118,11 @@ class _CartScreenState extends State<CartScreen> {
                       //totalPrice = 0.0;
                       if(role != null && role == "Customer"){
                         print("customer --- ${data.regularPrice}");
-                        totalPrice = totalPrice + (double.parse(data.regularPrice!) * qty[index]);
+                        itemPrice.add(double.parse(data.regularPrice!));
                       }else if( role == "Seller"){
-                        print("seller price --- ${data.sellingPrice}");
-                        totalPrice = totalPrice + ((double.parse(data.sellingPrice!) * qty[index]));
-
-                        print("total seller price --- ${totalPrice}");
-
+                        itemPrice.add(double.parse(data.sellingPrice!));
                       }else{
-                        print("whole seller --- ${data.wholePrice}");
-                        totalPrice =  totalPrice + (double.parse(data.wholePrice!) * qty[index]);
+                        itemPrice.add(double.parse(data.wholePrice!));
                       }
 
                       return ListTile(
@@ -225,7 +221,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ],
                               ),
-                               Text("\$${(role != null ? role == "Customer" ? double.parse(data.regularPrice!) * qty[index] : role == "Seller" ? double.parse(data.sellingPrice!) * qty[index] : double.parse(data.wholePrice!) * qty[index] : 00).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
+                               Text("\$${(itemPrice[index] * qty[index]).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
                             ],
                           )
                         ],
@@ -246,7 +242,7 @@ class _CartScreenState extends State<CartScreen> {
                           docId: _cartProductId,
                            productList: productModel,
                           qty: qty,
-                          totalPrice: totalPrice.toString()
+                          totalPrice: itemPrice
                         );
                       });
                       }

@@ -69,7 +69,6 @@ class AuthController{
   //get the account Role
   static Future<String> accountRole()async{
     String accountType =  "";
-
     try{
       if (_auth.currentUser != null) {
         QuerySnapshot value = await _firestore.collection(userCollection).get();
@@ -94,6 +93,7 @@ class AuthController{
   static Future<QuerySnapshot<Map<String, dynamic>>> getMyInfo()async{
     return _firestore.collection(userCollection).where("email", isEqualTo:  _auth.currentUser!.email).get();
   }
+
 
 
 

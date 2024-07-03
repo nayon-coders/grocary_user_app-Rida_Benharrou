@@ -20,7 +20,7 @@ class OrderPopup extends StatefulWidget {
   final List<String> docId;
   final List<ProductModel> productList;
   final List qty;
-  final String totalPrice;
+  final List<double> totalPrice;
   const OrderPopup({super.key, required this.docId, required this.productList, required this.qty, required this.totalPrice});
 
   @override
@@ -30,6 +30,7 @@ class OrderPopup extends StatefulWidget {
 class _OrderPopupState extends State<OrderPopup> {
 
   double totalPrice = 0.00;
+  double itemPrice = 0.00;
   bool _deliveryAddressAlert = false;
 
   @override
@@ -37,9 +38,11 @@ class _OrderPopupState extends State<OrderPopup> {
     // TODO: implement initState
     super.initState();
     if(widget.qty!.isNotEmpty){
-      for(var i = 0; i<widget.productList.length; i++){
+      totalPrice = 0.00;
+      for(var i = 0; i<widget.qty.length; i++){
         setState(() {
-          //totalPrice = totalPrice + double.parse(widget.productList[i].pri)
+          totalPrice = totalPrice + (widget.totalPrice[i] * widget.qty![i]);
+          itemPrice = widget.totalPrice[i];
         });
       }
 
@@ -52,7 +55,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      height: 300,
+      height: 400,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -126,8 +129,20 @@ class _OrderPopupState extends State<OrderPopup> {
           // ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
+            title: "prix des articles",
+            subtitle: Text("\€${totalPrice}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: (){},
+          ),
+          Divider(color: Colors.grey.shade200,),
+          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+            title: "Impôt",
+            subtitle: Text("5.5%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: (){},
+          ),
+          Divider(color: Colors.grey.shade200,),
+          ListbottomSheet(
             title: "Coût total",
-            subtitle: Text("\€${widget.totalPrice}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("\€${(totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),
           Divider(color: Colors.grey.shade200,),
@@ -162,6 +177,7 @@ class _OrderPopupState extends State<OrderPopup> {
                         orderProducts.add({
                           "product_info" :  widget.productList[i].toJson(),
                           "qty" : widget.qty[i],
+                          "item_price" : itemPrice,
                         });
                       }
                       
@@ -170,15 +186,18 @@ class _OrderPopupState extends State<OrderPopup> {
                         "id" : id.toString(),
                         "products" : orderProducts,
                         "create_by" : FirebaseAuth.instance.currentUser!.email.toString(),
-                        "create_at" : DateFormat("yyyy-mm-dd hh:mm a").format(DateTime.now()),
+                        "create_at" : DateFormat("yyyy-dd-MM hh:mm a").format(DateTime.now()),
                         "order_status" : "Pending",
                         "address" : _selectedAddress!.toJson(),
+                        "sub_total" : totalPrice.toStringAsFixed(2),
+                        "tax" : "5.5%",
+                        "total" : (totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2),
                         "payment_method" : "Cash on delivery (COD)", ///TODO: payment method need to make it dynamic
 
                       };
                      await OrderController.placeOrder(context, orders, widget.docId).then((value) {
-                       Navigator.push(context,
-                           MaterialPageRoute(builder: (context)=>OrderAccepted()));
+                       // Navigator.push(context,
+                       //     MaterialPageRoute(builder: (context)=>OrderAccepted()));
                      });
 
                       setState(() => _isLoading = false);

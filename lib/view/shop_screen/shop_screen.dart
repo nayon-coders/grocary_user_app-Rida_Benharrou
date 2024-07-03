@@ -55,7 +55,9 @@ class _HomeState extends State<Home> {
                     hintText: "Ajoutez votre lieu de livraison maintenant.",
                     child:  InkWell(
                       onTap: (){
-                        EmailSendController.sendEmailToAdmin();
+
+                       // EmailSendController.sendAdminEmail(orders: orders)
+
                       },
                      // onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
                       child: Row(

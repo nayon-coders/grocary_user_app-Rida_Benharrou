@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/controller/email_send_controller.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/order_accepted/order_accepted.dart';
 
@@ -13,11 +14,20 @@ class OrderController{
   //place order
   static Future placeOrder(BuildContext context, Map<String, dynamic> orders, List<String> docId)async{
     try{
-     await _firestore.collection(ordersCollection).add(orders).then((value){
+     await _firestore.collection(ordersCollection).add(orders).then((value)async{
         //delete all cart item
         for(var i =0; i<docId.length; i++){
           _firestore.collection(cartCollection).doc(docId[i]).delete();
         }
+
+        //send email to the user and admin
+        await EmailSendController.sendAdminEmail(
+            orders : orders
+        );
+
+        await EmailSendController.sendCustomerEmail(
+            orders : orders
+        );
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> OrderAccepted()), (route) => false);
 
       });

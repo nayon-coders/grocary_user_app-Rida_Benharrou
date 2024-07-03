@@ -98,7 +98,6 @@ class _TrackOrderState extends State<TrackOrder> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-
                                 Text("${data.productInfo!.name}",
                                   style: TextStyle(
                                       fontSize:titleFont,
@@ -106,13 +105,11 @@ class _TrackOrderState extends State<TrackOrder> {
                                       color: AppColors.textBlack),
                                 ),
                                 SizedBox(height: 8,),
-                                Text("${data.productInfo!.productType}",
+                                Text("${data.qty} ${data.productInfo!.productType} = ${double.parse("${data.itemPrice}") * double.parse("${data.qty}")}",
                                   style: TextStyle(fontWeight: FontWeight.w400,
                                       fontSize: smallFont,
                                       color: AppColors.textGrey),
                                 ),
-
-
                               ],
                             ),
                             AppNetworkImage(src: data.productInfo!.images![0].toString(), height: 60, width: 60,)
@@ -121,7 +118,44 @@ class _TrackOrderState extends State<TrackOrder> {
                         ),
                       );
                     },
-                  )
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Impôt : ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      Text("5.5%",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 7,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Total : ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      Text("€ ${widget.orderModel!.totalAmount}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
 
                 ],
               ),

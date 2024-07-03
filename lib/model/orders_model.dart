@@ -21,6 +21,9 @@ class OrderModel {
   final String? orderStatus;
   final AddressModel? address;
   final String? paymentMethod;
+  final String? totalAmount;
+  final String? subTotal;
+  final String? tax;
 
   OrderModel({
     this.id,
@@ -31,6 +34,9 @@ class OrderModel {
     this.orderStatus,
     this.address,
     this.paymentMethod,
+    this.totalAmount,
+    this.subTotal,
+    this.tax
   });
 
   factory OrderModel.fromJson(QueryDocumentSnapshot<Map<String, dynamic>> json) => OrderModel(
@@ -42,6 +48,10 @@ class OrderModel {
     orderStatus: json["order_status"],
     address: AddressModel.fromJson(json["address"]),
     paymentMethod: json["payment_method"],
+    totalAmount: json["total"],
+    subTotal: json["sub_total"],
+    tax: json["tax"]
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -52,25 +62,33 @@ class OrderModel {
     "order_status": orderStatus,
     "address": address!.toJson(),
     "payment_method": paymentMethod,
+    "total" : totalAmount,
+    "sub_total" : subTotal,
+    "tax" : tax
   };
 }
 
 class Product {
   final ProductModel? productInfo;
   final String? qty;
+  final String? itemPrice;
 
   Product({
     this.productInfo,
     this.qty,
+    this.itemPrice
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     productInfo: ProductModel.fromJson(json["product_info"]),
     qty: json["qty"].toString(),
+    itemPrice: json["item_price"].toString()
+
   );
 
   Map<String, dynamic> toJson() => {
     "product_info": productInfo,
     "qty": qty,
+    "item_price" : itemPrice
   };
 }

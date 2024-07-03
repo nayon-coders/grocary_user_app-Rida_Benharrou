@@ -56,8 +56,7 @@ class _MyOrdersState extends State<MyOrders> {
                 for(var i in snapshot.data!.docs){
                   orderList.add(OrderModel.fromJson(i));
                 }
-
-                return Expanded(
+                return orderList.isNotEmpty ? Expanded(
                   flex: 10,
                     child: ListView.builder(
                     itemCount: orderList.length,
@@ -136,7 +135,7 @@ class _MyOrdersState extends State<MyOrders> {
                       );
                     }
                     )
-                  );
+                  ) : Text("No order found");
               }
             )
           ],

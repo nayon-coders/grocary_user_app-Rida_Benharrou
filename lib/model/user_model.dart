@@ -12,6 +12,12 @@ class UserModel {
   final String? id;
   final String? name;
   final String? email;
+  final String? company;
+  final String? brand;
+  final String? address;
+  final String? postCode;
+  final String? city;
+  final String? siret;
   final String? accountType;
   final String? status;
   final String? createAt;
@@ -20,6 +26,12 @@ class UserModel {
     this.id,
     this.name,
     this.email,
+    this.company,
+    this.brand,
+    this.address,
+    this.postCode,
+    this.city,
+    this.siret,
     this.accountType,
     this.status,
     this.createAt,
@@ -29,6 +41,12 @@ class UserModel {
     id: json["id"],
     name: json["name"],
     email: json["email"],
+    company: json["company"],
+    brand: json["brand"],
+    address: json["address"],
+    postCode: json["post_code"],
+    city: json["city"],
+    siret: json["siret"],
     accountType: json["account_type"],
     status: json["status"],
     createAt: json["create_at"],
@@ -38,6 +56,11 @@ class UserModel {
     "id": id,
     "name": name,
     "email": email,
+    "company" : company,
+    "brand" : brand,
+    "post_code": postCode,
+    "city" : city,
+    "siret" : siret,
     "account_type": accountType,
     "status": status,
     "create_at": createAt,

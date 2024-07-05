@@ -15,7 +15,7 @@ class ProfileMenus extends StatelessWidget {
       padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
           border: Border(
-              bottom: BorderSide(width: 1, color: Colors.grey.shade300)
+              bottom: BorderSide(width: 1, color: Colors.grey.shade50)
           )
       ),
       child: ListTile(
@@ -24,7 +24,7 @@ class ProfileMenus extends StatelessWidget {
         leading: Icon(icon,color: Color(0xff181725),),
         title: Text("$text",
             style: TextStyle(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w200,
                 fontSize: 17
             )
         ),

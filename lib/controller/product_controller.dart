@@ -16,6 +16,14 @@ class ProductController{
   }
 
   //get offer/discrount products
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllDeals (){
+    return _firestore.collection(productCollection).where("product_type", isEqualTo: "KG (Kilogram)").snapshots();
+  }
+
+
+
+
+  //get offer/discrount products
   static Stream<QuerySnapshot<Map<String, dynamic>>> getBestSellingProducts (){
     return _firestore.collection(productCollection).where("best_selling", isEqualTo: "1").snapshots();
   }

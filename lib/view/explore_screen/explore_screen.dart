@@ -27,8 +27,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
-        automaticallyImplyLeading: false,
         title: Text("Trouver des produits",
           style: TextStyle(
             fontSize: titleFont,
@@ -36,87 +36,77 @@ class _ExploreScreenState extends State<ExploreScreen> {
             color: Colors.black,
           ),
         ),
-        backgroundColor: Colors.white,
       ),
-      backgroundColor: AppColors.bgWhite,
       body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child:    StreamBuilder(
-                  stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return GridView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                        ),
-                        itemCount: 8,
-                        itemBuilder: (context, index) {
-                          return AppShimmer();
-                        },
-                      );
-                    }
+        padding: const EdgeInsets.all(10),
+        child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
+            builder: (context, snapshot) {
+              if(snapshot.connectionState == ConnectionState.waiting){
+                return GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                  ),
+                  itemCount: 8,
+                  itemBuilder: (context, index) {
+                    return AppShimmer();
+                  },
+                );
+              }
 
-                    //store category into category list
-                    List<SubCategoryModel> category = [];
-                    for(var i in snapshot.data!.docs){
-                      category.add(SubCategoryModel.fromJson(i));
-                    }
+              //store category into category list
+              List<SubCategoryModel> category = [];
+              for(var i in snapshot.data!.docs){
+                category.add(SubCategoryModel.fromJson(i));
+              }
 
-                    return category.isNotEmpty ? GridView.builder(
-                     // physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                          mainAxisExtent: 190
+              return category.isNotEmpty ? GridView.builder(
+               // physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 10.0,
+                    mainAxisSpacing: 10.0,
+                    mainAxisExtent: 170
+                ),
+                itemCount: category.length,
+                itemBuilder: (context, index) {
+                  var data = category[index];
+                  return InkWell(
+                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
+                    child: Container(
+                      padding: EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                          color: Colors.blue.shade50,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(width: 1, color: Colors.grey.shade200)
                       ),
-                      itemCount: category.length,
-                      itemBuilder: (context, index) {
-                        var data = category[index];
-                        return InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
-                          child: Container(
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                color: AppColors.bgGreen.withOpacity(0.2),
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(width: 1, color: Colors.grey.shade200)
-                            ),
-                            child: Column(
-                              children: [
-                                Text("${data.name}",
-                                  style: TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black
-                                  ),
-                                ),
-                                Spacer(),
-                                AppNetworkImage(src: data.image!, height: 90, width: 90,),
-
-                              ],
+                      child: Column(
+                        children: [
+                          Text("${data.name}",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.black
                             ),
                           ),
-                        );
-                      },
-                    )  : Center(child: Padding(
-                      padding:  EdgeInsets.all(50.0),
-                      child: Image.asset(Assets.imagesNoPrd),
-                    ),);
-                  }
-              ),
-            ),
-          ],
+                          Spacer(),
+                          AppNetworkImage(src: data.image!, height: 90, width: 90,),
+
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              )  : Center(child: Padding(
+                padding:  EdgeInsets.all(50.0),
+                child: Image.asset(Assets.imagesNoPrd),
+              ),);
+            }
         ),
       ),
     );

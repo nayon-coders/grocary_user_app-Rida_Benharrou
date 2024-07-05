@@ -176,22 +176,21 @@ class _CategoryProductState extends State<CategoryProduct> {
             Expanded(
               flex: 2,
               child: Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.all(10.0),
                 child: StreamBuilder(
                     stream: widget.fromSubCat ?  ProductController.getSubCategroyWishProduct(widget.categoryName!) : ProductController.getCategroyWishProduct(widget.categoryName!),
                     builder: (context, snapshot) {
                       if(snapshot.connectionState == ConnectionState.waiting){
                         return SizedBox(
-                          height: 250,
                           child: GridView.builder(
 
                               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
+                                crossAxisCount: 3,
                                 crossAxisSpacing: 5.0,
                                 mainAxisSpacing: 5.0,
-                                mainAxisExtent: 240,
+                                mainAxisExtent: 200,
                               ),
-                              itemCount:  5,
+                              itemCount:  20,
                               itemBuilder: (context,index){
                                 return AppShimmer();
                               }),
@@ -228,10 +227,10 @@ class _CategoryProductState extends State<CategoryProduct> {
                       return products.isNotEmpty ? GridView.builder(
 
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                          crossAxisCount: 3,
                           crossAxisSpacing: 5.0,
                           mainAxisSpacing: 5.0,
-                          mainAxisExtent: 240,
+                          mainAxisExtent: 200,
                         ),
                         itemCount:  products.length,
                         itemBuilder: (context, index) {
@@ -240,17 +239,17 @@ class _CategoryProductState extends State<CategoryProduct> {
                       ) : subCategoryproducts.isNotEmpty ? GridView.builder(
 
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
+                          crossAxisCount: 3,
                           crossAxisSpacing: 5.0,
                           mainAxisSpacing: 5.0,
-                          mainAxisExtent: 240,
+                          mainAxisExtent: 200,
                         ),
                         itemCount:  subCategoryproducts.length,
                         itemBuilder: (context, index) {
                           return subCategoryproducts.isNotEmpty &&  subCategoryproducts[index].status == "Active" ?  ItemCard(productModel: subCategoryproducts[index],) : subCategoryproducts[index].status == "Active" ? ItemCard(productModel: subCategoryproducts[index],) : Center();
                         },
                       ) : Center(child: Padding(
-                        padding: const EdgeInsets.all(50.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: Image.asset(Assets.norProduct),
                       ),);
                     }
@@ -287,8 +286,8 @@ class _CategoryProductState extends State<CategoryProduct> {
                   label: "Explorer",
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.percent_outlined),
-                  label: "Deals",
+                  icon: Icon(Icons.manage_search_rounded),
+                  label: "Browse",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_basket_outlined),

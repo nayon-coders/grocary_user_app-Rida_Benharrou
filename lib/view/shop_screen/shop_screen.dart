@@ -16,8 +16,12 @@ import 'package:nectar/view/shop_screen/widget/recent_products.dart';
 import 'package:nectar/widget/app_input.dart';
 import 'package:nectar/widget/show_hint_widgets.dart';
 
+import '../../controller/product_controller.dart';
+import '../../model/product_model.dart';
 import '../../utility/app_color.dart';
+import '../../widget/app_shimmer.dart';
 import '../../widget/slider.dart';
+import '../show_product/all_products.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -40,7 +44,7 @@ class _HomeState extends State<Home> {
 
       backgroundColor: AppColors.bgWhite,
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,12 +58,8 @@ class _HomeState extends State<Home> {
 
                     hintText: "Ajoutez votre lieu de livraison maintenant.",
                     child:  InkWell(
-                      onTap: (){
+                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
 
-                       // EmailSendController.sendAdminEmail(orders: orders)
-
-                      },
-                     // onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
                       child: Row(
                         children: [
                           Text("Choisir une adresse",
@@ -94,14 +94,77 @@ class _HomeState extends State<Home> {
             SizedBox(height: 15,),
             //offer products
             OfferProducts(),
+
+            SizedBox(height: 15,),
+            //single category product 
+            Container(
+              height: 280,
+              padding: EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                color: Colors.pink.shade50
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Nouveaux articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                      InkWell(
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles",))),
+                          child: Container(
+                              padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(100)
+                              ),
+                              child: Text("Voir tout",style: TextStyle(fontSize:13,fontWeight: FontWeight.w500,color:AppColors.bgGreen),))),
+
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+
+                  StreamBuilder(
+                      stream: ProductController.getNewProduct(),
+                      builder: (context, snapshot) {
+                        if(snapshot.connectionState == ConnectionState.waiting){
+                          return SizedBox(
+                            child: ListView.builder(
+                                padding: EdgeInsets.only(right: 10),
+                                itemCount: 5,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (context,index){
+                                  return AppShimmer();
+                                }),
+                          );
+                        }
+
+
+                        //store data into product model list
+                        List<ProductModel> products = [];
+
+                        for(var i in snapshot.data!.docs){
+                          products.add(ProductModel.fromJson(i.data()));
+                        }
+
+                        return SizedBox(
+                          height: 200,
+                          child: ListView.builder(
+                              padding: EdgeInsets.only(right: 10),
+                              itemCount: products.length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (context,index){
+                                return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
+                              }),
+                        );
+                      }
+                  ),
+                ],
+              ),
+            ),
+           // NewItems(),
             SizedBox(height: 15,),
             SubCategoreis(),
-            SizedBox(height: 15,),
-            BestSellingProducts(),
-
-
-            SizedBox(height: 15,),
-            NewItems(),
 
           ],
         ),

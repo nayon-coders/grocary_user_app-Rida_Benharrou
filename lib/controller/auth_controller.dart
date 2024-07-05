@@ -43,18 +43,28 @@ class AuthController{
 
     try{
       //create and account in firebase auth
-      await _auth.signInWithEmailAndPassword(email: email, password: pass).then((value){
-        //store data
-        print("value -==== ${value}");
-        if(value != null){
-          appSnackBar(context: context, text: "Connexion réussie", bgColor: Colors.green);
-          Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> NavigationScreen()), (route) => false);
-        }else{
-          appSnackBar(context: context, text: "Invalid credential.", bgColor: Colors.red);
+      //get data
 
-        }
+      var user = await _firestore.collection(userCollection).where("email", isEqualTo: email).get();
+
+      if(user.docs[0].data()["status"] == "Active"){
+        await _auth.signInWithEmailAndPassword(email: email, password: pass).then((value){
+          //store data
+          print("value -==== ${value}");
+          if(value != null){
+            appSnackBar(context: context, text: "Connexion réussie", bgColor: Colors.green);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> NavigationScreen()), (route) => false);
+          }else{
+            appSnackBar(context: context, text: "Invalid credential.", bgColor: Colors.red);
+
+          }
 
         });
+
+      }else{
+        appSnackBar(context: context, text: "Votre compte est inactif. Vous ne pouvez pas vous connecter maintenant.", bgColor: Colors.red);
+      }
+
 
 
 

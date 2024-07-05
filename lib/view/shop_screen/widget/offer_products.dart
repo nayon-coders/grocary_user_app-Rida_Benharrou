@@ -23,16 +23,23 @@ class OfferProducts extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text("Offre exclusive",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+
+            Text("Deals",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
                 onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Offre exclusive",))),
-                child: Text("Voir tout",style: TextStyle(fontSize:smallFont,fontWeight: FontWeight.w600,color:AppColors.bgGreen),)),
+                child: Container(
+                    padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
+                    decoration: BoxDecoration(
+                      color: Colors.red.shade50,
+                      borderRadius: BorderRadius.circular(100)
+                    ),
+                    child: Text("Voir tout",style: TextStyle(fontSize:13,fontWeight: FontWeight.w500,color:AppColors.bgGreen),))),
 
           ],
         ),
         SizedBox(height: 10,),
         StreamBuilder(
-          stream: ProductController.getOfferProduct(),
+          stream: ProductController.getAllDeals(),
           builder: (context, snapshot) {
             if(snapshot.connectionState == ConnectionState.waiting){
               return SizedBox(
@@ -58,7 +65,7 @@ class OfferProducts extends StatelessWidget {
             print("products --- ${products.length}");
 
             return SizedBox(
-              height: 230,
+              height: 200,
               child: ListView.builder(
                   padding: EdgeInsets.only(right: 10),
                   itemCount: products.length,

@@ -3,6 +3,11 @@ class Assets {
   Assets._();
 
   static const String animationSuccess = 'assets/animation/success.json';
+  static const String fontKanitBold = 'assets/font/Kanit-Bold.ttf';
+  static const String fontKanitLight = 'assets/font/Kanit-Light.ttf';
+  static const String fontKanitMedium = 'assets/font/Kanit-Medium.ttf';
+  static const String fontKanitRegular = 'assets/font/Kanit-Regular.ttf';
+  static const String fontKanitSemiBold = 'assets/font/Kanit-SemiBold.ttf';
   static const String imagesApple = 'assets/images/apple.png';
   static const String imagesBanana = 'assets/images/banana.png';
   static const String imagesBanner = 'assets/images/banner.png';

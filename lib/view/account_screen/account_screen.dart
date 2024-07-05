@@ -13,6 +13,7 @@ import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
 import 'package:nectar/view/auth/login_screen.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,91 +31,146 @@ class _AccountScreenState extends State<AccountScreen> {
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 60,
-                  width: 100,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                  ),
-                  child: Icon(Icons.person, color: Colors.grey, size: 40,),
-
-                ),
-                FutureBuilder(
-                  future: AuthController.getMyInfo(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return Center();
-                    }
-                    return Column(
+            FutureBuilder(
+                future: AuthController.getMyInfo(),
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.waiting){
+                    return Center();
+                  }
+                  return Container(
+                    height: 200,
+                    padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: Colors.pink.shade100
+                    ),
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text("${snapshot.data!.docs[0].data()["name"]}",style: TextStyle(fontSize: titleFont,color: Colors.black),),
-                            SizedBox(width: 6,),
-                          ],
+                        Text("Welcome back,",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            color: Colors.pink,
+                            fontSize: 35
+                          ),
                         ),
-                        Text("${snapshot.data!.docs[0].data()["email"]}",style: TextStyle(fontSize: smallFont,color: AppColors.textGrey),),
+                        Text("${snapshot.data!.docs[0].data()["name"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
                       ],
-                    );
-                  }
-                )
-              ],
+                    ),
+                  );
+                }
             ),
-            SizedBox(height: 20,),
-            ProfileMenus(
-              text: "Ordres",
-              icon: Icons.shopping_bag_outlined,
-              onClick: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrders()));
-              },
-            ),
+            SizedBox(height: 10,),
+            Padding(
+              padding: EdgeInsets.all(15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("My Action",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
 
-            ProfileMenus(
-              text: "Adresse de livraison",
-              icon: Icons.location_on_outlined,
-              onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
-            ),
-            ProfileMenus(
-              text: "Contactez-nous",
-              icon: Icons.help_outline_outlined,
-              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/contactez-nous")),
-            ),
-            ProfileMenus(
-              text: "Termes et Conditions",
-              icon: Icons.info_outline,
-              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
-            ),
-            ProfileMenus(
-              text: "Politique de Confidentialité",
-              icon: Icons.info_outline,
-              onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
-            ),
-            ProfileMenus(
-              text: "Delete account",
-              icon: Icons.delete,
-              onClick: (){
-                AppDialog(
-                    context,
-                    "Es-tu sûr?",
-                    "Es-tu sûr? Voulez-vous supprimer votre compte ?",
-                        () async{
-                          await AuthController.deleteAccout(context);
-                        }
-                );
-              },
-            ),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      ProfileMenus(
+                        text: "Ordres",
+                        icon: Icons.shopping_bag_outlined,
+                        onClick: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrders()));
+                        },
+                      ),
+
+                      ProfileMenus(
+                        text: "Adresse de livraison",
+                        icon: Icons.location_on_outlined,
+                        onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
+                      ),
+                      ProfileMenus(
+                        text: "Favorite",
+                        icon: Icons.favorite_border,
+                        onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>NavigationScreen(pageIndex: 3,))),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Legal",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      ProfileMenus(
+                        text: "Contactez-nous",
+                        icon: Icons.help_outline_outlined,
+                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/contactez-nous")),
+                      ),
+                      ProfileMenus(
+                        text: "Termes et Conditions",
+                        icon: Icons.info_outline,
+                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
+                      ),
+                      ProfileMenus(
+                        text: "Politique de Confidentialité",
+                        icon: Icons.info_outline,
+                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10,),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Account Management",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      ProfileMenus(
+                        text: "Delete account",
+                        icon: Icons.delete,
+                        onClick: (){
+                          AppDialog(
+                              context,
+                              "Es-tu sûr?",
+                              "Es-tu sûr? Voulez-vous supprimer votre compte ?",
+                                  () async{
+                                await AuthController.deleteAccout(context);
+                              }
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+
+
+
+
+                ],
+              ),
+            )
           ],
         ),
       ),

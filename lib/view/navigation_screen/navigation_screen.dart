@@ -66,8 +66,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
               label: "Explorer",
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.percent_outlined),
-                label: "Deals",
+                icon: Icon(Icons.manage_search_rounded),
+                label: "Browse",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_basket_outlined),

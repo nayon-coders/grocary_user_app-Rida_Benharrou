@@ -55,8 +55,8 @@ class Categoreis extends StatelessWidget {
                 child: Stack(
                   children:[
                     Container(
-                      height: 200,
-                      width: 150,
+                      height: 160,
+                      width: 160,
                       margin: EdgeInsets.only(right: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -69,7 +69,7 @@ class Categoreis extends StatelessWidget {
                       bottom: 15,
                       child: SizedBox(
                           width: 130,
-                          child: Center(child: AppNetworkImage(src: data.categoryImage!,))),
+                          child: Center(child: AppNetworkImage(src: data.categoryImage!, fit: BoxFit.contain,))),
                     ),
                     Positioned(
                       left: 10,
@@ -80,7 +80,7 @@ class Categoreis extends StatelessWidget {
                     ),
                     Positioned(
                       right: 20,
-                      bottom: 7,
+                      bottom: 15,
                       child: Container(
                         padding: EdgeInsets.all(5),
                         decoration: BoxDecoration(
@@ -172,32 +172,35 @@ class SubCategoreis extends StatelessWidget {
               ),
               SizedBox(height: 15,),
               SizedBox(
-                height: 170,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-
-                  itemCount: category.length,
+                child: GridView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 7.0,
+                    mainAxisSpacing: 7.0,
+                    mainAxisExtent: 160,
+                  ),
+                  itemCount:  category.length,
                   itemBuilder: (context, index) {
                     var data = category[index];
                     return InkWell(
-                     onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,  ))),
+                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,  ))),
                       child: Container(
-                        margin: EdgeInsets.only(right: 15),
-                        width: 150,
                         padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            color: Colors.red.shade50,
+                        decoration: BoxDecoration(
+                            color: Colors.blue.shade50,
                             borderRadius: BorderRadius.circular(5),
                             border: Border.all(width: 1, color: Colors.grey.shade200)
-                          ),
+                        ),
                         child: Column(
                           children: [
 
                             Text("${data.name}",
                               style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.black
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black
                               ),
                             ),
                             Spacer(),
@@ -207,9 +210,9 @@ class SubCategoreis extends StatelessWidget {
                         ),
                       ),
                     );
-
                   },
                 ),
+
               ),
             ],
           )  : Center(child: Text("Category is empty"),);

@@ -26,7 +26,7 @@ String sellerAccount = "Seller";
 
 
 List orderStatus = [
-  "Pending", "Accept", "Cancel", "Reject", "Delivered"
+  "Pending", "Accept", "Ready to ship", "Cancel", "Rejected", "Delivered"
 ];
 
 

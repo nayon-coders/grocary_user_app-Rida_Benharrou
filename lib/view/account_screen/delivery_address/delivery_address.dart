@@ -22,12 +22,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
   bool onClick = false;
   final _formKey = GlobalKey<FormState>();
 
-  final _countyController = TextEditingController();
-  final _stateController = TextEditingController();
+  final _address = TextEditingController();
+  final _postCode = TextEditingController();
   final _cityController = TextEditingController();
-  final _streetNumber = TextEditingController();
+  final _messages = TextEditingController();
   final _phone = TextEditingController();
-  final _zipController = TextEditingController();
+  final _contact = TextEditingController();
 
   List addredssType = [
     "Home", "Others"
@@ -42,12 +42,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
 
     //
     if(widget.addressModel != null){
-      _zipController.text = widget.addressModel!.zip!;
-      _countyController.text = widget.addressModel!.country!;
-      _streetNumber.text = widget.addressModel!.streetNumber!;
-      _stateController.text = widget.addressModel!.state!;
+      _contact.text = widget.addressModel!.contact!;
+      _address.text = widget.addressModel!.address!;
+      _messages.text = widget.addressModel!.messages!;
+      _postCode.text = widget.addressModel!.postCode!;
       _cityController.text = widget.addressModel!.city!;
-      _addedAddressType.add(widget.addressModel!.addressType);
+      _phone.text = widget.addressModel!.phone.toString();
     }else{
       _addedAddressType.add(addredssType[0]);
     }
@@ -59,7 +59,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
         elevation: 0,
-        title: Text("Your Delivery Address",
+        title: Text("Nouvelle adresse de Livraison",
           style: TextStyle(
               fontSize: bigFont,
               fontWeight: FontWeight.w600,
@@ -73,105 +73,73 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(15),
-        child: Column(
-          children: [
-            ///ToDo two button home and other
-            Center(
-              child: SizedBox(
-                height: 50,
-                child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: addredssType.length,
-                  itemBuilder: (_, index){
-                    return InkWell(
-                      onTap: (){
-                        _addedAddressType.clear();
-                        setState(() {
-                          _addedAddressType.add(addredssType[index]);
-                        });
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(right: 20),
-                        width: 150,
-                        decoration: BoxDecoration(
-                          color: _addedAddressType.contains( addredssType[index]) ? AppColors.mainColor : Colors.grey,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Center(
-                          child: Text("${addredssType[index]}",
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            //  border: Border.all(color: Colors.grey.shade200),
+
+          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 20,),
+                Text("Address *"),
+                SizedBox(height: 10,),
+                AppInput(
+                    validator: (value)=>value!.isEmpty ? "Indiquez l'adresse":null,
+                    controller: _address,
+                    hintText: "Indiquez l'adresse *"),
+                SizedBox(height: 20,),
+                Text("Code Postal *"),
+                SizedBox(height: 10,),
+                AppInput(
+                    validator: (value)=>value!.isEmpty ? "ndiquez le code postal":null,
+                    controller: _postCode, hintText: "ndiquez le code postal *"),
+                SizedBox(height: 20,),
+                Text("Ville *"),
+                SizedBox(height: 10,),
+                AppInput(
+                    validator: (value)=>value!.isEmpty ? "Indiquez la ville":null,
+                    controller: _cityController, hintText: "Indiquez la ville"),
+                SizedBox(height: 20,),
+                Text("Message *"),
+                SizedBox(height: 10,),
+                AppInput(
+                  validator: (value)=>value!.isEmpty ? "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.":null,
+                  controller: _messages,
+                  hintText: "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.",
                 ),
-              ),
-            ),
-            Container(
-              padding: EdgeInsets.all(15),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              //  border: Border.all(color: Colors.grey.shade200),
-                
-              ),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 20,),
-                    AppInput(
-                      validator: (value)=>value!.isEmpty ? 'Please add your county':null,
-                        controller: _countyController,
-                        hintText: "County*"),
-                    SizedBox(height: 20,),
-                    AppInput(
-                        validator: (value)=>value!.isEmpty ? 'Please add your state':null,
-                        controller: _stateController, hintText: "State*"),
-                    SizedBox(height: 20,),
-                    AppInput(
-                        validator: (value)=>value!.isEmpty ? 'Please add your city':null,
-                        controller: _cityController, hintText: "City*"),
-                    SizedBox(height: 20,),
-                    AppInput(
-                        validator: (value)=>value!.isEmpty ? 'Please add your street number':null,
-                        controller: _streetNumber,
-                        hintText: "Street Number*",
-                    ),
-                    SizedBox(height: 20,),
-
-                    AppInput(
-                        validator: (value)=>value!.isEmpty ? 'Please add your zip':null,
-                        controller: _zipController,
-                        hintText: "ZIP*",
-                    ),
-                    SizedBox(height: 20,),
-                    AppInput(
-                      validator: (value)=>value!.isEmpty ? 'Please add your phone number':null,
-                      controller: _phone,
-                      hintText: "Phone Number*",
-                    ),
-                 
-                    SizedBox(height: 20,),
-
-                  ],
+                SizedBox(height: 20,),
+                Text("Contact Livraison *"),
+                SizedBox(height: 10,),
+                AppInput(
+                  validator: (value)=>value!.isEmpty ? " Indiquez le nom et/ou prénom de la personne à contacter":null,
+                  controller: _contact,
+                  hintText: " Indiquez le nom et/ou prénom de la personne à contacter",
                 ),
-              ),
-            ),
+                SizedBox(height: 20,),
+                Text("Mobile *"),
+                SizedBox(height: 10,),
+                AppInput(
+                  validator: (value)=>value!.isEmpty ? "Indiquez le mobile de la personne à contacter":null,
+                  controller: _phone,
+                  hintText: "Mobile ",
+                ),
 
-          ],
+                SizedBox(height: 20,),
+
+              ],
+            ),
+          ),
         ),
       ),
       bottomNavigationBar:Container(
         padding: const EdgeInsets.all(15.0),
         margin: const EdgeInsets.all(15.0),
-        child: AppButton(name: widget.addressModel != null ? "Edit Address" : "Add Address", onClick: ()async{
+        child: AppButton(name: widget.addressModel != null ? "Edit Address" : "Ajouter une Nouvelle Adresse", onClick: ()async{
           if(_addedAddressType.isEmpty){
             appSnackBar(context: context, text: "Sélectionnez votre type d'adresse", bgColor: Colors.red);
           }
@@ -180,13 +148,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             var id = Random().nextInt(9999);
             var addressModel = AddressModel(
               id: id.toString(),
-              country: _countyController.text,
+              address: _address.text,
               city: _cityController.text,
-              state: _stateController.text,
-              streetNumber: _streetNumber.text,
-              zip: _zipController.text,
+              postCode: _postCode.text,
+              messages: _messages.text,
+              contact: _contact.text,
               email: FirebaseAuth.instance.currentUser!.email.toString(),
-              addressType: _addedAddressType[0],
               phone: _phone.text
             );
             //store address

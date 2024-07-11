@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nectar/controller/auth_controller.dart';
@@ -11,6 +12,7 @@ import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/auth/widget/app_field.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_input.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../utility/app_color.dart';
 import '../../utility/fontsize.dart';
@@ -37,7 +39,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _stratController = TextEditingController();
 
 
+  final _contact = TextEditingController();
+  final _contactEmail = TextEditingController();
+  final _contactPhone = TextEditingController();
+
+
   List accountType = [restaurantAccount, sellerAccount, wholeSellerAccount];
+  List accountTypeName = ["Restauration", "Revendeur", "Grossiste"];
   List selectedType = [];
   bool _isLoading = false;
   bool _obscureText = true;
@@ -84,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      ),
                    ),
                    SizedBox(height: 5,),
-                   Text("Entrez vos identifiants pour continuer",
+                   Text("Remplissez tous les champs pour valider votre inscription.",
                      style: TextStyle(
                        fontWeight: FontWeight.w400,
                        fontSize: smallFont,
@@ -94,7 +102,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
                    SizedBox(height: 30,),
 
-                   Text("Choisir qui tu es ?",
+                   Text("Choisir votre profil *",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 16
@@ -120,12 +128,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               margin: EdgeInsets.only(right: 7),
                                 padding: EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color:selectedType.contains(accountType[index])  ? AppColors.bgGreen : Colors.white,
+                                  color: selectedType.contains(accountType[index])  ? AppColors.bgGreen : Colors.white,
                                   borderRadius: BorderRadius.circular(10),
                                   border: Border.all(width: 1, color: selectedType.contains(accountType[index]) ? Colors.white :   AppColors.bgGreen ,)
                                 ),
                                 child: Text(
-                                  "I'am ${accountType[index]}",
+                                  "${accountTypeName[index]}",
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                        fontSize: 12,
@@ -138,7 +146,40 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     ),
                    SizedBox(height: 20,),
-                   Text("Nom d'utilisateur",
+
+
+                   Text("E-mail *",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _emailController,
+                     hintText: "Indiquez votre email",
+                   ),
+
+                   SizedBox(height: 20,),
+
+                   Text("Mot de passe *",
+                     style: TextStyle(fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                       controller: _passwordController,
+                       hintText: "hoisissez un mot de passe facile à retenir",
+                       obscureText: _obscureText,
+                       suffixIcon: IconButton(
+                         onPressed: (){
+                           setState(() {
+                             _obscureText = !_obscureText;
+                           });
+
+                         },
+                         icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
+                       )),
+
+                   SizedBox(height: 20,),
+                   Text("Nom d'utilisateur *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
@@ -147,124 +188,133 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        controller: _usernameController,
                        hintText: "Nom d'utilisateur",
                    ),
+
                    SizedBox(height: 20,),
-                   Text("E-mail",
-                     style: TextStyle(
-                         fontSize: normalFont,
-                         fontWeight: FontWeight.w500,
-                         color: AppColors.textGrey),),
-                   AppField(
-                     controller: _emailController,
-                     hintText: "E-mail",
-                     ),
-                   SizedBox(height: 20,),
-                   Text("Société (company) ",
+                   Text("Société *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _companyController,
-                     hintText: "Société (company) ",
+                     hintText: "Indiquez le nom de votre société. comme indiqué sur votre KBIS",
                    ),
                    SizedBox(height: 20,),
 
-                   Text("Enseigne (company name)",
+                   Text("Enseigne *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _brandController,
-                     hintText: "Enseigne (company name)",
+                     hintText: "Indiquez le nom commercial de votre société",
                    ),
                    SizedBox(height: 20,),
 
 
-                   Text("Adresse (address)",
+                   Text("Adresse de Facturation *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _addressController,
-                     hintText: "Adresse (address)",
+                     hintText: "Indiquez l'adresse",
                    ),
                    SizedBox(height: 20,),
-                   Text("Ville (city)",
+                   Text("Ville *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _cityController,
-                     hintText: "Ville (city)",
+                     hintText: "Indiquez la ville",
                    ),
                    SizedBox(height: 20,),
 
 
 
-                   Text("Siret",
+                   Text("Siret *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _stratController,
-                     hintText: "Siret",
+                     hintText: "Indiquez votre Siren comme indiqué sur votre KBIS",
                    ),
                    SizedBox(height: 20,),
 
-                   Text("Code postal(zip)",
+                   Text("Code postal *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
                      controller: _postCodeController,
-                     hintText: "Code postal(zip)",
+                     hintText: "Indiquez le code postal drop-down menu with",
+                   ),
+                   SizedBox(height: 20,),
+                   Text("Contact Facturation",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: Colors.black),),
+                   SizedBox(height: 20,),
+                   Text("Accounting Contact *",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _contact,
+                     hintText: "Indiquez le nom et/ou prénom de la personne à contacter",
+                   ),
+                   SizedBox(height: 20,),
+                   Text("Email *",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _contactEmail,
+                     hintText: "Indiquez l'Email de la personne à contacter",
+                   ),
+                   SizedBox(height: 20,),
+
+                   Text("Mobile *",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _contactPhone,
+                     hintText: "Indiquez le mobile de la personne à contacter",
                    ),
                    SizedBox(height: 20,),
 
 
 
-
-
-
-                   Text("Mot de passe",
-                     style: TextStyle(fontSize: normalFont,
-                         fontWeight: FontWeight.w500,
-                         color: AppColors.textGrey),),
-                   AppField(
-                     controller: _passwordController,
-                     hintText: "Mot de passe",
-                     obscureText: _obscureText,
-                     suffixIcon: IconButton(
-                       onPressed: (){
-                         setState(() {
-                           _obscureText = !_obscureText;
-                         });
-
-                       },
-                       icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
-                     )),
-                   SizedBox(height: 20,),
                    SizedBox(
                      width: 270,
                      child: RichText(text: TextSpan(
-                         text: "En continuant, vous acceptez notre ",
+                         text: "Merci de confirmer que vous avez lu et acceptez les ",
                          style: TextStyle(fontSize: smallFont,fontWeight: FontWeight.w500,color:AppColors.textGrey),
                          children: [
                            TextSpan(
-                               text: "Conditions d'utilisation",
+                               recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
+                               text: "Conditions Générales",
                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.bgGreen)
                            ),
                            TextSpan(
-                               text: " et",
+                               text: " de Ventes ainsi que",
                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.textGrey)
                            ),
                            TextSpan(
-                               text: " politique de confidentialité",
+                               recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                               text: " laPolitique de Confidentialité",
                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.bgGreen)
                            ),
                          ]
@@ -292,6 +342,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            postCode: _postCodeController.text,
                            siret: _stratController.text,
                            status: "Pending",
+                           accountContract: _contact.text,
+                           accountEmail: _contactEmail.text,
+                           accountPhone: _contactPhone.text,
                            accountType: selectedType[0],
                          );
                          AuthController.userRegistration(context: context, userModel: userModel, pass: _passwordController.text);
@@ -339,4 +392,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
     ),
     );
   }
+
+
+  Future<void> _launchUrl(url) async {
+    if (!await launchUrl(url)) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+
 }

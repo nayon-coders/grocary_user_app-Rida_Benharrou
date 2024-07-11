@@ -79,7 +79,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   SizedBox(height: 5,),
-                  Text("Entrez vos emails et votre mot de passe",
+                  Text("indiquez votre email et votre mot de passe",
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: smallFont,
@@ -89,7 +89,18 @@ class _LogInScreenState extends State<LogInScreen> {
                   SizedBox(height: 30,),
                   Text("E-mail",
                     style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: AppColors.textGrey),),
-                  AppField(controller: _emailController, hintText: "Email"),
+                  AppField(
+                      controller: _emailController,
+                      hintText: "Email",
+                    validator: (v) {
+                      if (v!.isEmpty) {
+                        return "Indiquez votre Email"; // Return a String for validation error
+                      }
+                      // Return null if input is valid
+                      return null;
+                    },
+
+                  ),
                   SizedBox(height: 20,),
                   Text("Mot de passe",
                     style: TextStyle(fontSize: normalFont,
@@ -100,6 +111,13 @@ class _LogInScreenState extends State<LogInScreen> {
                         controller: _passwordController,
                         hintText: "Mot de passe",
                         obscureText: _obscureText,
+                        validator: (v){
+                          if(v!.isEmpty){
+                            return "Indiquez votre Mot de passe";
+                          }else{
+                            return null;
+                          }
+                        },
                         suffixIcon: IconButton(
                           onPressed: (){
                             setState(() {
@@ -140,12 +158,12 @@ class _LogInScreenState extends State<LogInScreen> {
                     child: InkWell(
                       onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (_)=>SignUpScreen())),
                       child: RichText(text: TextSpan(
-                          text: "Vous n'avez pas de compte ? ",
-                          style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500,color: Colors.black),
+                          text: "Vous n'avez pas encore de compte? ",
+                          style: TextStyle(fontSize: 14,fontWeight: FontWeight.w500,color: Colors.black),
                           children: [
                             TextSpan(
-                                text: "S'inscrire",
-                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: normalFont,color:AppColors.bgGreen)
+                                text: "S’inscrire",
+                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14,color:AppColors.bgGreen)
                             )
                           ]
                       )),

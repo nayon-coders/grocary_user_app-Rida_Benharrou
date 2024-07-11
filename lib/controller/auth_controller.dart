@@ -144,6 +144,13 @@ class AuthController{
     return await _firestore.collection(settingCollection).doc("app_settings").get();
   }
 
+
+  //reset password
+  // Function to send password reset email
+  static Future<void> resetPassword(String email) async {
+    await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+  }
+
   
 
 }

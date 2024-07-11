@@ -71,7 +71,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     crossAxisCount: 3,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
-                    mainAxisExtent: 170
+                    mainAxisExtent: 180
                 ),
                 itemCount: category.length,
                 itemBuilder: (context, index) {
@@ -79,7 +79,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                   return InkWell(
                     onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
                     child: Container(
-                      padding: EdgeInsets.all(15),
+                      padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                           color: Colors.blue.shade50,
                           borderRadius: BorderRadius.circular(5),
@@ -95,7 +95,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             ),
                           ),
                           Spacer(),
-                          AppNetworkImage(src: data.image!, height: 90, width: 90,),
+                          AppNetworkImage(src: data.image!, height: 80, width: 80,),
 
                         ],
                       ),

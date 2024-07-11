@@ -53,7 +53,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Welcome back,",
+                        Text("Ravis de vous revoir,",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.pink,
@@ -77,7 +77,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("My Action",
+                      Text("Mon compte",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -86,7 +86,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       SizedBox(height: 10,),
                       ProfileMenus(
-                        text: "Ordres",
+                        text: "Mes commandes",
                         icon: Icons.shopping_bag_outlined,
                         onClick: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>MyOrders()));
@@ -94,12 +94,12 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
 
                       ProfileMenus(
-                        text: "Adresse de livraison",
+                        text: "Adresses de livraison",
                         icon: Icons.location_on_outlined,
                         onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
                       ),
                       ProfileMenus(
-                        text: "Favorite",
+                        text: "Favoris",
                         icon: Icons.favorite_border,
                         onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>NavigationScreen(pageIndex: 3,))),
                       ),
@@ -110,7 +110,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Legal",
+                      Text("Contact & Information",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -124,12 +124,16 @@ class _AccountScreenState extends State<AccountScreen> {
                         onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/contactez-nous")),
                       ),
                       ProfileMenus(
-                        text: "Termes et Conditions",
+                        text: "Conditions générales de vente",
                         icon: Icons.info_outline,
                         onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
                       ),
                       ProfileMenus(
-                        text: "Politique de Confidentialité",
+                        text: "Politique de confidentialité",
+                        icon: Icons.info_outline,
+                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                      ), ProfileMenus(
+                        text: "Mentions légales",
                         icon: Icons.info_outline,
                         onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ),
@@ -140,7 +144,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Account Management",
+                      Text("Paramètre",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,
@@ -149,7 +153,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
                       SizedBox(height: 10,),
                       ProfileMenus(
-                        text: "Delete account",
+                        text: "Supprimer mon compte",
                         icon: Icons.delete,
                         onClick: (){
                           AppDialog(

@@ -65,7 +65,7 @@ class SelectDeliveryAddress extends StatelessWidget {
                             ),
                             child: ListTile(
                               title: Text("${data.addressType}"),
-                              subtitle: Text("${data.streetNumber}, ${data.state}, ${data.city}, ${data.country}, ${data.zip}"),
+                              subtitle: Text("${data.messages}, ${data.postCode}, ${data.city}, ${data.address}, ${data.contact}"),
                             ),
                           ),
                         );

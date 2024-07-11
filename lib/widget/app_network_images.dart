@@ -17,8 +17,7 @@ class AppNetworkImage extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          SizedBox( width: 50, height:50, child: CircularProgressIndicator(value: downloadProgress.progress)),
+
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }

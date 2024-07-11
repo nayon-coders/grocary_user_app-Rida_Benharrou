@@ -13,11 +13,11 @@ String addressModelToJson(AddressModel data) => json.encode(data.toJson());
 class AddressModel {
   final String? id;
   final String? docId;
-  final String? country;
-  final String? state;
+  final String? address;
+  final String? postCode;
   final String? city;
-  final String? streetNumber;
-  final String? zip;
+  final String? messages;
+  final String? contact;
   final String? phone;
   final String? addressType;
   final String? email;
@@ -25,12 +25,12 @@ class AddressModel {
   AddressModel({
     this.id,
     this.docId,
-    this.country,
-    this.state,
+    this.address,
+    this.postCode,
     this.city,
     this.addressType,
-    this.streetNumber,
-    this.zip,
+    this.messages,
+    this.contact,
     this.phone,
     this.email,
   });
@@ -38,35 +38,34 @@ class AddressModel {
   factory AddressModel.fromSnapshot(QueryDocumentSnapshot<Map<String, dynamic>> json) => AddressModel(
     id: json["id"],
     docId: json.id,
-    country: json["country"],
-    state: json["state"],
-    addressType: json["address_type"],
+    address: json["address"],
+    postCode: json["post_code"],
     city: json["city"],
-    streetNumber: json["street_number"],
-    zip: json["zip"],
+    messages: json["message"],
+    contact: json["contact"],
     email: json["email"],
     phone: json["phone"],
   );
 
   factory AddressModel.fromJson(Map<String, dynamic> json) => AddressModel(
     id: json["id"],
-    country: json["country"],
-    state: json["state"],
-    addressType: json["address_type"],
+    address: json["address"],
+    postCode: json["post_code"],
     city: json["city"],
-    streetNumber: json["street_number"],
-    zip: json["zip"],
+    messages: json["message"],
+    contact: json["contact"],
     email: json["email"],
     phone: json["phone"],
   );
 
+
   Map<String, dynamic> toJson() => {
     "id": id,
-    "country": country,
-    "state": state,
+    "address": address,
+    "post_code": postCode,
     "city": city,
-    "street_number": streetNumber,
-    "zip": zip,
+    "message": messages,
+    "contact": contact,
     "address_type" : addressType,
     "email": email,
     "phone" : phone

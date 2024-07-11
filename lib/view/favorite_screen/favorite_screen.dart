@@ -29,7 +29,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         elevation: 0,
-        title: Text("Préférée",
+        title: Text("Mes favoris",
           style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: titleFont,

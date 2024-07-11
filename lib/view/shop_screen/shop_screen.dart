@@ -76,15 +76,7 @@ class _HomeState extends State<Home> {
                     ),
                 ),
 
-                Container(
-                  padding: EdgeInsets.all(7),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Colors.blueGrey.shade100,
-                  ),
-                  child: Text("10 Min",
-                    style: TextStyle(fontSize: smallFont,fontWeight: FontWeight.w400,color: AppColors.textBlack),),
-                )
+
               ],
             ),
             SizedBox(height: 10,),
@@ -109,7 +101,7 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Nouveaux articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                      Text("Nouveauté articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                       InkWell(
                           onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles",))),
                           child: Container(
@@ -129,7 +121,9 @@ class _HomeState extends State<Home> {
                       builder: (context, snapshot) {
                         if(snapshot.connectionState == ConnectionState.waiting){
                           return SizedBox(
+                            height: 200,
                             child: ListView.builder(
+                              shrinkWrap: true,
                                 padding: EdgeInsets.only(right: 10),
                                 itemCount: 5,
                                 scrollDirection: Axis.horizontal,

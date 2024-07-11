@@ -37,7 +37,7 @@ class _MyOrdersState extends State<MyOrders> {
           children: [
             Expanded(
               // flex: 1,
-                child: Text("My Order",
+                child: Text("Mes commandes",
                   style: TextStyle(
                     fontSize:bigFont,
                     fontWeight: FontWeight.w600,
@@ -135,7 +135,7 @@ class _MyOrdersState extends State<MyOrders> {
                       );
                     }
                     )
-                  ) : Text("No order found");
+                  ) : Center(child: Text("Aucune commande"));
               }
             )
           ],

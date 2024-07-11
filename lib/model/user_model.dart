@@ -16,6 +16,9 @@ class UserModel {
   final String? brand;
   final String? address;
   final String? postCode;
+  final String? accountContract;
+  final String? accountEmail;
+  final String? accountPhone;
   final String? city;
   final String? siret;
   final String? accountType;
@@ -32,6 +35,9 @@ class UserModel {
     this.postCode,
     this.city,
     this.siret,
+    this.accountContract,
+    this.accountEmail,
+    this.accountPhone,
     this.accountType,
     this.status,
     this.createAt,
@@ -47,6 +53,9 @@ class UserModel {
     postCode: json["post_code"],
     city: json["city"],
     siret: json["siret"],
+    accountContract: json["account_contract"],
+    accountEmail: json["account_email"],
+    accountPhone: json["account_phone"],
     accountType: json["account_type"],
     status: json["status"],
     createAt: json["create_at"],
@@ -61,6 +70,9 @@ class UserModel {
     "post_code": postCode,
     "city" : city,
     "siret" : siret,
+    "account_contract" : accountContract,
+    "account_email" : accountEmail,
+    "account_phone" : accountPhone,
     "account_type": accountType,
     "status": status,
     "create_at": createAt,

@@ -36,7 +36,7 @@ class CategoryProduct extends StatefulWidget {
 
 class _CategoryProductState extends State<CategoryProduct> {
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
 
 
   void onItem(int index) {
@@ -108,18 +108,25 @@ class _CategoryProductState extends State<CategoryProduct> {
       length: _subCategoryTab.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Row(
-            children: [
-              AppNetworkImage(src: widget.mainCatImage!, width: 40, height: 40,),
-              SizedBox(width: 5,),
-              Text("${widget.categoryName}",
-                style: TextStyle(
-                  fontSize: titleFont,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.black,
+          title: SizedBox(
+            width: MediaQuery.of(context).size.width*.90,
+            child: Row(
+              children: [
+                AppNetworkImage(src: widget.mainCatImage!, width: 40, height: 40,),
+                SizedBox(width: 5,),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width*.60,
+                  child: Text("${widget.categoryName}",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -287,19 +294,19 @@ class _CategoryProductState extends State<CategoryProduct> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.manage_search_rounded),
-                  label: "Browse",
+                  label: "Catégories",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.shopping_basket_outlined),
-                  label: "Cart",
+                  label: "Panier",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.manage_search),
-                  label: "Favorite",
+                  label: "Favoris",
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.perm_identity),
-                  label: "Profile",
+                  label: "Profil",
                 ),
               ]
           ),

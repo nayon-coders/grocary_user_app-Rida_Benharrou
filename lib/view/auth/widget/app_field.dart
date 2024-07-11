@@ -9,13 +9,15 @@ class AppField extends StatelessWidget {
     required this.hintText,
     this.prefixIcon,
     this.suffixIcon,
-    this.obscureText = false
+    this.obscureText = false,
+    this.validator
   });
   final TextEditingController controller;
   final String hintText;
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool obscureText;
+  final String? Function(String?)? validator;
 
 
   @override
@@ -44,13 +46,7 @@ class AppField extends StatelessWidget {
               ),
         ),
 
-        validator: (v){
-          if(v!.isEmpty){
-            return "This filed must not be empty";
-          }else{
-            return null;
-          }
-        },
+        validator: validator
 
       ),
     );

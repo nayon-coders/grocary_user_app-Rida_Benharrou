@@ -23,7 +23,7 @@ class _AddressListState extends State<AddressList> {
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
         elevation: 0,
-        title:  Text("Delivery Address List",style: TextStyle(
+        title:  Text("Mes adresses de livraison",style: TextStyle(
           fontWeight: FontWeight.w600,
           color: AppColors.textBlack,
           fontSize: titleFont,
@@ -51,7 +51,8 @@ class _AddressListState extends State<AddressList> {
                     for(var i in snapshot.data!.docs){
                       addressList.add(AddressModel.fromSnapshot(i));
                     }
-                    return ListView.builder(
+                    return snapshot.data!.docs.isNotEmpty
+                        ?  ListView.builder(
                         itemCount: addressList.length,
                         itemBuilder: (context,index){
 
@@ -67,27 +68,14 @@ class _AddressListState extends State<AddressList> {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("${data.addressType}",
-                                          style: TextStyle(
-                                              fontSize: titleFont,
-                                              fontWeight: FontWeight.w600,
-                                              color: AppColors.textBlack),
-                                        ),
-                                        SizedBox(height: 10,),
-                                        SizedBox(
-                                          width: MediaQuery.of(context).size.width*.60,
-                                          child: Text("${data.streetNumber}, ${data.state}, ${data.city}, ${data.country}, ${data.zip}",
-                                            style: TextStyle(
-                                                fontSize: smallFont,
-                                                fontWeight: FontWeight.w500,
-                                                color: AppColors.textGrey),
-                                          ),
-                                        ),
-                                      ],
+                                SizedBox(
+                                width: MediaQuery.of(context).size.width*.60,
+                                      child: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}",
+                                        style: TextStyle(
+                                            fontSize: smallFont,
+                                            fontWeight: FontWeight.w400,
+                                            color: Colors.black),
+                                      ),
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -114,7 +102,8 @@ class _AddressListState extends State<AddressList> {
                                   ],
                                 ),
                             );
-                          });
+                          })
+                        :Center(child: TextButton(onPressed: (){}, child: Text("Empty")));
                   }
                 ))
 

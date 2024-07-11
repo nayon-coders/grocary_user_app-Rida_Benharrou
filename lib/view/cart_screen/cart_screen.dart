@@ -150,7 +150,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                     ),
                                   ),
-                                  Text("${data.productType}, Prix",
+                                  Text("Prix/${data.productType}",
                                     style: TextStyle(fontSize: smallFont,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.textGrey),

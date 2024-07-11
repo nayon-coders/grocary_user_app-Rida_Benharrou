@@ -62,7 +62,7 @@ class _OrderPopupState extends State<OrderPopup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            title: Text("Vérifier",
+            title: Text("Récapitulatif",
               style: TextStyle(
                 fontSize: titleFont,
                 color: Colors.black,
@@ -79,8 +79,8 @@ class _OrderPopupState extends State<OrderPopup> {
               border: Border.all(width: 1, color: _deliveryAddressAlert ? Colors.red : Colors.transparent)
             ),
             child: ListbottomSheet(
-              title: "Livraison",
-              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.60, child: Text(_selectedAddress !=null ? "${_selectedAddress!.streetNumber}, ${_selectedAddress!.state}, ${_selectedAddress!.city}, ${_selectedAddress!.country}, ${_selectedAddress!.zip}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
+              title: "Mode de livraison",
+              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress !=null ? "${_selectedAddress!.messages}, ${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
               onClick: (){
                 showDialog<void>(
                   context: context,
@@ -94,17 +94,21 @@ class _OrderPopupState extends State<OrderPopup> {
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
-            title: "Paiement",
+            title: "Méthode de paiement ",
             subtitle: SizedBox(
-              //width: 200,
+              width: MediaQuery.of(context).size.width*.40,
               child: Row(
                 children: [
                   Icon(Icons.credit_card,color: Colors.orange,),
                   SizedBox(width: 10,),
-                  Text("Cash on delivery (COD)",
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width*.30,
+                    child: Text("Cash on delivery (COD)",
+                        overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600
+                      ),
                     ),
                   )
                 ],
@@ -129,19 +133,19 @@ class _OrderPopupState extends State<OrderPopup> {
           // ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
-            title: "prix des articles",
+            title: "Total H.T.",
             subtitle: Text("\€${totalPrice}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
-            title: "Impôt",
+            title: "TVA 5,5%",
             subtitle: Text("5.5%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
-            title: "Coût total",
+            title: "Total TTC.",
             subtitle: Text("\€${(totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),

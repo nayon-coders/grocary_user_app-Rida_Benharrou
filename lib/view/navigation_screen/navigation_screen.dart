@@ -67,19 +67,19 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search_rounded),
-                label: "Browse",
+                label: "Catégories",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_basket_outlined),
-                label: "Cart",
+                label: "Panier",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search),
-                label: "Favorite",
+                label: "Favoris",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.perm_identity),
-                label: "Profile",
+                label: "Profil",
               ),
             ]
         ),

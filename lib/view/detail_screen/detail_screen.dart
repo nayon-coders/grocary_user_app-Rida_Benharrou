@@ -154,11 +154,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                      fontWeight: FontWeight.w600,
                                      color: Colors.black),
                                ),
-                               Text("€${  role == "Seller"
+                               Text("${  role == "Seller"
                                         ? widget.productModel!.sellingPrice
                                             : role == "Restaurant"
                                         ? widget.productModel!.regularPrice
-                                            : widget.productModel!.wholePrice} / ${widget.productModel.productType}",
+                                            : widget.productModel!.wholePrice} € / ${widget.productModel.productType} ",
                                  style: TextStyle(
                                      fontSize: 12, fontWeight: FontWeight.w300, color: Colors.black
                                  ),
@@ -171,14 +171,13 @@ class _DetailScreenState extends State<DetailScreen> {
 
                          Column(
                            children: [
-                             role != null ? Text("$role Prix", style: TextStyle(color: Colors.black, fontSize: 10),) : Center(),
                              role != null
                                  ? role == restaurantAccount
-                                 ? Text("€${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2) }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2) }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : role == sellerAccount
-                                 ? Text("€${(double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : role == wholeSellerAccount
-                                 ? Text("€${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : Text("Logiin") : CircularProgressIndicator(),
 
 
@@ -329,19 +328,19 @@ class _DetailScreenState extends State<DetailScreen> {
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search_rounded),
-                label: "Browse",
+                label: "Catégories",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.shopping_basket_outlined),
-                label: "Cart",
+                label: "Panier",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.manage_search),
-                label: "Favorite",
+                label: "Favoris",
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.perm_identity),
-                label: "Profile",
+                label: "Profil",
               ),
             ]
         ),

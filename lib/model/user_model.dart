@@ -16,7 +16,8 @@ class UserModel {
   final String? brand;
   final String? address;
   final String? postCode;
-  final String? accountContract;
+  final String? contactFacturation;
+  final String? contactComptabilit;
   final String? accountEmail;
   final String? accountPhone;
   final String? city;
@@ -35,7 +36,8 @@ class UserModel {
     this.postCode,
     this.city,
     this.siret,
-    this.accountContract,
+    this.contactFacturation,
+    this.contactComptabilit,
     this.accountEmail,
     this.accountPhone,
     this.accountType,
@@ -53,7 +55,8 @@ class UserModel {
     postCode: json["post_code"],
     city: json["city"],
     siret: json["siret"],
-    accountContract: json["account_contract"],
+    contactFacturation: json["contract_facturation"],
+    contactComptabilit: json["contract_comptabilité"],
     accountEmail: json["account_email"],
     accountPhone: json["account_phone"],
     accountType: json["account_type"],
@@ -70,7 +73,8 @@ class UserModel {
     "post_code": postCode,
     "city" : city,
     "siret" : siret,
-    "account_contract" : accountContract,
+    "contract_facturation" : contactFacturation,
+    "contract_comptabilité" : contactComptabilit,
     "account_email" : accountEmail,
     "account_phone" : accountPhone,
     "account_type": accountType,

@@ -50,7 +50,11 @@ class _DetailScreenState extends State<DetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    AuthController.accountRole().then((value) => setState(()=> role = value ));
+    getRole();
+  }
+
+  getRole()async{
+    await AuthController.accountRole().then((value) => setState(()=> role = value ));
   }
 
   @override
@@ -154,11 +158,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                      fontWeight: FontWeight.w600,
                                      color: Colors.black),
                                ),
-                               Text("${  role == "Seller"
-                                        ? widget.productModel!.sellingPrice
-                                            : role == "Restaurant"
-                                        ? widget.productModel!.regularPrice
-                                            : widget.productModel!.wholePrice} € / ${widget.productModel.productType} ",
+                               Text("${  role == sellerAccount
+                                        ? widget.productModel.sellingPrice
+                                            : role == restaurantAccount
+                                        ? widget.productModel.regularPrice
+                                            :  role == wholeSellerAccount
+                                        ? widget.productModel.wholePrice
+                                            : 00} € / ${widget.productModel.productType} ",
                                  style: TextStyle(
                                      fontSize: 12, fontWeight: FontWeight.w300, color: Colors.black
                                  ),
@@ -173,11 +179,11 @@ class _DetailScreenState extends State<DetailScreen> {
                            children: [
                              role != null
                                  ? role == restaurantAccount
-                                 ? Text("${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2) }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel.regularPrice!)).toStringAsFixed(2) }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : role == sellerAccount
-                                 ? Text("${(double.parse(widget.productModel!.sellingPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel.sellingPrice!)).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : role == wholeSellerAccount
-                                 ? Text("${(double.parse(widget.productModel!.regularPrice!) * double.parse(_initial.toString())).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
+                                 ? Text("${(double.parse(widget.productModel.wholePrice!)).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : Text("Logiin") : CircularProgressIndicator(),
 
 

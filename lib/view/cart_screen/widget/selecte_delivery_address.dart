@@ -64,8 +64,8 @@ class SelectDeliveryAddress extends StatelessWidget {
                                 border: Border.all(width: 1, color: Colors.grey)
                             ),
                             child: ListTile(
-                              title: Text("${data.addressType}"),
-                              subtitle: Text("${data.messages}, ${data.postCode}, ${data.city}, ${data.address}, ${data.contact}"),
+                              title: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}"),
+                              subtitle: Text("${data.messages}"),
                             ),
                           ),
                         );

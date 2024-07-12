@@ -39,7 +39,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _stratController = TextEditingController();
 
 
-  final _contact = TextEditingController();
+  final _contactFacturation = TextEditingController();
+  final _contactComptabilit = TextEditingController();
   final _contactEmail = TextEditingController();
   final _contactPhone = TextEditingController();
 
@@ -263,13 +264,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                          fontWeight: FontWeight.w500,
                          color: Colors.black),),
                    SizedBox(height: 20,),
-                   Text("Accounting Contact *",
+                   Text("Contact facturation *",
                      style: TextStyle(
                          fontSize: normalFont,
                          fontWeight: FontWeight.w500,
                          color: AppColors.textGrey),),
                    AppField(
-                     controller: _contact,
+                     controller: _contactFacturation,
+                     hintText: "Indiquez le nom et/ou prénom de la personne à contacter",
+                   ),
+                   SizedBox(height: 20,),
+                   Text("Contact comptabilité *",
+                     style: TextStyle(
+                         fontSize: normalFont,
+                         fontWeight: FontWeight.w500,
+                         color: AppColors.textGrey),),
+                   AppField(
+                     controller: _contactComptabilit,
                      hintText: "Indiquez le nom et/ou prénom de la personne à contacter",
                    ),
                    SizedBox(height: 20,),
@@ -300,23 +311,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                    SizedBox(
                      width: 270,
                      child: RichText(text: TextSpan(
-                         text: "Merci de confirmer que vous avez lu et acceptez les ",
+                         text: "En continuant vous confirmez que vous avez lu et accepté les Conditions Générales de Ventes ainsi que la Politique de Confidentialité.  ",
                          style: TextStyle(fontSize: smallFont,fontWeight: FontWeight.w500,color:AppColors.textGrey),
                          children: [
                            TextSpan(
                                recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
-                               text: "Conditions Générales",
+                               text: "(Cliquez pour consulter)",
                                style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.bgGreen)
                            ),
-                           TextSpan(
-                               text: " de Ventes ainsi que",
-                               style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.textGrey)
-                           ),
-                           TextSpan(
-                               recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
-                               text: " laPolitique de Confidentialité",
-                               style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.bgGreen)
-                           ),
+                           // TextSpan(
+                           //     text: " de Ventes ainsi que",
+                           //     style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.textGrey)
+                           // ),
+                           // TextSpan(
+                           //     recognizer: TapGestureRecognizer()..onTap = () => _launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                           //     text: " laPolitique de Confidentialité",
+                           //     style: TextStyle(fontWeight: FontWeight.w500,fontSize: smallFont,color:AppColors.bgGreen)
+                           // ),
                          ]
                      )),
                    ),
@@ -324,7 +335,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                    AppButton(
                     isLoading: _isLoading,
                      bgColor: AppColors.bgGreen,
-                     name: "S'inscrire", onClick: (){
+                     name: "S'inscrire", onClick: ()async{
+                      setState(() {
+                        _isLoading = true;
+                      });
                        if(selectedType.isEmpty){
                          appSnackBar(context: context, text: "Veuillez choisir votre type de compte", bgColor: Colors.red);
                          return;
@@ -342,14 +356,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            postCode: _postCodeController.text,
                            siret: _stratController.text,
                            status: "Pending",
-                           accountContract: _contact.text,
+                           contactFacturation: _contactFacturation.text,
                            accountEmail: _contactEmail.text,
                            accountPhone: _contactPhone.text,
                            accountType: selectedType[0],
                          );
                          AuthController.userRegistration(context: context, userModel: userModel, pass: _passwordController.text);
                        }
-
+                      setState(() {
+                        _isLoading = false;
+                      });
                      //Navigator.push(context, MaterialPageRoute(builder: (_)=>LogInScreen()));
                    },
                    ),

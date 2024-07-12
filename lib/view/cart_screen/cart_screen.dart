@@ -116,10 +116,9 @@ class _CartScreenState extends State<CartScreen> {
                    
 
                       //totalPrice = 0.0;
-                      if(role != null && role == "Customer"){
-                        print("customer --- ${data.regularPrice}");
+                      if(role != null && role == restaurantAccount){
                         itemPrice.add(double.parse(data.regularPrice!));
-                      }else if( role == "Seller"){
+                      }else if( role == sellerAccount){
                         itemPrice.add(double.parse(data.sellingPrice!));
                       }else{
                         itemPrice.add(double.parse(data.wholePrice!));
@@ -235,8 +234,6 @@ class _CartScreenState extends State<CartScreen> {
                     bgColor: AppColors.bgGreen,
                       name: "Aller à la caisse",
                       onClick: (){
-                      print("qty ---- $qty");
-
                       showModalBottomSheet(context: context, builder:(BuildContext context){
                         return OrderPopup(
                           docId: _cartProductId,

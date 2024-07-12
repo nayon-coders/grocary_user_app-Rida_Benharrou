@@ -31,6 +31,8 @@ class _OrderPopupState extends State<OrderPopup> {
 
   double totalPrice = 0.00;
   double itemPrice = 0.00;
+  double deliveryFeeMinmum = 66.00;
+  double deliveryFee = 0.00;
   bool _deliveryAddressAlert = false;
 
   @override
@@ -47,6 +49,14 @@ class _OrderPopupState extends State<OrderPopup> {
       }
 
     }
+
+
+    //delivery fee
+    if((totalPrice + (totalPrice / 100 * 5.5)) > deliveryFeeMinmum){
+      deliveryFee = 15.00;
+    }else{
+      deliveryFee = 0.00;
+    }
   }
 
   bool _isLoading = false;
@@ -55,7 +65,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      height: 400,
+      height: 430,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -80,7 +90,7 @@ class _OrderPopupState extends State<OrderPopup> {
             ),
             child: ListbottomSheet(
               title: "Mode de livraison",
-              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress !=null ? "${_selectedAddress!.messages}, ${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
+              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
               onClick: (){
                 showDialog<void>(
                   context: context,
@@ -124,19 +134,14 @@ class _OrderPopupState extends State<OrderPopup> {
                 );
               }
           ),
-          // Divider(color: Colors.grey.shade200,),
-          // ListbottomSheet(
-          //   title: "Code promo",
-          //   subtitle: Text("Choisissez une remise",style: TextStyle(
-          //       color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-          //   onClick: (){},
-          // ),
+
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total H.T.",
             subtitle: Text("\€${totalPrice}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),
+
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "TVA 5,5%",
@@ -144,9 +149,15 @@ class _OrderPopupState extends State<OrderPopup> {
             onClick: (){},
           ),
           Divider(color: Colors.grey.shade200,),
+          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+            title: "Frais de livraison",
+            subtitle: Text("${deliveryFee == 0.00 ? "Livraison gratuite" : deliveryFee}",style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: (){},
+          ),
+          Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total TTC.",
-            subtitle: Text("\€${(totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("\€${(totalPrice + (totalPrice / 100 * 5.5) + deliveryFee).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
           ),
           Divider(color: Colors.grey.shade200,),
@@ -196,8 +207,8 @@ class _OrderPopupState extends State<OrderPopup> {
                         "sub_total" : totalPrice.toStringAsFixed(2),
                         "tax" : "5.5%",
                         "total" : (totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2),
+                        "delivery_fee" : deliveryFee.toStringAsFixed(2),
                         "payment_method" : "Cash on delivery (COD)", ///TODO: payment method need to make it dynamic
-
                       };
                      await OrderController.placeOrder(context, orders, widget.docId).then((value) {
                        // Navigator.push(context,

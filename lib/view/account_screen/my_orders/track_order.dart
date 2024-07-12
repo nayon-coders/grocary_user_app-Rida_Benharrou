@@ -98,11 +98,15 @@ class _TrackOrderState extends State<TrackOrder> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text("${data.productInfo!.name}",
-                                  style: TextStyle(
-                                      fontSize:titleFont,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.textBlack),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width*.60,
+
+                                  child: Text("${data.productInfo!.name}",
+                                    style: TextStyle(
+                                        fontSize:titleFont,
+                                        fontWeight: FontWeight.w600,
+                                        color: AppColors.textBlack),
+                                  ),
                                 ),
                                 SizedBox(height: 8,),
                                 Text("${data.qty} ${data.productInfo!.productType} = ${double.parse("${data.itemPrice}") * double.parse("${data.qty}")}",
@@ -119,6 +123,26 @@ class _TrackOrderState extends State<TrackOrder> {
                       );
                     },
                   ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Item Price : ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      Text("€ ${widget.orderModel.subTotal}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 7,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -137,6 +161,26 @@ class _TrackOrderState extends State<TrackOrder> {
                     ],
                   ),
                   SizedBox(height: 7,),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Delivery Fee : ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      Text("${widget.orderModel!.deliveryFee == "0.00" ? "Fee Delivery" : "€ ${widget.orderModel!.deliveryFee}"}",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w400,
+                            color: widget.orderModel!.deliveryFee == "0.00" ? Colors.green : Colors.black
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 5,),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -183,7 +227,6 @@ class _TrackOrderState extends State<TrackOrder> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: orderStatus.length,
                     itemBuilder: (_, index){
-
                       return orderStatus[index].toString().toLowerCase() == widget.orderModel!.orderStatus!.toLowerCase()
                           ? OrderTrakingSteper(
                           status: widget.orderModel!.orderStatus!,
@@ -253,7 +296,7 @@ class OrderTrakingSteper extends StatelessWidget {
           ),
           subtitle: Text("$date"),
         ),
-       index == 4 ? Center() : Container(
+       index == 5 ? Center() : Container(
           margin: EdgeInsets.only(left: 35),
           width: 1.5,
           height: 50,

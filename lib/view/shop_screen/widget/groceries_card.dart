@@ -22,7 +22,7 @@ class GroceriesCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Image.asset(Assets.dal,height:50,width:90,fit: BoxFit.contain,),
+            Image.asset(AppAssets.dal,height:50,width:90,fit: BoxFit.contain,),
             SizedBox(height: 5,),
             Text("Les légumineuses",
               style: TextStyle(

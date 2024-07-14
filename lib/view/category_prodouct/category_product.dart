@@ -12,6 +12,7 @@ import '../../controller/product_controller.dart';
 import '../../model/product_model.dart';
 import '../../utility/app_const.dart';
 import '../../widget/app_shimmer.dart';
+import '../../widget/not_found.dart';
 import '../account_screen/account_screen.dart';
 import '../cart_screen/cart_screen.dart';
 import '../explore_screen/explore_screen.dart';
@@ -63,7 +64,7 @@ class _CategoryProductState extends State<CategoryProduct> {
     setState(() => _loadingForGetingSubCategory =  true);
     subCategories.clear();
     await FirebaseFirestore.instance.collection(subCategoryCollection).get().then((subCategoryValue){
-      _subCategoryTab.add(Tab(child: Text("All",
+      _subCategoryTab.add(Tab(child: Text("Tout",
         style: TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 13, color: Colors.black
@@ -255,10 +256,7 @@ class _CategoryProductState extends State<CategoryProduct> {
                         itemBuilder: (context, index) {
                           return subCategoryproducts.isNotEmpty &&  subCategoryproducts[index].status == "Active" ?  ItemCard(productModel: subCategoryproducts[index],) : subCategoryproducts[index].status == "Active" ? ItemCard(productModel: subCategoryproducts[index],) : Center();
                         },
-                      ) : Center(child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Image.asset(Assets.norProduct),
-                      ),);
+                      ) : NotFound();
                     }
                 ),
               ),

@@ -52,11 +52,11 @@ class _LogInScreenState extends State<LogInScreen> {
                     height: 200,
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
+                      image: DecorationImage(image:AssetImage(AppAssets.loginbg),fit: BoxFit.cover),
                     ),
                   ),
                   Image.asset(
-                      Assets.logo,
+                      AppAssets.logo,
                       height: 60,
                       width: double.infinity,
                       fit: BoxFit.contain,

@@ -23,7 +23,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(Assets.loginbg,height: 200,width: double.infinity,fit: BoxFit.cover,),
+          Image.asset(AppAssets.loginbg,height: 200,width: double.infinity,fit: BoxFit.cover,),
           Center(
             child: Lottie.asset("assets/animation/success.json",
             height:150,

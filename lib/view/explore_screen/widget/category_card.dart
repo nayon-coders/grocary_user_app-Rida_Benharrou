@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset(Assets.sprite,height: 50,),
+              Image.asset(AppAssets.sprite,height: 50,),
 
               SizedBox(height:20,),
               Center(

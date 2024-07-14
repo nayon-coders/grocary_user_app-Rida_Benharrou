@@ -7,6 +7,7 @@ import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
 import 'package:nectar/view/explore_screen/widget/category_card.dart';
 import 'package:nectar/widget/app_input.dart';
+import 'package:nectar/widget/not_found.dart';
 
 import '../../generated/assets.dart';
 import '../../model/category_model.dart';
@@ -24,18 +25,32 @@ class ExploreScreen extends StatefulWidget {
 
 class _ExploreScreenState extends State<ExploreScreen> {
   final _searchController = TextEditingController();
+  //store category into category list
+  List<SubCategoryModel> category = [];
+  List<SubCategoryModel> searchCategory = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
-        title: Text("Trouver des produits",
-          style: TextStyle(
-            fontSize: titleFont,
-            fontWeight: FontWeight.w600,
-            color: Colors.black,
-          ),
-        ),
+        automaticallyImplyLeading: false,
+        title: AppInput(
+          hintText: "Recherche",
+          controller: _searchController,
+          onChanged: (v){
+            searchCategory.clear();
+            for(var i in category){
+              if(i.name!.toLowerCase().contains(v.toLowerCase())){
+                print("...search name .... ${i.name}");
+                setState(() {
+                  searchCategory.add(i);
+                });
+
+                print("searchCategory --- ${searchCategory.length}");
+              }
+            }
+          },
+        )
       ),
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -58,13 +73,56 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 );
               }
 
-              //store category into category list
-              List<SubCategoryModel> category = [];
-              for(var i in snapshot.data!.docs){
-                category.add(SubCategoryModel.fromJson(i));
+
+              if(searchCategory.isEmpty){
+                for(var i in snapshot.data!.docs){
+                  category.add(SubCategoryModel.fromJson(i));
+                }
               }
 
-              return category.isNotEmpty ? GridView.builder(
+
+              return searchCategory.isNotEmpty
+                  ? GridView.builder(
+                      // physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          mainAxisExtent: 180
+                      ),
+                      itemCount: searchCategory.length,
+                      itemBuilder: (context, index) {
+                        var data = searchCategory[index];
+                        return InkWell(
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(5),
+                                border: Border.all(width: 1, color: Colors.grey.shade200)
+                            ),
+                            child: Column(
+                              children: [
+                                Text("${data.name}",
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.black
+                                  ),
+                                ),
+                                Spacer(),
+                                AppNetworkImage(src: data.image!, height: 80, width: 80,),
+
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : category.isNotEmpty
+                  ? GridView.builder(
                // physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -102,10 +160,8 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     ),
                   );
                 },
-              )  : Center(child: Padding(
-                padding:  EdgeInsets.all(50.0),
-                child: Image.asset(Assets.imagesNoPrd),
-              ),);
+              )
+                  : NotFound();
             }
         ),
       ),

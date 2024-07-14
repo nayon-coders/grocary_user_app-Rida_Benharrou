@@ -18,9 +18,9 @@ void AppDialog(BuildContext context, String title, String subtitle, VoidCallback
         style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w500),
       ),
       actions: [
-        TextButton(onPressed: onYes, child: Text("YES")),
+        TextButton(onPressed: onYes, child: Text("Oui")),
         SizedBox(width: 20,),
-        TextButton(onPressed: ()=>Navigator.pop(context), child: Text("NO")),
+        TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Non")),
       ],
 
     );

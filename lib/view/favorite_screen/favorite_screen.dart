@@ -92,7 +92,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
 
                           );
                         }) : Center(
-                      child: Image.asset(Assets.norProduct, width: 200,),
+                      child: Image.asset(AppAssets.norProduct, width: 200,),
                     ));
                 }
 

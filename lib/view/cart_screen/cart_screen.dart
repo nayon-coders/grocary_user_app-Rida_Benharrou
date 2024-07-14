@@ -220,7 +220,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ],
                               ),
-                               Text("\$${(itemPrice[index] * qty[index]).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
+                               Text("€ ${(itemPrice[index] * qty[index]).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
                             ],
                           )
                         ],
@@ -248,7 +248,7 @@ class _CartScreenState extends State<CartScreen> {
                 SizedBox(height: 10,),
               ],
             ) : Center(
-              child: Image.asset(Assets.norProduct, width: 200,),
+              child: Image.asset(AppAssets.norProduct, width: 200,),
             ) ;
           }
         ),

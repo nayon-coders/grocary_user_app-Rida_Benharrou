@@ -140,6 +140,7 @@ class _OrderPopupState extends State<OrderPopup> {
             title: "Total H.T.",
             subtitle: Text("\€${totalPrice}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
+            isOpen: false,
           ),
 
           Divider(color: Colors.grey.shade200,),
@@ -147,18 +148,21 @@ class _OrderPopupState extends State<OrderPopup> {
             title: "TVA 5,5%",
             subtitle: Text("5.5%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
+            isOpen: false,
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "Frais de livraison",
-            subtitle: Text("${deliveryFee == 0.00 ? "Livraison gratuite" : deliveryFee}",style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("€ ${deliveryFee == 0.00 ? "Livraison gratuite" : deliveryFee}",style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
+            isOpen: false,
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total TTC.",
-            subtitle: Text("\€${(totalPrice + (totalPrice / 100 * 5.5) + deliveryFee).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("€ ${(totalPrice + (totalPrice / 100 * 5.5) + deliveryFee).toStringAsFixed(2)}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
+            isOpen: false,
           ),
           Divider(color: Colors.grey.shade200,),
           Spacer(),
@@ -214,10 +218,7 @@ class _OrderPopupState extends State<OrderPopup> {
                        // Navigator.push(context,
                        //     MaterialPageRoute(builder: (context)=>OrderAccepted()));
                      });
-
                       setState(() => _isLoading = false);
-
-
                     })),
           )
         ],

@@ -29,7 +29,7 @@ void dialogBox(BuildContext context) {
                   onTap: ()=>Navigator.pop(context),
                     child: Icon(Icons.close,size:30,color:AppColors.textBlack,)),
               ),
-              Center(child: Image.asset(Assets.dialog,height: 130,width:130,fit: BoxFit.contain,)),
+              Center(child: Image.asset(AppAssets.dialog,height: 130,width:130,fit: BoxFit.contain,)),
               SizedBox(height: 10,),
               Text("Oops! Commande échouée",
                 style: TextStyle(

@@ -5,11 +5,12 @@ import '../../../utility/fontsize.dart';
 
 class ListbottomSheet extends StatelessWidget {
   const ListbottomSheet({
-    super.key, required this.title, required this.subtitle, required this.onClick,
+    super.key, this.isOpen = true, required this.title, required this.subtitle, required this.onClick,
   });
   final String title;
   final Widget subtitle;
   final VoidCallback onClick;
+  final bool isOpen;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class ListbottomSheet extends StatelessWidget {
             children: [
               subtitle,
               SizedBox(width: 10,),
-              Icon(Icons.keyboard_arrow_right,color: Colors.black,),
+             isOpen ? Icon(Icons.keyboard_arrow_right,color: Colors.black,)  :Center(),
 
             ],
           )

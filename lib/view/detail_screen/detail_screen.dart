@@ -34,6 +34,8 @@ class _DetailScreenState extends State<DetailScreen> {
   int _initial = 1;
   int _selectedIndex = 0;
 
+  bool _isAddtoCar =  false;
+
   bool _isShowDetiails = false;
 
   void onItem(int index) {
@@ -195,8 +197,60 @@ class _DetailScreenState extends State<DetailScreen> {
 
                      ///Edit increment
                      ///Si
-                     SizedBox(height: 30,),
+                     SizedBox(height: 10,),
+                     SizedBox(
+                       width: 120,
+                       child: Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         crossAxisAlignment: CrossAxisAlignment.center,
+                         children: [
+                           InkWell(
+                             onTap: (){
+                               setState(() {
+                                 if(_initial > 1){
+                                   _initial--;
+                                 }
+                               });
+                             },
+                             child: Container(
+                               padding: EdgeInsets.all(5),
+                               decoration: BoxDecoration(
+                                 border: Border.all(color: Colors.grey.shade200),
+                                 borderRadius: BorderRadius.circular(10),
+                                 color: AppColors.bgWhite,
+                               ),
+                               child: Center(
+                                 child: Icon(Icons.remove,color: AppColors.textGrey,),
+                               ),
+                             ),
+                           ),
+                           SizedBox(width: 10,),
+                           Text("${_initial}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: normalFont,color: Colors.black),),
+                           SizedBox(width: 10,),
+                           InkWell(
+                             onTap: (){
+                               setState(() {
+                                 _initial++;
+                               });
+                             },
+                             child: Container(
+                               padding: EdgeInsets.all(5),
+                               decoration: BoxDecoration(
+                                 border: Border.all(color: Colors.grey.shade200),
+                                 borderRadius: BorderRadius.circular(10),
+                                 color: AppColors.bgWhite,
+                               ),
+                               child: Center(
+                                 child: Icon(Icons.add,color: Colors.green,),
+                               ),
+                             ),
+                           ),
+                         ],
+                       ),
+                     ),
+                     SizedBox(height: 15,),
                      AppButton(
+
                        bgColor: AppColors.bgGreen,
                        name: "Ajouter au panier",
                        onClick: (){

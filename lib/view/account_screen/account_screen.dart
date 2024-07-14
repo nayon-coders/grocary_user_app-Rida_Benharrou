@@ -183,8 +183,8 @@ class _AccountScreenState extends State<AccountScreen> {
         onClick:(){
           AppDialog(
               context,
-              "Es-tu sûr?",
-              "Es-tu sûr? Voulez-vous vous déconnecter?",
+              "Déconnexion",
+              "Souhaitez-vous vraiment vous déconncter?",
                   () async{
                 await AuthController.logOut(context);
               }

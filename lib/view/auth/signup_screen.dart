@@ -73,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //image: DecorationImage(image:AssetImage(Assets.loginbg),fit: BoxFit.cover),
                     ),
                     child: Center(
-                      child: Image.asset(Assets.logo, width: 300,),
+                      child: Image.asset(AppAssets.logo, width: 300,),
                   ),
                   )
                 ],

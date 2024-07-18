@@ -53,5 +53,10 @@ class AddressController{
 
     }
   }
+  
+  //get post code
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPostCode(){
+    return _firestore.collection(postCodeCollection).snapshots();
+  }
 
 }

@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:nectar/controller/address_controller.dart';
@@ -95,9 +96,46 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 SizedBox(height: 20,),
                 Text("Code Postal *"),
                 SizedBox(height: 10,),
-                AppInput(
-                    validator: (value)=>value!.isEmpty ? "ndiquez le code postal":null,
-                    controller: _postCode, hintText: "ndiquez le code postal *"),
+                StreamBuilder(
+                 stream: AddressController.getAllPostCode(),
+                    builder: (context, snapshot){
+                      if(snapshot.connectionState == ConnectionState.waiting){
+                        return Container(height: 40, color: Colors.white,);
+                      }
+                      List<String> postCode = [];
+                      for(var i in snapshot.data!.docs){
+                        postCode.add(i.data()["name"].toString());
+                      }
+                      return DropdownSearch<String>(
+                        popupProps: PopupProps.menu(
+                          showSelectedItems: true,
+                          disabledItemFn: (String s) => s.startsWith('I'),
+                        ),
+                        items: postCode,
+                        dropdownDecoratorProps: DropDownDecoratorProps(
+                          dropdownSearchDecoration: InputDecoration(
+                            hintText: "Code Postal",
+                            hintStyle: TextStyle(
+                              fontSize: 13,
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w600
+                            ),
+                            contentPadding: EdgeInsets.only(left: 10, right: 10),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(10)
+                            ),
+                            fillColor: Colors.grey.shade100,
+                            filled: true
+                          ),
+                        ),
+                        onChanged: (v){
+                          _postCode.text = v.toString();
+                        },
+                        //selectedItem: "Code Postal",
+                      );
+                    }
+                ),
                 SizedBox(height: 20,),
                 Text("Ville *"),
                 SizedBox(height: 10,),
@@ -144,6 +182,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
             appSnackBar(context: context, text: "Sélectionnez votre type d'adresse", bgColor: Colors.red);
           }
           if(_formKey.currentState!.validate()){
+
+            //
+            if(_postCode.text.isEmpty){
+               appSnackBar(context: context, text: "Select post code", bgColor: Colors.red);
+               return;
+            }
 
             var id = Random().nextInt(9999);
             var addressModel = AddressModel(

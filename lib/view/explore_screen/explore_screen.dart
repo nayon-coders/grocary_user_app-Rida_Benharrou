@@ -45,7 +45,6 @@ class _ExploreScreenState extends State<ExploreScreen> {
                 setState(() {
                   searchCategory.add(i);
                 });
-
                 print("searchCategory --- ${searchCategory.length}");
               }
             }

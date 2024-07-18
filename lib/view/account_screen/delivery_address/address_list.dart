@@ -103,7 +103,7 @@ class _AddressListState extends State<AddressList> {
                                 ),
                             );
                           })
-                        :Center(child: TextButton(onPressed: (){}, child: Text("Empty")));
+                        :Center(child: TextButton(onPressed: (){}, child: Text("Aucune adresse")));
                   }
                 ))
 

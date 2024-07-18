@@ -34,6 +34,7 @@ class CartController{
 
   //remove from cart
   static removeFromCart(context, id)async{
+    print("id ---- ${id}");
     try{
      await _firestore.collection(cartCollection).doc(id).delete();
       appSnackBar(context: context, text: "Le produit a été supprimé du panier", bgColor: Colors.green);

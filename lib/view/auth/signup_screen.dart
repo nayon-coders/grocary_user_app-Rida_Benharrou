@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/model/user_model.dart';
 import 'package:nectar/utility/app_const.dart';
@@ -360,6 +361,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            accountEmail: _contactEmail.text,
                            accountPhone: _contactPhone.text,
                            accountType: selectedType[0],
+                           createAt: DateFormat("dd/MM/yyyy").format(DateTime.now())
                          );
                          AuthController.userRegistration(context: context, userModel: userModel, pass: _passwordController.text);
                        }

@@ -39,16 +39,21 @@ class _CartScreenState extends State<CartScreen> {
 
   Future getCartFuture()async{
     carFuture = CartController.getCartProduct();
+    getCartItems();
   }
 
   getCartItems(){
+    _cartProductId.clear();
+    qty.clear();
     FirebaseFirestore.instance.collection(cartCollection).where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email).get().then((value) {
       for(var i in value.docs){
         if(i.exists){
           setState(() {
             _cartProductId.add(i.id);
+            qty.add(int.parse("${i.data()["qty"]}"));
           });
-          qty.add(int.parse("${i.data()["qty"]}"));
+          print("_cartProductId --------- id --- ${_cartProductId}");
+
         }
       }
     });
@@ -63,7 +68,6 @@ class _CartScreenState extends State<CartScreen> {
     // TODO: implement initState
     super.initState();
     getCartFuture();
-    getCartItems();
     AuthController.accountRole().then((value) => setState(()=> role = value ));
 
   }
@@ -149,7 +153,12 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                     ),
                                   ),
-                                  Text("Prix/${data.productType}",
+                                  Text("${itemPrice[index]}€ / ${data.productType}",
+                                    style: TextStyle(fontSize: smallFont,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.textGrey),
+                                  ),
+                                  Text("TVA: ${double.parse("${data.tax}")}%",
                                     style: TextStyle(fontSize: smallFont,
                                         fontWeight: FontWeight.w400,
                                         color: AppColors.textGrey),
@@ -159,8 +168,10 @@ class _CartScreenState extends State<CartScreen> {
 
                               InkWell(
                                   onTap:()async{
-                                    await CartController.removeFromCart(context, _cartProductId[index]);
+                                    print("_cartProductId  ==== ${_cartProductId[index]}");
+                                   await CartController.removeFromCart(context, _cartProductId[index]);
                                     getCartFuture();
+
                                     setState(() {
 
                                     });
@@ -220,7 +231,7 @@ class _CartScreenState extends State<CartScreen> {
                                   ),
                                 ],
                               ),
-                               Text("€ ${(itemPrice[index] * qty[index]).toStringAsFixed(2)}",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
+                               Text(" ${((itemPrice[index] * qty[index])).toStringAsFixed(2)}€",style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: Colors.black),)
                             ],
                           )
                         ],
@@ -234,6 +245,8 @@ class _CartScreenState extends State<CartScreen> {
                     bgColor: AppColors.bgGreen,
                       name: "Aller à la caisse",
                       onClick: (){
+                      print("qty -- ${qty.length}");
+                      print("qty -- ${productModel.length}");
                       showModalBottomSheet(context: context, builder:(BuildContext context){
                         return OrderPopup(
                           docId: _cartProductId,

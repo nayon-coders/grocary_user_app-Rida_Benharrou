@@ -17,6 +17,7 @@ String cartCollection = "cart";
 String addressCollection = "user_delivery_address";
 String settingCollection = "settings";
 String ordersCollection = "orders";
+String postCodeCollection = "post_code";
 
 
 

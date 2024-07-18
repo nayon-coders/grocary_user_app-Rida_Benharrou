@@ -129,6 +129,9 @@ class _DetailScreenState extends State<DetailScreen> {
                       Positioned(
                           bottom: 10, right: 10,
                           child: FavWidgets(id: widget.productModel.id.toString())),
+                      Positioned(
+                          bottom: 10, left: 10,
+                          child: Text("Origine: ${widget.productModel!.country}")),
 
 
                     ],
@@ -197,6 +200,16 @@ class _DetailScreenState extends State<DetailScreen> {
 
                      ///Edit increment
                      ///Si
+
+                    widget.productModel!.shortDescription!.isNotEmpty ? Container(
+                       margin: EdgeInsets.only(top: 8),
+                       child: Text("${ widget.productModel!.shortDescription}",
+                        style: TextStyle(
+                          fontSize: 12, color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                        ),
+                       ),
+                     ) : Center(),
                      SizedBox(height: 10,),
                      SizedBox(
                        width: 120,

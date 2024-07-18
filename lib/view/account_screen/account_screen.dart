@@ -184,7 +184,7 @@ class _AccountScreenState extends State<AccountScreen> {
           AppDialog(
               context,
               "Déconnexion",
-              "Souhaitez-vous vraiment vous déconncter?",
+              "Souhaitez-vous vraiment vous déconnecter?",
                   () async{
                 await AuthController.logOut(context);
               }

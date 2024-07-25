@@ -76,23 +76,27 @@ class Product {
   final ProductModel? productInfo;
   final String? qty;
   final String? itemPrice;
+  final String? tax;
 
   Product({
     this.productInfo,
     this.qty,
-    this.itemPrice
+    this.itemPrice,
+    this.tax
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     productInfo: ProductModel.fromJson(json["product_info"]),
     qty: json["qty"].toString(),
-    itemPrice: json["item_price"].toString()
+    itemPrice: json["item_price"].toString(),
+    tax: json["tax"]
 
   );
 
   Map<String, dynamic> toJson() => {
     "product_info": productInfo,
     "qty": qty,
-    "item_price" : itemPrice
+    "item_price" : itemPrice,
+    "tax" : tax
   };
 }

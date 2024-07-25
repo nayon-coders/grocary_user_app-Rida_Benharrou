@@ -32,6 +32,19 @@ class _TrackOrderState extends State<TrackOrder> {
       });
     }
   }
+  double totalTax = 0.00;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    for(var i in widget.orderModel!.products!){
+      totalTax = totalTax + double.parse(i!.tax.toString());
+      setState(() {
+
+      });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,7 +63,7 @@ class _TrackOrderState extends State<TrackOrder> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Track Orders",
+            Text("Suivi de commande",
               style: TextStyle(
                   fontSize: bigFont,
                   fontWeight: FontWeight.w600,
@@ -69,7 +82,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 children: [
                   SizedBox(
                     height:30,
-                    child: Text("Order# : ${widget.orderModel!.id}",
+                    child: Text("Commande# : ${widget.orderModel!.id}",
                       style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: titleFont,
@@ -83,6 +96,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     itemCount: widget.orderModel.products!.length,
                     itemBuilder: (_, index){
                       var data = widget.orderModel.products![index];
+
                       return Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -99,24 +113,24 @@ class _TrackOrderState extends State<TrackOrder> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 SizedBox(
-                                  width: MediaQuery.of(context).size.width*.60,
+                                  width: MediaQuery.of(context).size.width*.65,
 
                                   child: Text("${data.productInfo!.name}",
                                     style: TextStyle(
-                                        fontSize:titleFont,
+                                        fontSize:18,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.textBlack),
                                   ),
                                 ),
                                 SizedBox(height: 8,),
-                                Text("${data.qty} ${data.productInfo!.productType} = ${double.parse("${data.itemPrice}") * double.parse("${data.qty}")}",
+                                Text("${data.qty} ${data.productInfo!.productType} = ${(double.parse("${data.itemPrice}") * double.parse("${data.qty}")).toStringAsFixed(2)}€",
                                   style: TextStyle(fontWeight: FontWeight.w400,
                                       fontSize: smallFont,
                                       color: AppColors.textGrey),
                                 ),
                               ],
                             ),
-                            AppNetworkImage(src: data.productInfo!.images![0].toString(), height: 60, width: 60,)
+                            AppNetworkImage(src: data.productInfo!.images![0].toString(), height: 50, width: 50,)
                           ],
 
                         ),
@@ -127,13 +141,13 @@ class _TrackOrderState extends State<TrackOrder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Item Price : ",
+                      Text("Total H.T. : ",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("€ ${widget.orderModel.subTotal}",
+                      Text("${widget.orderModel.subTotal}€",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -146,13 +160,13 @@ class _TrackOrderState extends State<TrackOrder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Impôt : ",
+                      Text("Total TVA : ",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("5.5%",
+                      Text("${totalTax.toStringAsFixed(2)}%",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
@@ -165,13 +179,13 @@ class _TrackOrderState extends State<TrackOrder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Delivery Fee : ",
+                      Text("Frais de livraison : ",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${widget.orderModel!.deliveryFee == "0.00" ? "Fee Delivery" : "€ ${widget.orderModel!.deliveryFee}"}",
+                      Text("${widget.orderModel!.deliveryFee == "0.00" ? "Fee Delivery" : "${widget.orderModel!.deliveryFee}€"}",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -185,13 +199,13 @@ class _TrackOrderState extends State<TrackOrder> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Total : ",
+                      Text("Total TTC. : ",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("€ ${widget.orderModel!.totalAmount}",
+                      Text("${widget.orderModel!.totalAmount}€",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600
@@ -216,7 +230,7 @@ class _TrackOrderState extends State<TrackOrder> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Order track",
+                  Text("Statut de la commande",
                     style: TextStyle(
                       fontSize: 17, fontWeight: FontWeight.w600,
                     )

@@ -12,6 +12,7 @@ import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/dialog.dart';
 
 import '../../utility/assets.dart';
+import '../../widget/not_found.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -91,9 +92,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             trailing: Icon(Icons.keyboard_arrow_right,color: Colors.black,),
 
                           );
-                        }) : Center(
-                      child: Image.asset(AppAssets.norProduct, width: 200,),
-                    ));
+                        }) : NotFound());
                 }
 
 

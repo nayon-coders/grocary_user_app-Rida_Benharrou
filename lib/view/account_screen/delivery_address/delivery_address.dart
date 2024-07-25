@@ -87,7 +87,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 20,),
-                Text("Address *"),
+                Text("Adress *"),
                 SizedBox(height: 10,),
                 AppInput(
                     validator: (value)=>value!.isEmpty ? "Indiquez l'adresse":null,
@@ -146,6 +146,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 Text("Message *"),
                 SizedBox(height: 10,),
                 AppInput(
+                  maxLine: 4,
                   validator: (value)=>value!.isEmpty ? "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.":null,
                   controller: _messages,
                   hintText: "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.",

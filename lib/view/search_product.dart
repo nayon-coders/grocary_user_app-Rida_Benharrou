@@ -21,7 +21,8 @@ class _SearchProductState extends State<SearchProduct> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: AppInput(controller: _search, hintText: "Rechercher un produit....",
+        leadingWidth: 30,
+        title: AppInput(controller: _search, hintText: "Recherche",
           onChanged: (v){
               setState(() {
                 searchValue = v!.toString();
@@ -71,10 +72,10 @@ class _SearchProductState extends State<SearchProduct> {
               return searchValue != null && searchProducts.isNotEmpty
                   ? GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount: 3,
                       crossAxisSpacing: 5.0,
                       mainAxisSpacing: 5.0,
-                      mainAxisExtent: 270,
+                      mainAxisExtent: 220,
                     ),
                     itemCount: searchProducts.length,
                     itemBuilder: (context, index) {
@@ -83,10 +84,10 @@ class _SearchProductState extends State<SearchProduct> {
                   )
                   : GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
+                  crossAxisCount: 3,
                   crossAxisSpacing: 5.0,
                   mainAxisSpacing: 5.0,
-                  mainAxisExtent: 270,
+                  mainAxisExtent: 220,
                 ),
                 itemCount: products.length,
                 itemBuilder: (context, index) {

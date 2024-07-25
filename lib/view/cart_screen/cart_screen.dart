@@ -15,6 +15,7 @@ import '../../controller/auth_controller.dart';
 import '../../utility/app_color.dart';
 import '../../utility/app_const.dart';
 import '../../utility/assets.dart';
+import '../../widget/not_found.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -260,9 +261,7 @@ class _CartScreenState extends State<CartScreen> {
                 ),
                 SizedBox(height: 10,),
               ],
-            ) : Center(
-              child: Image.asset(AppAssets.norProduct, width: 200,),
-            ) ;
+            ) : NotFound() ;
           }
         ),
       )

@@ -36,20 +36,20 @@ class _AccountScreenState extends State<AccountScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            FutureBuilder(
-                future: AuthController.getMyInfo(),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center();
-                  }
-                  return Container(
-                    height: 200,
-                    padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                        color: Colors.pink.shade100
-                    ),
-                    child: Column(
+            Container(
+              height: 200,
+              padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  color: Colors.pink.shade100
+              ),
+              child: FutureBuilder(
+                  future: AuthController.getMyInfo(),
+                  builder: (context, snapshot) {
+                    if(snapshot.connectionState == ConnectionState.waiting){
+                      return Center();
+                    }
+                    return Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -62,9 +62,9 @@ class _AccountScreenState extends State<AccountScreen> {
                         ),
                         Text("${snapshot.data!.docs[0].data()["name"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
                       ],
-                    ),
-                  );
-                }
+                    );
+                  }
+              ),
             ),
             SizedBox(height: 10,),
             Padding(
@@ -158,8 +158,8 @@ class _AccountScreenState extends State<AccountScreen> {
                         onClick: (){
                           AppDialog(
                               context,
-                              "Es-tu sûr?",
-                              "Es-tu sûr? Voulez-vous supprimer votre compte ?",
+                              "Suppression de votre compte",
+                              "Souhaitez-vous réellement supprimer votre compte?",
                                   () async{
                                 await AuthController.deleteAccout(context);
                               }

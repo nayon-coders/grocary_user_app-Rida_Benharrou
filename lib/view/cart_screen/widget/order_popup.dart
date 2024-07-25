@@ -30,11 +30,13 @@ class OrderPopup extends StatefulWidget {
 class _OrderPopupState extends State<OrderPopup> {
 
   double totalPrice = 0.00;
+  double subTotal = 0.00;
   double itemPrice = 0.00;
   double deliveryFeeMinmum = 66.00;
   double deliveryFee = 0.00;
   double tax = 0.0;
   bool _deliveryAddressAlert = false;
+  double totalTVA = 0.00;
 
   @override
   void initState() {
@@ -43,17 +45,20 @@ class _OrderPopupState extends State<OrderPopup> {
     if(widget.qty!.isNotEmpty){
       totalPrice = 0.00;
       tax = 0.00;
+      subTotal = 0.00;
       print("priduct price === ${widget.productList.length}");
       print("priduct price === ${widget.qty.length}");
       for(var i = 0; i<widget.qty.length; i++){
 
         setState(() {
           totalPrice = totalPrice + (widget.totalPrice[i] * widget.qty[i]) + ((widget.totalPrice[i] * widget.qty[i]) / 100 * double.parse("${widget.productList[i].tax}"));
+          subTotal = subTotal + (widget.totalPrice[i] * widget.qty[i]);
+          totalTVA = totalTVA + double.parse("${widget.productList[i].tax}");
           print("totalPrice --- ${totalPrice}");
           itemPrice = widget.totalPrice[i];
           //tax = double.parse("${widget.productList[i].tax}");
           //delivery fee
-          if(totalPrice > deliveryFeeMinmum){
+          if(subTotal > deliveryFeeMinmum){
             deliveryFee = 15.00;
           }else{
             deliveryFee = 0.00;
@@ -75,7 +80,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      height: 380,
+      height: 400,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -148,18 +153,18 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total H.T.",
-            subtitle: Text("${totalPrice.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${subTotal.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
 
-          // Divider(color: Colors.grey.shade200,),
-          // ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
-          //   title: "TVA 5,5%",
-          //   subtitle: Text("5.5%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-          //   onClick: (){},
-          //   isOpen: false,
-          // ),
+          Divider(color: Colors.grey.shade200,),
+          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+            title: "Total TVA",
+            subtitle: Text("${totalTVA.toStringAsFixed(2)}%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: (){},
+            isOpen: false,
+          ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "Frais de livraison",
@@ -170,7 +175,7 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total TTC.",
-            subtitle: Text("${(totalPrice + (totalPrice / 100 * tax) + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${(totalPrice + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
@@ -216,8 +221,8 @@ class _OrderPopupState extends State<OrderPopup> {
                         "id" : id.toString(),
                         "products" : orderProducts,
                         "create_by" : FirebaseAuth.instance.currentUser!.email.toString(),
-                        "create_at" : DateFormat("yyyy-dd-MM hh:mm a").format(DateTime.now()),
-                        "order_status" : "Pending",
+                        "create_at" : DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.now()),
+                        "order_status" : orderStatus[0],
                         "address" : _selectedAddress!.toJson(),
                         "sub_total" : totalPrice.toStringAsFixed(2),
                         "tax" : "5.5%",

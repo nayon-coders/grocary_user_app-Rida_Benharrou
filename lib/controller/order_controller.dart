@@ -20,14 +20,14 @@ class OrderController{
           _firestore.collection(cartCollection).doc(docId[i]).delete();
         }
 
-        //send email to the user and admin
-        await EmailSendController.sendAdminEmail(
-            orders : orders
-        );
-
-        await EmailSendController.sendCustomerEmail(
-            orders : orders
-        );
+        // //send email to the user and admin
+        // await EmailSendController.sendAdminEmail(
+        //     orders : orders
+        // );
+        //
+        // await EmailSendController.sendCustomerEmail(
+        //     orders : orders
+        // );
         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> OrderAccepted()), (route) => false);
 
       });

@@ -6,6 +6,7 @@ import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
 import 'package:nectar/view/explore_screen/widget/category_card.dart';
+import 'package:nectar/view/search_product.dart';
 import 'package:nectar/widget/app_input.dart';
 import 'package:nectar/widget/not_found.dart';
 
@@ -36,19 +37,21 @@ class _ExploreScreenState extends State<ExploreScreen> {
         automaticallyImplyLeading: false,
         title: AppInput(
           hintText: "Recherche",
+          readOnly: true,
+          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchProduct())),
           controller: _searchController,
-          onChanged: (v){
-            searchCategory.clear();
-            for(var i in category){
-              if(i.name!.toLowerCase().contains(v.toLowerCase())){
-                print("...search name .... ${i.name}");
-                setState(() {
-                  searchCategory.add(i);
-                });
-                print("searchCategory --- ${searchCategory.length}");
-              }
-            }
-          },
+          // onChanged: (v){
+          //   searchCategory.clear();
+          //   for(var i in category){
+          //     if(i.name!.toLowerCase().contains(v.toLowerCase())){
+          //       print("...search name .... ${i.name}");
+          //       setState(() {
+          //         searchCategory.add(i);
+          //       });
+          //       print("searchCategory --- ${searchCategory.length}");
+          //     }
+          //   }
+          // },
         )
       ),
       body: Padding(

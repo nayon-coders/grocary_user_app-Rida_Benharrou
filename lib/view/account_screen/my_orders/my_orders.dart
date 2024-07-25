@@ -1,12 +1,16 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar/controller/order_controller.dart';
 import 'package:nectar/model/orders_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/account_screen/account_screen.dart';
 import 'package:nectar/view/account_screen/my_orders/track_order.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_button.dart';
 
 class MyOrders extends StatefulWidget {
@@ -25,7 +29,7 @@ class _MyOrdersState extends State<MyOrders> {
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
         leading: InkWell(
-          onTap: ()=>Navigator.pop(context),
+          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen(pageIndex: 4,))),
             child: Icon(Icons.arrow_back,size: 30,)),
 
       ),
@@ -84,14 +88,14 @@ class _MyOrdersState extends State<MyOrders> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Order#:${data.id}",
+                                        Text("Commande#:${data.id}",
                                           style: TextStyle(
-                                              fontSize:titleFont,
+                                              fontSize:18,
                                               fontWeight: FontWeight.w600,
                                               color: AppColors.textBlack),
                                         ),
                                         SizedBox(height: 8,),
-                                        Text("${data.createAt}",
+                                        Text("${data.createAt.toString()}",
                                           style: TextStyle(fontWeight: FontWeight.w400,
                                               fontSize: smallFont,
                                               color: AppColors.textGrey),
@@ -100,7 +104,7 @@ class _MyOrdersState extends State<MyOrders> {
 
                                       ],
                                     ),
-                                    AppButton(name: "Track Now",
+                                    AppButton(name: "Suivi",
                                         onClick: ()=> Navigator.push(context,MaterialPageRoute(builder: (_)=>TrackOrder(orderModel: data,))))
                                     ],
 
@@ -118,7 +122,7 @@ class _MyOrdersState extends State<MyOrders> {
                                       )
                                     ),
                                     TextSpan(
-                                        text: "${data.orderStatus}",
+                                        text: "${data.orderStatus == "Pending" ? "En attente" :data.orderStatus }",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           color: Colors.black,

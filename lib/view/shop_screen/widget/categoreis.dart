@@ -167,7 +167,7 @@ class SubCategoreis extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text("Toute catégorie",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                  Text("Par catégorie",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                 ],
               ),
               SizedBox(height: 15,),

@@ -6,7 +6,7 @@ class AppInput extends StatelessWidget {
     required this.controller,
     required this.hintText,
     this.prefixIcon,
-    this.suffixIcon, this.validator, this.onChanged
+    this.suffixIcon, this.validator, this.onChanged, this.readOnly = false, this.onTap, this.maxLine = 1
   });
   final TextEditingController controller;
   final String hintText;
@@ -14,6 +14,9 @@ class AppInput extends StatelessWidget {
   final Widget? suffixIcon;
   final String? Function(String?)? validator;
   final Function(String)? onChanged;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final int maxLine;
 
 
   @override
@@ -24,6 +27,9 @@ class AppInput extends StatelessWidget {
         onChanged: onChanged,
         validator: validator,
         controller: controller,
+        onTap: onTap,
+        readOnly: readOnly,
+        maxLines: maxLine,
         decoration: InputDecoration(
           suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,

@@ -76,7 +76,7 @@ class SelectDeliveryAddress extends StatelessWidget {
                         onPressed: (){
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
                         },
-                        child: Text("Add new address")
+                        child: Text("Ajouter une nouvelle adress")
                       );
                 }
               )

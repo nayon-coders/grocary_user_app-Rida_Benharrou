@@ -101,7 +101,7 @@ class _HomeState extends State<Home> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Nouveauté articles",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                      Text("Nouveauté",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                       InkWell(
                           onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles",))),
                           child: Container(

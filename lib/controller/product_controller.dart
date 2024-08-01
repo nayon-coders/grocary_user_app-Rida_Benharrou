@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/model/orders_model.dart';
+import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/app_const.dart';
 
 
@@ -12,12 +16,31 @@ class ProductController{
 
   //get offer/discrount products
   static Stream<QuerySnapshot<Map<String, dynamic>>> getOfferProduct (){
-    return _firestore.collection(productCollection).where("discount_price", isNotEqualTo: "0").snapshots();
+    return _firestore.collection(productCollection).where("discount_price", isNotEqualTo: "").snapshots();
   }
 
   //get offer/discrount products
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllDeals (){
     return _firestore.collection(productCollection).where("product_type", isEqualTo: "KG (Kilogram)").snapshots();
+  }
+  //get offer/discrount products
+  static Future<List<ProductModel>> getRecomandationProduct ()async{
+    List<ProductModel> product = [];
+    final snapshot = await _firestore.collection(productCollection).get();
+    final documents = snapshot.docs;
+
+    // Shuffle the documents randomly
+    documents.shuffle();
+
+    var random = Random().nextInt(99);
+    // Select the desired number of random documents
+    for(var i in documents.sublist(0, 20)){
+      product.add(ProductModel.fromJson(i.data()));
+    }
+
+    return product;
+
+
   }
 
 
@@ -33,6 +56,10 @@ class ProductController{
     return _firestore.collection(productCollection).snapshots();
   }
 
+  //get  recent product
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getNewAll (){
+    return _firestore.collection(productCollection).limit(20).snapshots();
+  }
 
   //get  category wish product
   static Stream<QuerySnapshot<Map<String, dynamic>>> getCategroyWishProduct (categoryName){

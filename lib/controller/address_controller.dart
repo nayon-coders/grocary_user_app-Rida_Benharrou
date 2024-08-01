@@ -39,6 +39,15 @@ class AddressController{
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAddress(){
     return _firestore.collection(addressCollection).where("email", isEqualTo: _auth.currentUser!.email).snapshots();
   }
+  static Future<List<AddressModel>> getInitAddress()async{
+    List<AddressModel> initAddress = [];
+    var data = await _firestore.collection(addressCollection).where("email", isEqualTo: _auth.currentUser!.email).get();
+    for(var i in data.docs){
+      initAddress.add(AddressModel.fromJson(i.data()));
+    }
+
+    return initAddress;
+  }
 
 
 

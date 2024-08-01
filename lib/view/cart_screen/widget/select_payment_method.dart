@@ -3,10 +3,19 @@ import 'package:flutter/material.dart';
 import '../../../utility/fontsize.dart';
 
 class SelectPaymentMethod extends StatelessWidget {
-  const SelectPaymentMethod({super.key});
+  const SelectPaymentMethod({super.key, required this.callback});
+
+  final Function(String) callback;
+
 
   @override
   Widget build(BuildContext context) {
+
+    List _paymentMethod = [
+    "Virement",
+     "Prélévement SEPA"
+    ];
+
     return  SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -35,19 +44,23 @@ class SelectPaymentMethod extends StatelessWidget {
             body: Padding(
               padding: const EdgeInsets.all(20.0),
               child: ListView.builder(
-                itemCount: 1,
+                itemCount: _paymentMethod.length,
                 itemBuilder: (context, index){
                   return InkWell(
-                    onTap: ()=>Navigator.pop(context),
+                    onTap: (){
+                      callback(_paymentMethod[index]);
+                      Navigator.pop(context);
+                    },
                     child: Container(
+                      margin: EdgeInsets.only(bottom: 10),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
                         border: Border.all(width: 1, color: Colors.grey)
                       ),
                       child: ListTile(
-                        title: Text("Paiement à la livraison (COD)"),
-                        subtitle: Text("Vous pouvez payer lorsque vous recevez le produit."),
+                        title: Text("${_paymentMethod[index]}"),
+                        //subtitle: Text("Vous pouvez payer lorsque vous recevez le produit."),
                       ),
                     ),
                   );

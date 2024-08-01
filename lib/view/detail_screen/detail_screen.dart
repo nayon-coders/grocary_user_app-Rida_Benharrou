@@ -75,6 +75,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 Container(
                   padding: EdgeInsets.only(top: 30),
                   height: MediaQuery.of(context).size.height*0.35,
+                  width: double.infinity,
                   decoration: BoxDecoration(
                     color: Colors.grey.shade100,
                   ),
@@ -109,7 +110,7 @@ class _DetailScreenState extends State<DetailScreen> {
                       ),
 
                       widget.productModel!.discountPrice!.isNotEmpty && widget.productModel!.discountPrice != "0" ? Positioned(
-                        right: 10, top: 10,
+                        right: 10, top: 30,
                         child: Container(
                           width: 80,
                           height: 30,

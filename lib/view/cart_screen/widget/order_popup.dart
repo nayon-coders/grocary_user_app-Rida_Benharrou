@@ -3,11 +3,13 @@ import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:nectar/controller/address_controller.dart';
 import 'package:nectar/controller/order_controller.dart';
 import 'package:nectar/model/address_model.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/cart_screen/widget/select_payment_method.dart';
 import 'package:nectar/view/cart_screen/widget/selecte_delivery_address.dart';
+import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 
 import '../../../model/product_model.dart';
 import '../../../utility/app_color.dart';
@@ -37,6 +39,10 @@ class _OrderPopupState extends State<OrderPopup> {
   double tax = 0.0;
   bool _deliveryAddressAlert = false;
   double totalTVA = 0.00;
+
+  var _onSelectionChanged;
+
+  var selectedDeliveryDateTime;
 
   @override
   void initState() {
@@ -72,6 +78,25 @@ class _OrderPopupState extends State<OrderPopup> {
     }
 
     print("total price -- ${tax}");
+    //get init address
+    getAddress();
+
+    //init date
+    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy h:m a").format(DateTime.now().add(Duration(days: 1)));
+
+
+    //init payment method
+    paymentMethod = "Virement";
+  }
+
+  getAddress()async{
+    var initAddress = await AddressController.getInitAddress();
+    if(initAddress.isNotEmpty){
+      setState(() {
+        _selectedAddress = initAddress[0];
+      });
+    }
+
   }
 
   bool _isLoading = false;
@@ -80,7 +105,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      height: 400,
+      height: 470,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -119,6 +144,57 @@ class _OrderPopupState extends State<OrderPopup> {
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
+            title: "Date de livraison",
+            subtitle:  Text("${ selectedDeliveryDateTime  ?? "Date de livraison"}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: ()async{
+              var selectedTime =  await showOmniDateTimePicker(
+              context: context,
+              initialDate: DateTime.now().add(Duration(days: 1)),
+              firstDate: DateTime(1600).subtract(const Duration(days: 10000)),
+              lastDate: DateTime.now().add(
+                const Duration(days: 10000),
+              ),
+              is24HourMode: false,
+              isShowSeconds: false,
+              minutesInterval: 1,
+              secondsInterval: 1,
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              constraints: const BoxConstraints(
+                maxWidth: 350,
+                maxHeight: 650,
+              ),
+              transitionBuilder: (context, anim1, anim2, child) {
+                return FadeTransition(
+                  opacity: anim1.drive(
+                    Tween(
+                      begin: 0,
+                      end: 1,
+                    ),
+                  ),
+                  child: child,
+                );
+              },
+              transitionDuration: const Duration(milliseconds: 200),
+              barrierDismissible: true,
+              selectableDayPredicate: (dateTime) {
+                // Disable 25th Feb 2023
+                if (dateTime.weekday == DateTime.saturday || dateTime.weekday == DateTime.sunday) {
+                  return false;
+                } else {
+                  return true;
+                }
+              },
+              );
+
+              setState(() {
+                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy h:m a").format(selectedTime!);
+
+              });
+            },
+            isOpen: false,
+          ),
+          Divider(color: Colors.grey.shade200,),
+          ListbottomSheet(
             title: "Méthode de paiement ",
             subtitle: SizedBox(
               width: MediaQuery.of(context).size.width*.40,
@@ -128,8 +204,9 @@ class _OrderPopupState extends State<OrderPopup> {
                   SizedBox(width: 10,),
                   SizedBox(
                     width: MediaQuery.of(context).size.width*.30,
-                    child: Text("Cash on delivery (COD)",
+                    child: Text("${paymentMethod ?? "Méthode de paiement"}",
                         overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600
@@ -144,7 +221,7 @@ class _OrderPopupState extends State<OrderPopup> {
                   context: context,
                   barrierDismissible: false, // user must tap button!
                   builder: (BuildContext context) {
-                    return SelectPaymentMethod();
+                    return SelectPaymentMethod(callback: getPaymentMethod,);
                   },
                 );
               }
@@ -158,17 +235,26 @@ class _OrderPopupState extends State<OrderPopup> {
             isOpen: false,
           ),
 
-          Divider(color: Colors.grey.shade200,),
-          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
-            title: "Total TVA",
-            subtitle: Text("${totalTVA.toStringAsFixed(2)}%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-            onClick: (){},
-            isOpen: false,
-          ),
+
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "Frais de livraison",
             subtitle: Text("${deliveryFee == 0.00 ? "Livraison gratuite" : "${deliveryFee}€"}",style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),),
+            onClick: (){},
+            isOpen: false,
+          ),
+          Text("Livraison gratuite à partir de 60€",
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+              color: Colors.black,
+              fontSize: 11,
+              fontStyle: FontStyle.italic
+            ),
+          ),
+          Divider(color: Colors.grey.shade200,),
+          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+            title: "Total TVA",
+            subtitle: Text("${totalTVA.toStringAsFixed(2)}%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
@@ -225,10 +311,11 @@ class _OrderPopupState extends State<OrderPopup> {
                         "order_status" : orderStatus[0],
                         "address" : _selectedAddress!.toJson(),
                         "sub_total" : totalPrice.toStringAsFixed(2),
-                        "tax" : "5.5%",
+                        "tax" : totalTVA.toStringAsFixed(2),
+                        "delivery_date" : selectedDeliveryDateTime.toString(),
                         "total" : (totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2),
                         "delivery_fee" : deliveryFee.toStringAsFixed(2),
-                        "payment_method" : "Cash on delivery (COD)", ///TODO: payment method need to make it dynamic
+                        "payment_method" : "$paymentMethod", ///TODO: payment method need to make it dynamic
                       };
                      await OrderController.placeOrder(context, orders, widget.docId).then((value) {
                        // Navigator.push(context,
@@ -247,6 +334,14 @@ class _OrderPopupState extends State<OrderPopup> {
     setState(() {
       _deliveryAddressAlert = false;
       _selectedAddress = addressModel; 
+    });
+  }
+
+  //get payment method
+  var paymentMethod;
+  getPaymentMethod(data){
+    setState(() {
+      paymentMethod = data;
     });
   }
 }

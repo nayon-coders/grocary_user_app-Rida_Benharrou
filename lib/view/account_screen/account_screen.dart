@@ -4,9 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nectar/controller/auth_controller.dart';
+import 'package:nectar/controller/setting_controller.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/account_screen/about_us.dart';
+import 'package:nectar/view/account_screen/contact_widgets/terms_conditions.dart';
 import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
@@ -27,6 +29,37 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+
+  //get social media
+  var whatsapp, whatsAppMessages, terms, policy, legal;
+  getSocialMedia()async{
+    var res = await SettingController.getSocialMedia();
+    print("res --- ${res}");
+    setState(() {
+      whatsapp = res.data()["whatssapp"];
+      whatsAppMessages = res.data()["whatsapp_messages"];
+    });
+  }
+
+  getSettings()async{
+    var res = await SettingController.getSetting();
+    print("res --- ${res}");
+    setState(() {
+      terms = res.data()["terms"];
+      policy = res.data()["privacy"];
+      legal = res.data()["legal"];
+    });
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getSocialMedia();
+    getSettings();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
@@ -121,21 +154,29 @@ class _AccountScreenState extends State<AccountScreen> {
                       ProfileMenus(
                         text: "Contactez-nous",
                         icon: Icons.help_outline_outlined,
-                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/contactez-nous")),
+                        onClick: (){
+                          print("https://wa.me/$whatsapp?text=$whatsAppMessages");
+                          _launchUrl(Uri.parse("https://wa.me/$whatsapp?text=$whatsAppMessages"));
+                        }
                       ),
                       ProfileMenus(
                         text: "Conditions générales de vente",
                         icon: Icons.info_outline,
-                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
+                       onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: terms ?? "Terms", title: "Conditions générales de vente",))),
+                       // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
                       ),
                       ProfileMenus(
                         text: "Politique de confidentialité",
                         icon: Icons.info_outline,
-                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: policy ?? "Privacy", title: "Politique de confidentialité",))),
+
+                        // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ), ProfileMenus(
                         text: "Mentions légales",
                         icon: Icons.info_outline,
-                        onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: legal ??"Legal", title: "Mentions légales",))),
+
+                        //onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ),
                     ],
                   ),
@@ -144,7 +185,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Paramètre",
+                      Text("Paramètres",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16,

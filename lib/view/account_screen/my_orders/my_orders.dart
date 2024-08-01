@@ -12,6 +12,7 @@ import 'package:nectar/view/account_screen/account_screen.dart';
 import 'package:nectar/view/account_screen/my_orders/track_order.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_button.dart';
+import 'package:nectar/widget/not_found.dart';
 
 class MyOrders extends StatefulWidget {
   const MyOrders({super.key});
@@ -39,15 +40,12 @@ class _MyOrdersState extends State<MyOrders> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              // flex: 1,
-                child: Text("Mes commandes",
-                  style: TextStyle(
-                    fontSize:bigFont,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.textBlack,
-                  ),
-                )
+            Text("Mes commandes",
+              style: TextStyle(
+                fontSize:bigFont,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textBlack,
+              ),
             ),
             StreamBuilder(
               stream: OrderController.getOrders(),
@@ -69,7 +67,7 @@ class _MyOrdersState extends State<MyOrders> {
                      return GestureDetector(
                         child: Container(
                           alignment: Alignment.center,
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(15),
                           margin: EdgeInsets.only(bottom: 10),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
@@ -88,7 +86,7 @@ class _MyOrdersState extends State<MyOrders> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("Commande#:${data.id}",
+                                        Text("Commande: ${data.id}",
                                           style: TextStyle(
                                               fontSize:18,
                                               fontWeight: FontWeight.w600,
@@ -97,13 +95,20 @@ class _MyOrdersState extends State<MyOrders> {
                                         SizedBox(height: 8,),
                                         Text("${data.createAt.toString()}",
                                           style: TextStyle(fontWeight: FontWeight.w400,
-                                              fontSize: smallFont,
+                                              fontSize: 12,
                                               color: AppColors.textGrey),
+                                        ),
+                                        SizedBox(height: 3,),
+                                        Text("Expected delivery on: ${data.createAt.toString()}",
+                                          style: TextStyle(fontWeight: FontWeight.w400,
+                                              fontSize: 12,
+                                              color: Colors.black),
                                         ),
 
 
                                       ],
                                     ),
+                                    SizedBox(width: 5,),
                                     AppButton(name: "Suivi",
                                         onClick: ()=> Navigator.push(context,MaterialPageRoute(builder: (_)=>TrackOrder(orderModel: data,))))
                                     ],
@@ -139,7 +144,7 @@ class _MyOrdersState extends State<MyOrders> {
                       );
                     }
                     )
-                  ) : Center(child: Text("Aucune commande"));
+                  ) : Center(child: NotFound());
               }
             )
           ],

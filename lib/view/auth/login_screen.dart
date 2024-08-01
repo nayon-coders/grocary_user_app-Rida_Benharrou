@@ -32,12 +32,12 @@ class _LogInScreenState extends State<LogInScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-
-      backgroundColor:AppColors.bgWhite,
-
-      body: SingleChildScrollView(
+    return Scaffold(
+    
+    backgroundColor:AppColors.bgWhite,
+    
+    body: SafeArea(
+      child: SingleChildScrollView(
         // padding: EdgeInsets.all(20),
         child: Form(
           key: _key,
@@ -61,8 +61,8 @@ class _LogInScreenState extends State<LogInScreen> {
                       width: double.infinity,
                       fit: BoxFit.contain,
                     ),
-
-
+      
+      
                 ],
               ),
               Padding(
@@ -99,7 +99,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       // Return null if input is valid
                       return null;
                     },
-
+      
                   ),
                   SizedBox(height: 20,),
                   Text("Mot de passe",
@@ -123,7 +123,7 @@ class _LogInScreenState extends State<LogInScreen> {
                             setState(() {
                               _obscureText = !_obscureText;
                             });
-
+      
                           },
                           icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
                         )),
@@ -150,7 +150,7 @@ class _LogInScreenState extends State<LogInScreen> {
                        await AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
                       }
                       setState(() => _isLoading = false);
-
+      
                     },
                   ),
                   SizedBox(height: 20,),
@@ -176,6 +176,6 @@ class _LogInScreenState extends State<LogInScreen> {
         ),
       ),
     ),
-    );
+        );
   }
 }

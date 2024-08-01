@@ -136,7 +136,7 @@ class SubCategoreis extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
+        stream: FirebaseFirestore.instance.collection(categoryCollection).snapshots(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting){
             return GridView.builder(
@@ -154,10 +154,17 @@ class SubCategoreis extends StatelessWidget {
             );
           }
 
+          ///TODO: if need subcategory then just uncomment this block
+          // //store category into category list
+          // List<SubCategoryModel> category = [];
+          // for(var i in snapshot.data!.docs){
+          //   category.add(SubCategoryModel.fromJson(i));
+          // }
+
           //store category into category list
-          List<SubCategoryModel> category = [];
+          List<CategoryModel> category = [];
           for(var i in snapshot.data!.docs){
-            category.add(SubCategoryModel.fromJson(i));
+            category.add(CategoryModel.fromSnapshot(i));
           }
 
           return category.isNotEmpty ? Column(
@@ -179,13 +186,13 @@ class SubCategoreis extends StatelessWidget {
                     crossAxisCount: 3,
                     crossAxisSpacing: 7.0,
                     mainAxisSpacing: 7.0,
-                    mainAxisExtent: 160,
+                    mainAxisExtent: 170,
                   ),
                   itemCount:  category.length,
                   itemBuilder: (context, index) {
                     var data = category[index];
                     return InkWell(
-                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,  ))),
+                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!, mainCatId: data.docId!, mainCatImage: data.categoryImage!,  ))),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -196,15 +203,18 @@ class SubCategoreis extends StatelessWidget {
                         child: Column(
                           children: [
 
-                            Text("${data.name}",
-                              style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black
+                            SizedBox(
+                              child: Text("${data.categoryName}",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black
+                                ),
                               ),
                             ),
                             Spacer(),
-                            AppNetworkImage(src: data.image!, height: 80,),
+                            AppNetworkImage(src: data.categoryImage!, height: 110,),
 
                           ],
                         ),

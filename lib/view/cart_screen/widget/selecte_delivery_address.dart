@@ -51,7 +51,6 @@ class SelectDeliveryAddress extends StatelessWidget {
                         var data = _addressList[index];
                         return InkWell(
                           onTap: (){
-
                             callback(data);
                             Navigator.pop(context);
 

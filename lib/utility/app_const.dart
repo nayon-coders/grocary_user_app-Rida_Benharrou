@@ -27,7 +27,8 @@ String sellerAccount = "Seller";
 
 
 List orderStatus = [
-  "En attente", "Confirmée", "Expédition", "Annulée", "Rejetée", "Livrée"
+  //"En attente", "Confirmée", "Expédition", "Annulée", "Rejetée", "Livrée"
+  "Reçue en attente", "En préparation", "En cours de livraison", "Livré", "À régler", "Terminé"
 ];
 
 

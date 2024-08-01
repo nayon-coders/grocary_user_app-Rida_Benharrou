@@ -85,6 +85,9 @@ class _HomeState extends State<Home> {
             Categoreis(),
             SizedBox(height: 15,),
             //offer products
+            NewProducts(),
+            SizedBox(height: 15,),
+            //offer products
             OfferProducts(),
 
             SizedBox(height: 15,),

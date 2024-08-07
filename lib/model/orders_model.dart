@@ -24,6 +24,7 @@ class OrderModel {
   final String? totalAmount;
   final String? subTotal;
   final String? tax;
+  final String? taxAmount;
   final String? deliveryFee;
   final String? deliveryDate;
 
@@ -40,7 +41,8 @@ class OrderModel {
     this.subTotal,
     this.tax,
     this.deliveryFee,
-    this.deliveryDate
+    this.deliveryDate,
+    this.taxAmount
   });
 
   factory OrderModel.fromJson(QueryDocumentSnapshot<Map<String, dynamic>> json) => OrderModel(
@@ -56,7 +58,8 @@ class OrderModel {
     subTotal: json["sub_total"],
     tax: json["tax"],
     deliveryFee: json["delivery_fee"],
-    deliveryDate: json["delivery_date"] ?? ""
+    deliveryDate: json["delivery_date"] ?? "",
+    taxAmount: json["tax_amount"] ?? ""
 
   );
 
@@ -72,7 +75,8 @@ class OrderModel {
     "sub_total" : subTotal,
     "tax" : tax,
     "delivery_fee" : deliveryFee,
-    "delivery_date" : deliveryDate
+    "delivery_date" : deliveryDate,
+    "tax_amount" : taxAmount.toString()
   };
 }
 

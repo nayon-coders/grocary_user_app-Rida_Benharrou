@@ -67,7 +67,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
           children: [
             AppButton(name: "Suivre ma commande", onClick: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyOrders()), (route) => false)),
             SizedBox(height: 10,),
-            TextButton(onPressed: ()=>Navigator.pop(context), child: Text("Retour à la page d’accueil",
+            TextButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen())), child: Text("Retour à la page d’accueil",
               style: TextStyle(fontSize: normalFont,
                   fontWeight: FontWeight.w400,
                   color: AppColors.textBlack),

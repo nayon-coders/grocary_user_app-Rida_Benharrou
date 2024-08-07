@@ -99,7 +99,7 @@ class _MyOrdersState extends State<MyOrders> {
                                               color: AppColors.textGrey),
                                         ),
                                         SizedBox(height: 3,),
-                                        Text("Expected delivery on: ${data.createAt.toString()}",
+                                        Text("Expected delivery on: ${data.deliveryDate.toString()}",
                                           style: TextStyle(fontWeight: FontWeight.w400,
                                               fontSize: 12,
                                               color: Colors.black),

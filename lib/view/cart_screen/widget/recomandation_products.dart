@@ -32,7 +32,7 @@ class _RecomandationProductsState extends State<RecomandationProducts> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Recommendation",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+        Text("Recommandations",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
 
         SizedBox(height: 10,),
         FutureBuilder<List<ProductModel>>(

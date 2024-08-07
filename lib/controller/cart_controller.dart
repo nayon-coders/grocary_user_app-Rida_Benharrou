@@ -45,7 +45,7 @@ class CartController{
 
 
   //get cart prododucts
-  static Future< List<ProductModel>> getCartProduct()async{
+  static Future <List<ProductModel>> getCartProduct()async{
     List<ProductModel> products = [];
     try{
       await _firestore.collection(cartCollection).where("email", isEqualTo: _auth.currentUser!.email).get().then((favValue)async{

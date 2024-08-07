@@ -93,7 +93,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             fontSize: 35
                           ),
                         ),
-                        Text("${snapshot.data!.docs[0].data()["name"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
+                        Text("${snapshot.data!.docs[0].data()["company"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
                       ],
                     );
                   }

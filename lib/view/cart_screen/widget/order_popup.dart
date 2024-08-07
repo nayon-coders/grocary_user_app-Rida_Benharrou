@@ -39,6 +39,30 @@ class _OrderPopupState extends State<OrderPopup> {
   double tax = 0.0;
   bool _deliveryAddressAlert = false;
   double totalTVA = 0.00;
+  double totalTVAamount = 0.00;
+
+  DateTime getInitialDate() {
+    DateTime initialDate = DateTime.now().add(Duration(days: 10));
+    while (initialDate.weekday == DateTime.saturday || initialDate.weekday == DateTime.sunday) {
+      if(initialDate.weekday == DateTime.friday){
+        setState(() {
+          initialDate = initialDate.add(Duration(days: 3));
+        });
+      }else if(initialDate.weekday == DateTime.saturday){
+        setState(() {
+          initialDate = initialDate.add(Duration(days: 2));
+        });
+      }else{
+        setState(() {
+          initialDate = initialDate.add(Duration(days: 1));
+        });
+      }
+
+
+
+    }
+    return initialDate;
+  }
 
   var _onSelectionChanged;
 
@@ -58,6 +82,8 @@ class _OrderPopupState extends State<OrderPopup> {
 
         setState(() {
           totalPrice = totalPrice + (widget.totalPrice[i] * widget.qty[i]) + ((widget.totalPrice[i] * widget.qty[i]) / 100 * double.parse("${widget.productList[i].tax}"));
+
+          totalTVAamount = (widget.totalPrice[i] * widget.qty[i]) + ((widget.totalPrice[i] * widget.qty[i]) / 100 * double.parse("${widget.productList[i].tax}"));
           subTotal = subTotal + (widget.totalPrice[i] * widget.qty[i]);
           totalTVA = totalTVA + double.parse("${widget.productList[i].tax}");
           print("totalPrice --- ${totalPrice}");
@@ -82,7 +108,7 @@ class _OrderPopupState extends State<OrderPopup> {
     getAddress();
 
     //init date
-    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy h:m a").format(DateTime.now().add(Duration(days: 1)));
+    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy HH'h'mm").format(DateTime.now().add(Duration(days: 1)));
 
 
     //init payment method
@@ -149,7 +175,7 @@ class _OrderPopupState extends State<OrderPopup> {
             onClick: ()async{
               var selectedTime =  await showOmniDateTimePicker(
               context: context,
-              initialDate: DateTime.now().add(Duration(days: 1)),
+              initialDate: getInitialDate(),
               firstDate: DateTime(1600).subtract(const Duration(days: 10000)),
               lastDate: DateTime.now().add(
                 const Duration(days: 10000),
@@ -177,19 +203,22 @@ class _OrderPopupState extends State<OrderPopup> {
               transitionDuration: const Duration(milliseconds: 200),
               barrierDismissible: true,
               selectableDayPredicate: (dateTime) {
-                // Disable 25th Feb 2023
                 if (dateTime.weekday == DateTime.saturday || dateTime.weekday == DateTime.sunday) {
                   return false;
                 } else {
                   return true;
                 }
-              },
+              }
+
               );
 
-              setState(() {
-                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy h:m a").format(selectedTime!);
 
+
+
+              setState(() {
+                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy HH'h'mm ").format(selectedTime!);
               });
+
             },
             isOpen: false,
           ),
@@ -254,7 +283,7 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "Total TVA",
-            subtitle: Text("${totalTVA.toStringAsFixed(2)}%",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${totalTVAamount.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
@@ -307,13 +336,14 @@ class _OrderPopupState extends State<OrderPopup> {
                         "id" : id.toString(),
                         "products" : orderProducts,
                         "create_by" : FirebaseAuth.instance.currentUser!.email.toString(),
-                        "create_at" : DateFormat("dd-MM-yyyy hh:mm a").format(DateTime.now()),
+                        "create_at" : DateFormat("dd-MM-yyyy HH'h'mm").format(DateTime.now()),
                         "order_status" : orderStatus[0],
                         "address" : _selectedAddress!.toJson(),
-                        "sub_total" : totalPrice.toStringAsFixed(2),
+                        "sub_total" : subTotal.toStringAsFixed(2),
                         "tax" : totalTVA.toStringAsFixed(2),
+                        "tax_amount" : totalTVAamount.toStringAsFixed(2),
                         "delivery_date" : selectedDeliveryDateTime.toString(),
-                        "total" : (totalPrice + (totalPrice / 100 * 5.5)).toStringAsFixed(2),
+                        "total" : (totalPrice).toStringAsFixed(2),
                         "delivery_fee" : deliveryFee.toStringAsFixed(2),
                         "payment_method" : "$paymentMethod", ///TODO: payment method need to make it dynamic
                       };

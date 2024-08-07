@@ -183,17 +183,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
                          )),
         
-                     SizedBox(height: 20,),
-                     Text("Nom d'utilisateur *",
-                       style: TextStyle(
-                           fontSize: normalFont,
-                           fontWeight: FontWeight.w500,
-                           color: AppColors.textGrey),),
-                     AppField(
-                         controller: _usernameController,
-                         hintText: "Nom d'utilisateur",
-                     ),
-        
+                     // SizedBox(height: 20,),
+                     // Text("Nom d'utilisateur *",
+                     //   style: TextStyle(
+                     //       fontSize: normalFont,
+                     //       fontWeight: FontWeight.w500,
+                     //       color: AppColors.textGrey),),
+                     // AppField(
+                     //     controller: _usernameController,
+                     //     hintText: "Nom d'utilisateur",
+                     // ),
+                     //
                      SizedBox(height: 20,),
                      Text("Société *",
                        style: TextStyle(

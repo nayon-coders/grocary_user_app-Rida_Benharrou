@@ -149,7 +149,30 @@ class _TrackOrderState extends State<TrackOrder> {
                       );
                     },
                   ),
-
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Mode de livrasion: ",
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600
+                        ),
+                      ),
+                      SizedBox(
+                        width: 200,
+                        child: Text("${widget.orderModel!.address!.postCode}, ${widget.orderModel!.address!.city}, ${widget.orderModel!.address!.address}, ${widget.orderModel!.address!.contact}",
+                          textAlign: TextAlign.right,
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.black
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(height: 7,),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -237,7 +260,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${totalTax.toStringAsFixed(2)}%",
+                      Text("${totalTax.toStringAsFixed(2)}€",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600

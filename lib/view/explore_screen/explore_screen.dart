@@ -108,6 +108,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                             child: Column(
                               children: [
                                 Text("${data.name}",
+                                  textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
@@ -115,7 +116,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                                   ),
                                 ),
                                 Spacer(),
-                                AppNetworkImage(src: data.image!, height: 80, width: 80,),
+                                AppNetworkImage(src: data.image!, height: 110, width: 110,),
 
                               ],
                             ),
@@ -131,7 +132,7 @@ class _ExploreScreenState extends State<ExploreScreen> {
                     crossAxisCount: 3,
                     crossAxisSpacing: 10.0,
                     mainAxisSpacing: 10.0,
-                    mainAxisExtent: 180
+                    mainAxisExtent: 190
                 ),
                 itemCount: category.length,
                 itemBuilder: (context, index) {
@@ -148,14 +149,15 @@ class _ExploreScreenState extends State<ExploreScreen> {
                       child: Column(
                         children: [
                           Text("${data.name}",
+                            textAlign: TextAlign.center,
                             style: TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w400,
                                 color: Colors.black
                             ),
                           ),
                           Spacer(),
-                          AppNetworkImage(src: data.image!, height: 80, width: 80,),
+                          AppNetworkImage(src: data.image!, height: 110, width: 110,),
 
                         ],
                       ),

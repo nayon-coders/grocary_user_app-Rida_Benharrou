@@ -75,29 +75,17 @@ class _HomeState extends State<Home> {
                       ),
                     ),
                 ),
-
-
               ],
             ),
-            SizedBox(height: 10,),
-            ///TODO static image
-
-            Categoreis(),
-            SizedBox(height: 15,),
-            //offer products
-            NewProducts(),
-            SizedBox(height: 15,),
-            //offer products
-            OfferProducts(),
 
             SizedBox(height: 15,),
-            //single category product 
+            //single category product
             Container(
               height: 280,
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.pink.shade50
+                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.pink.shade50
               ),
               child: Column(
                 children: [
@@ -126,7 +114,7 @@ class _HomeState extends State<Home> {
                           return SizedBox(
                             height: 200,
                             child: ListView.builder(
-                              shrinkWrap: true,
+                                shrinkWrap: true,
                                 padding: EdgeInsets.only(right: 10),
                                 itemCount: 5,
                                 scrollDirection: Axis.horizontal,
@@ -159,6 +147,14 @@ class _HomeState extends State<Home> {
                 ],
               ),
             ),
+            // SizedBox(height: 15,),
+            // //offer products
+            // NewProducts(),
+            SizedBox(height: 15,),
+            //offer products
+            OfferProducts(),
+
+
            // NewItems(),
             SizedBox(height: 15,),
             SubCategoreis(),

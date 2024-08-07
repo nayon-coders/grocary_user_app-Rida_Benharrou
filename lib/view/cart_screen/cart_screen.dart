@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:nectar/controller/cart_controller.dart';
+import 'package:nectar/model/orders_model.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/cart_screen/widget/bottomsheet_list.dart';
@@ -29,21 +30,36 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   int _initial = 1;
 
+  double totalPrice = 0.00;
+
   List qty = [];
 
 
-  double totalPrice = 0;
   List<double> itemPrice = [];
 
   List<ProductModel> productModel = [];
   List<String> _cartProductId = [];
 
   Future<List<ProductModel>>? carFuture;
+  List<ProductModel> _cartProducts = [];
 
-  Future getCartFuture()async{
+  Future getCartFuture() async {
     carFuture = CartController.getCartProduct();
-    getCartItems();
+    await getCartItems();
+    if (mounted) {
+      setState(() {});
+    }
+    return carFuture;
   }
+
+  Future totalProductList() async {
+    var data = await CartController.getCartProduct();
+    if (mounted) {
+      totalPriceCalculat(data);
+    }
+  }
+
+
 
   getCartItems(){
     _cartProductId.clear();
@@ -65,14 +81,42 @@ class _CartScreenState extends State<CartScreen> {
     });
   }
 
+  totalPriceCalculat(productModelList){
+    for(var i =0; i< productModelList!.length; i++){
+      //totalPrice = 0.0;
+      if(role != null && role == restaurantAccount){
+        setState(() {
+          totalPrice = totalPrice + (double.parse(productModelList[i]!.regularPrice!) * qty[i]);
+        });
+        //totalPriceGet(double.parse(data.regularPrice!), double.parse("${data.tax}"));
+      }else if( role == sellerAccount){
+        setState(() {
+          totalPrice = totalPrice + (double.parse(productModelList[i]!.sellingPrice!) * qty[i]);
+        });
+      }else{
+        setState(() {
+          totalPrice = totalPrice + (double.parse(productModelList[i]!.wholePrice!) * qty[i]);
+        });
+      }
+
+    }
+  }
+
   String? role;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getCartFuture();
+    totalProductList();
     AuthController.accountRole().then((value) => setState(()=> role = value ));
+  }
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    totalProductList();
   }
 
   @override
@@ -121,13 +165,12 @@ class _CartScreenState extends State<CartScreen> {
                 }
 
 
+                totalPrice = 0.00;
                 productModel.clear();
 
                 for(var i in snapshot!.data!){
                   productModel.add(i);
                 }
-
-
 
                 return snapshot.data!.isNotEmpty ? ListView.builder(
                   shrinkWrap: true,
@@ -135,22 +178,14 @@ class _CartScreenState extends State<CartScreen> {
                   itemCount: snapshot.data!.length,
                     itemBuilder: (context,index){
                     var data = snapshot.data![index];
-
-                    totalPrice = 0.0;
-
-
-
-
                     //totalPrice = 0.0;
                     if(role != null && role == restaurantAccount){
-                      itemPrice.add(double.parse(data.regularPrice!));
+                      itemPrice.add(double.parse(data!.regularPrice!));
                       //totalPriceGet(double.parse(data.regularPrice!), double.parse("${data.tax}"));
                     }else if( role == sellerAccount){
                       itemPrice.add(double.parse(data.sellingPrice!));
-
                     }else{
                       itemPrice.add(double.parse(data.wholePrice!));
-
                     }
 
                     return ListTile(
@@ -207,8 +242,10 @@ class _CartScreenState extends State<CartScreen> {
                                   children: [
                                     InkWell(
                                       onTap: ()async{
+
                                         setState((){
                                             qty[index]--;
+                                            totalPriceCalculat(productModel);
                                         });
                                         if(qty[index] == 0){
                                           print("_cartProductId  ==== ${_cartProductId[index]}");
@@ -246,8 +283,10 @@ class _CartScreenState extends State<CartScreen> {
 
                                     InkWell(
                                       onTap: (){
+
                                         setState(() {
                                           qty[index]++;
+                                          totalPriceCalculat(productModel);
                                         });
                                       },
                                       child: Container(
@@ -448,15 +487,28 @@ class _CartScreenState extends State<CartScreen> {
           padding: const EdgeInsets.only(left: 20.0,right: 20.0),
           margin: const EdgeInsets.only(left: 10.0,right: 10.0, bottom: 20),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
             children: [
-              Icon(Icons.add_shopping_cart, size: 20, color: Colors.white,),
-              SizedBox(width: 10,),
-              Text("Passer la commande",
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.add_shopping_cart, size: 20, color: Colors.white,),
+                  SizedBox(width: 10,),
+                  Text("Passer la commande",
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white
+                    ),
+                  )
+                ],
+              ),
+              Text("${totalPrice}€",
                 style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white
                 ),
               )
             ],

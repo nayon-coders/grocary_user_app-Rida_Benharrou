@@ -7,6 +7,7 @@ import 'package:nectar/view/explore_screen/explore_screen.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/app_shimmer.dart';
+import 'package:nectar/widget/not_found.dart';
 
 import '../../../model/sub_category_model.dart';
 import '../../../utility/app_color.dart';
@@ -131,7 +132,8 @@ class Categoreis extends StatelessWidget {
 
 
 class SubCategoreis extends StatelessWidget {
-  const SubCategoreis({super.key});
+  final bool showTitle;
+  const SubCategoreis({super.key, this.showTitle = true});
 
   @override
   Widget build(BuildContext context) {
@@ -170,13 +172,13 @@ class SubCategoreis extends StatelessWidget {
           return category.isNotEmpty ? Column(
 
             children: [
-              Row(
+              showTitle ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Par catégorie",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                 ],
-              ),
+              ) : Center(),
               SizedBox(height: 15,),
               SizedBox(
                 child: GridView.builder(
@@ -225,7 +227,7 @@ class SubCategoreis extends StatelessWidget {
 
               ),
             ],
-          )  : Center(child: Text("Category is empty"),);
+          )  : Center(child: NotFound(),);
         }
     );
   }

@@ -54,120 +54,121 @@ class _ExploreScreenState extends State<ExploreScreen> {
           // },
         )
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                  ),
-                  itemCount: 8,
-                  itemBuilder: (context, index) {
-                    return AppShimmer();
-                  },
-                );
-              }
-
-
-              if(searchCategory.isEmpty){
-                for(var i in snapshot.data!.docs){
-                  category.add(SubCategoryModel.fromJson(i));
-                }
-              }
-
-
-              return searchCategory.isNotEmpty
-                  ? GridView.builder(
-                      // physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          crossAxisSpacing: 10.0,
-                          mainAxisSpacing: 10.0,
-                          mainAxisExtent: 180
-                      ),
-                      itemCount: searchCategory.length,
-                      itemBuilder: (context, index) {
-                        var data = searchCategory[index];
-                        return InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
-                          child: Container(
-                            padding: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                color: Colors.blue.shade50,
-                                borderRadius: BorderRadius.circular(5),
-                                border: Border.all(width: 1, color: Colors.grey.shade200)
-                            ),
-                            child: Column(
-                              children: [
-                                Text("${data.name}",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.black
-                                  ),
-                                ),
-                                Spacer(),
-                                AppNetworkImage(src: data.image!, height: 110, width: 110,),
-
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    )
-                  : category.isNotEmpty
-                  ? GridView.builder(
-               // physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 10.0,
-                    mainAxisSpacing: 10.0,
-                    mainAxisExtent: 190
-                ),
-                itemCount: category.length,
-                itemBuilder: (context, index) {
-                  var data = category[index];
-                  return InkWell(
-                    onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
-                    child: Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          color: Colors.blue.shade50,
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(width: 1, color: Colors.grey.shade200)
-                      ),
-                      child: Column(
-                        children: [
-                          Text("${data.name}",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.black
-                            ),
-                          ),
-                          Spacer(),
-                          AppNetworkImage(src: data.image!, height: 110, width: 110,),
-
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              )
-                  : NotFound();
-            }
-        ),
+        child:  SubCategoreis(showTitle: false,),
+        // child: StreamBuilder(
+        //     stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
+        //     builder: (context, snapshot) {
+        //       if(snapshot.connectionState == ConnectionState.waiting){
+        //         return GridView.builder(
+        //           physics: NeverScrollableScrollPhysics(),
+        //           shrinkWrap: true,
+        //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //             crossAxisCount: 2,
+        //             crossAxisSpacing: 10.0,
+        //             mainAxisSpacing: 10.0,
+        //           ),
+        //           itemCount: 8,
+        //           itemBuilder: (context, index) {
+        //             return AppShimmer();
+        //           },
+        //         );
+        //       }
+        //
+        //
+        //       if(searchCategory.isEmpty){
+        //         for(var i in snapshot.data!.docs){
+        //           category.add(SubCategoryModel.fromJson(i));
+        //         }
+        //       }
+        //
+        //
+        //       return searchCategory.isNotEmpty
+        //           ? GridView.builder(
+        //               // physics: NeverScrollableScrollPhysics(),
+        //               shrinkWrap: true,
+        //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //                   crossAxisCount: 3,
+        //                   crossAxisSpacing: 10.0,
+        //                   mainAxisSpacing: 10.0,
+        //                   mainAxisExtent: 180
+        //               ),
+        //               itemCount: searchCategory.length,
+        //               itemBuilder: (context, index) {
+        //                 var data = searchCategory[index];
+        //                 return InkWell(
+        //                   onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
+        //                   child: Container(
+        //                     padding: EdgeInsets.all(10),
+        //                     decoration: BoxDecoration(
+        //                         color: Colors.blue.shade50,
+        //                         borderRadius: BorderRadius.circular(5),
+        //                         border: Border.all(width: 1, color: Colors.grey.shade200)
+        //                     ),
+        //                     child: Column(
+        //                       children: [
+        //                         Text("${data.name}",
+        //                           textAlign: TextAlign.center,
+        //                           style: TextStyle(
+        //                               fontSize: 13,
+        //                               fontWeight: FontWeight.w600,
+        //                               color: Colors.black
+        //                           ),
+        //                         ),
+        //                         Spacer(),
+        //                         AppNetworkImage(src: data.image!, height: 110, width: 110,),
+        //
+        //                       ],
+        //                     ),
+        //                   ),
+        //                 );
+        //               },
+        //             )
+        //           : category.isNotEmpty
+        //           ? GridView.builder(
+        //        // physics: NeverScrollableScrollPhysics(),
+        //         shrinkWrap: true,
+        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //             crossAxisCount: 3,
+        //             crossAxisSpacing: 10.0,
+        //             mainAxisSpacing: 10.0,
+        //             mainAxisExtent: 190
+        //         ),
+        //         itemCount: category.length,
+        //         itemBuilder: (context, index) {
+        //           var data = category[index];
+        //           return InkWell(
+        //             onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
+        //             child: Container(
+        //               padding: EdgeInsets.all(10),
+        //               decoration: BoxDecoration(
+        //                   color: Colors.blue.shade50,
+        //                   borderRadius: BorderRadius.circular(5),
+        //                   border: Border.all(width: 1, color: Colors.grey.shade200)
+        //               ),
+        //               child: Column(
+        //                 children: [
+        //                   Text("${data.name}",
+        //                     textAlign: TextAlign.center,
+        //                     style: TextStyle(
+        //                         fontSize: 13,
+        //                         fontWeight: FontWeight.w400,
+        //                         color: Colors.black
+        //                     ),
+        //                   ),
+        //                   Spacer(),
+        //                   AppNetworkImage(src: data.image!, height: 110, width: 110,),
+        //
+        //                 ],
+        //               ),
+        //             ),
+        //           );
+        //         },
+        //       )
+        //           : NotFound();
+        //     }
+        // ),
       ),
     );
   }

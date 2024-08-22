@@ -336,8 +336,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                  }
                                }
                              }
-
-
                            }
 
                            print("products --- ${products.length}");

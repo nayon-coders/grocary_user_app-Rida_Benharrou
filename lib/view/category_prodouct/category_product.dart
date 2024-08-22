@@ -282,10 +282,17 @@ class _CategoryProductState extends State<CategoryProduct> {
                       }else{
                         products.clear();
                         subCategoryproducts.clear();
+                        for(var i in snapshot.data!.docs){
+                          var pro = ProductModel.fromJson(i.data());
+                          for(var j in pro.subCategory!){
+                            if(j == clickedSubCategory){
+                                subCategoryproducts.add(ProductModel.fromJson(pro.toJson()));
+                            }
+                          }
+                        }
                         for(var i=0; i<snapshot.data!.docs.length; i++){
 
                           if(snapshot.data!.docs[i].data()["sub_category"].toString().toLowerCase() == clickedSubCategory.toString().toLowerCase()){
-                            subCategoryproducts.add(ProductModel.fromJson(snapshot.data!.docs[i].data()));
                           }
 
                         }

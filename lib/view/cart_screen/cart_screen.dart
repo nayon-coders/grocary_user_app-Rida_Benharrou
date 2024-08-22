@@ -214,23 +214,27 @@ class _CartScreenState extends State<CartScreen> {
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment : CrossAxisAlignment.end,
                           children: [
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text("${data.name}",
-                                  style: TextStyle(fontSize: 12,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.black),
-                                ),
-                                Text("${itemPrice[index]}€ / ${data.productType}",
-                                  style: TextStyle(fontSize: 10,
-                                      fontWeight: FontWeight.w100,
-                                      color: Colors.black),
-                                ),
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width*.40,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text("${data.name}",
+                                    style: TextStyle(fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black),
+                                  ),
+                                  Text("${itemPrice[index]}€ / ${data.productType}",
+                                    style: TextStyle(fontSize: 10,
+                                        fontWeight: FontWeight.w100,
+                                        color: Colors.black),
+                                  ),
 
-                              ],
+                                ],
+                              ),
                             ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,

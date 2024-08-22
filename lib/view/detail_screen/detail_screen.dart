@@ -12,6 +12,7 @@ import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/cart_screen/cart_screen.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
+import 'package:nectar/view/detail_screen/widgets/produt_type_with_price.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/view/shop_screen/widget/recent_products.dart';
 
@@ -55,8 +56,12 @@ class _DetailScreenState extends State<DetailScreen> {
     getRole();
   }
 
+  //
+  bool isRoleLoading = false;
   getRole()async{
+    setState(() => isRoleLoading = true);
     await AuthController.accountRole().then((value) => setState(()=> role = value ));
+    setState(() => isRoleLoading = false);
   }
 
   @override
@@ -164,17 +169,9 @@ class _DetailScreenState extends State<DetailScreen> {
                                      fontWeight: FontWeight.w600,
                                      color: Colors.black),
                                ),
-                               Text("${  role == sellerAccount
-                                        ? widget.productModel.sellingPrice
-                                            : role == restaurantAccount
-                                        ? widget.productModel.regularPrice
-                                            :  role == wholeSellerAccount
-                                        ? widget.productModel.wholePrice
-                                            : 00} € / ${widget.productModel.productType} ",
-                                 style: TextStyle(
-                                     fontSize: 12, fontWeight: FontWeight.w300, color: Colors.black
-                                 ),
-                               ),
+
+                               isRoleLoading ? Center() : ProductTypeWithPrice(productModel: widget.productModel, role: role!)
+
 
 
                              ],
@@ -191,8 +188,6 @@ class _DetailScreenState extends State<DetailScreen> {
                                  : role == wholeSellerAccount
                                  ? Text("${(double.parse(widget.productModel.wholePrice!)).toStringAsFixed(2)  }€",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),)
                                  : Text("Logiin") : CircularProgressIndicator(),
-
-
                            ],
                          )
 
@@ -333,12 +328,15 @@ class _DetailScreenState extends State<DetailScreen> {
                            List<ProductModel> products = [];
 
                            for(var i in snapshot.data!.docs){
-                             if(ProductModel.fromJson(i.data()).subCategory.toString().contains(widget.productModel!.subCategory.toString())){
-                               if(ProductModel.fromJson(i.data()).id != widget.productModel!.id){
-                                 products.add(ProductModel.fromJson(i.data()));
+                             var pro = ProductModel.fromJson(i.data());
+                             for(var j in pro.subCategory!){
+                               if(widget.productModel!.subCategory!.contains(j)){
+                                 if(ProductModel.fromJson(i.data()).id != widget.productModel!.id){
+                                   products.add(ProductModel.fromJson(i.data()));
+                                 }
                                }
-
                              }
+
 
                            }
 

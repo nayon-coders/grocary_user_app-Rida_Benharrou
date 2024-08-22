@@ -40,3 +40,34 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> appSnackBar({required 
     backgroundColor: bgColor,
   ));
 }
+
+
+
+//check the ML, CM, MG ect
+List unitList = [
+  {
+    "name" : "G (€ / G)",
+    "inKg" : 1000,
+    "kgName" : "KG (Kilogram)"
+  },
+  {
+    "name" : "MG (€ / MG)",
+    "inKg" : 1000*1000,
+    "kgName" : "KG (Kilogram)"
+  },
+  {
+    "name" : "ML (€ / ML)",
+    "inKg" : 1000,
+    "kgName" : "L (Litter)"
+  },
+  {
+    "name" : "CM (€ / CM)",
+    "inKg" : 100,
+    "kgName" : "M (Meter)"
+  },
+  {
+    "name" : "MM (€ / MM)",
+    "inKg" : 1000,
+    "kgName" : "M (Meter)"
+  }
+];

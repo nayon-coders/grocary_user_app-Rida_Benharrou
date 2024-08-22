@@ -23,7 +23,7 @@ class ProductModel {
   final String? sellingPrice;
   final String? discountPrice;
   final CategoryS? categoryS;
-  final String? subCategory;
+  final List? subCategory;
   final Variants? variants;
   final String? status;
   final String? isStock;
@@ -31,6 +31,7 @@ class ProductModel {
   final String? createAt;
   final String? country;
   final String? tax;
+  final String? unit;
 
   ProductModel({
     this.id,
@@ -52,7 +53,8 @@ class ProductModel {
     this.createAt,
     this.subCategory,
     this.country,
-    this.tax
+    this.tax,
+    this.unit
   });
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
@@ -74,7 +76,8 @@ class ProductModel {
     createAt: json["create_at"],
     subCategory: json["sub_category"],
     country: json["country"] ?? "",
-    tax: json["tax"] ?? ""
+    tax: json["tax"] ?? "",
+    unit: json["unit"] ?? "",
 
   );
 
@@ -99,7 +102,8 @@ class ProductModel {
     createAt: json["create_at"],
     subCategory: json["sub_category"],
     country: json["country"] ?? "",
-    tax: json["tax"] ?? ""
+    tax: json["tax"] ?? "",
+    unit: json["unit"] ?? ""
   );
 
   Map<String, dynamic> toJson() => {

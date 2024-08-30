@@ -7,6 +7,7 @@ import 'package:nectar/view/detail_screen/detail_screen.dart';
 import 'package:nectar/widget/app_network_images.dart';
 
 import '../../../utility/app_color.dart';
+import '../../../utility/app_const.dart';
 import '../../../utility/assets.dart';
 import '../../../utility/fontsize.dart';
 class ItemCard extends StatefulWidget {
@@ -25,15 +26,55 @@ class _ItemCardState extends State<ItemCard> {
     setState(() {
       role = data;
     });
+    calculate();
 
   }
+  double productPriceInKg = 0.00;
+  var productPrice, productTypeNameInKg ;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     getUserRol();
+
+
   }
+
+  void calculate()async{
+    if(role == sellerAccount){
+      productPrice = widget.productModel?.sellingPrice;
+    }else if( role == restaurantAccount){
+      productPrice = widget.productModel?.regularPrice;
+    }else if(role == wholeSellerAccount){
+      productPrice = widget.productModel?.wholePrice;
+    }else{
+      productPrice = 0.00;
+    }
+
+    var productType = widget.productModel!.productType;
+    //looping to find the product type
+    for(var i = 0; i < unitList.length; i++){
+      print("unitList[i] name --- ${productType}");
+      if(productType == "U (€ / U)" && unitList[i]["name"] == productType){
+        productPriceInKg = double.parse(productPrice) /double.parse(widget.productModel!.unit.toString());
+        productTypeNameInKg = unitList[i]["kgName"];
+        break;
+      }else if(unitList[i]["name"] == productType){
+        productPriceInKg = (double.parse(productPrice) / double.parse(widget.productModel!.unit.toString())) * unitList[i]["inKg"];
+        productTypeNameInKg = unitList[i]["kgName"];
+        break;
+      }else{
+        productPriceInKg = double.parse(productPrice.toString());
+        productTypeNameInKg = widget.productModel!.productType;
+      }
+    }
+    setState(() {
+
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,12 +185,7 @@ class _ItemCardState extends State<ItemCard> {
                          fontSize: 13,
                          color: Colors.black),
                    ),
-                   Text("${
-                       role == "Seller"
-                           ? widget.productModel!.sellingPrice
-                           : role == "Restaurant"
-                           ? widget.productModel!.regularPrice
-                           : widget.productModel!.wholePrice} € / ${widget.productModel!.productType}",
+                   Text("${productPriceInKg.toStringAsFixed(2)} € / 1 ${productTypeNameInKg}",
                      style: TextStyle(
                          fontWeight: FontWeight.w200,
                          fontSize: 10,

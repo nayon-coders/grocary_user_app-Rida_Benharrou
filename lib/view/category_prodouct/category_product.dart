@@ -89,7 +89,9 @@ class _CategoryProductState extends State<CategoryProduct> {
       ),));
       for(var j in subCategoryValue.docs){
         if(_seelctedMainCategory == SubCategoryModel.fromJson(j).mainCatId ){
-            subCategories.add(SubCategoryModel.fromJson(j));
+           setState(() {
+             subCategories.add(SubCategoryModel.fromJson(j));
+           });
             _subCategoryTab.add(
                 Tab(
                     child: Padding(
@@ -103,6 +105,8 @@ class _CategoryProductState extends State<CategoryProduct> {
                     ),
                 )
             );
+
+            print("subCategories -------- ${j.data()}");
         }
       }
 
@@ -221,18 +225,18 @@ class _CategoryProductState extends State<CategoryProduct> {
                       tabs: _subCategoryTab,
                       indicatorColor: Colors.blue,
                       labelColor: Colors.black,
-                      onTap: (index){
-                       // clickedSubCategory = null;
-                        if(index == 0){
+                      onTap: (index) {
+                        clickedSubCategory = null; // Reset clickedSubCategory
+                        if (index == 0) {
                           setState(() {
                             clickedSubCategory = null;
                           });
-                        }else{
+                        } else {
                           setState(() {
-                            clickedSubCategory = subCategories[index]!.name.toString();
+                            clickedSubCategory = subCategories[index - 1]!.name.toString();
                           });
+                          print("clickedSubCategory name -------- $clickedSubCategory");
                         }
-
                       },
                     ),
                   ),

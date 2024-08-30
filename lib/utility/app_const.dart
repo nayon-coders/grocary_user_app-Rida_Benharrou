@@ -69,5 +69,10 @@ List unitList = [
     "name" : "MM (€ / MM)",
     "inKg" : 1000,
     "kgName" : "M (Meter)"
+  },
+  {
+    "name" : "U (€ / U)",
+    "inKg" : 12,
+    "kgName" : "U "
   }
 ];

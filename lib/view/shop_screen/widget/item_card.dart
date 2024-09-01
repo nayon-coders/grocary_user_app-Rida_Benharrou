@@ -56,8 +56,15 @@ class _ItemCardState extends State<ItemCard> {
     var productType = widget.productModel!.productType;
     //looping to find the product type
     for(var i = 0; i < unitList.length; i++){
-      print("unitList[i] name --- ${productType}");
-      if(productType == "U (€ / U)" && unitList[i]["name"] == productType){
+
+      if(productType == "KG (€ / Kg)"){
+        var inG = 1000;
+        var totalGram = double.parse(widget.productModel!.unit.toString()) * inG;
+        var oneGramPrice = double.parse(productPrice) /double.parse(totalGram.toString()) ;
+        productPriceInKg = oneGramPrice * inG;
+        productTypeNameInKg = unitList[i]["kgName"];
+        break;
+      }else if(productType == "U (€ / U)" && unitList[i]["name"] == productType){
         productPriceInKg = double.parse(productPrice) /double.parse(widget.productModel!.unit.toString());
         productTypeNameInKg = unitList[i]["kgName"];
         break;

@@ -66,7 +66,8 @@ class OfferProducts extends StatelessWidget {
 
             print("products --- ${products.length}");
 
-            return SizedBox(
+            return products!.isEmpty ? SizedBox(
+                height:150, child: const Center(child: Text("We don't have any discount now."),)) : SizedBox(
               height: 200,
               child: ListView.builder(
                   padding: EdgeInsets.only(right: 10),

@@ -46,29 +46,34 @@ ScaffoldFeatureController<SnackBar, SnackBarClosedReason> appSnackBar({required 
 //check the ML, CM, MG ect
 List unitList = [
   {
+    "name" : "KG (€ / KG)",
+    "inKg" : 1000,
+    "kgName" : "KG"
+  },
+  {
     "name" : "G (€ / G)",
     "inKg" : 1000,
-    "kgName" : "KG (Kilogram)"
+    "kgName" : "KG"
   },
   {
     "name" : "MG (€ / MG)",
     "inKg" : 1000*1000,
-    "kgName" : "KG (Kilogram)"
+    "kgName" : "KG"
   },
   {
     "name" : "ML (€ / ML)",
     "inKg" : 1000,
-    "kgName" : "L (Litter)"
+    "kgName" : "L"
   },
   {
     "name" : "CM (€ / CM)",
     "inKg" : 100,
-    "kgName" : "M (Meter)"
+    "kgName" : "M"
   },
   {
     "name" : "MM (€ / MM)",
     "inKg" : 1000,
-    "kgName" : "M (Meter)"
+    "kgName" : "M"
   },
   {
     "name" : "U (€ / U)",

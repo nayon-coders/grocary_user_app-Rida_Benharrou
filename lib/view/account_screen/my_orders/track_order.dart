@@ -1,15 +1,18 @@
 import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar/model/orders_model.dart';
+import 'package:get/get.dart';
+import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
+import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_network_images.dart';
 
+import '../../../data/models/order_model.dart';
 import '../../../generated/assets.dart';
 
 class TrackOrder extends StatefulWidget {
-  final OrderModel orderModel;
+  final SingleOrder orderModel;
   const TrackOrder({super.key, required this.orderModel});
 
   @override
@@ -32,18 +35,14 @@ class _TrackOrderState extends State<TrackOrder> {
       });
     }
   }
-  double totalTax = 0.00;
+
+  var totalTax;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    for(var i in widget.orderModel!.products!){
-      totalTax = totalTax + double.parse(i!.tax.toString());
-      setState(() {
 
-      });
-    }
   }
   @override
   Widget build(BuildContext context) {
@@ -53,7 +52,7 @@ class _TrackOrderState extends State<TrackOrder> {
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
         leading: InkWell(
-          onTap: ()=>Navigator.pop(context),
+          onTap: ()=>Get.to(NavigationScreen(pageIndex: 4,)),
             child: Icon(Icons.arrow_back,color:AppColors.textBlack,size: 30,)),
 
       ),
@@ -97,55 +96,56 @@ class _TrackOrderState extends State<TrackOrder> {
                     itemBuilder: (_, index){
                       var data = widget.orderModel.products![index];
 
+                      print("data.images![0].imageUrl! --- ${data.images!.length}");
                       return ListTile(
-                        shape: Border(bottom:  BorderSide(color:Colors.grey.shade200)),
-                        contentPadding: EdgeInsets.only(bottom: 5),
-                        leading: Container(
-                            width: 70, height:80,
-                            decoration: BoxDecoration(
-                                color: Colors.grey.shade100,
-                                borderRadius: BorderRadius.circular(10)
-                            ),
-                            child: AppNetworkImage(src: data.productInfo!.images![0], width: 60, height:60,)),
-                        title: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width*.50,
-                              child: Text("${data.itemPrice}€ ",style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color:AppColors.textBlack,
+                          shape: Border(bottom:  BorderSide(color:Colors.grey.shade200)),
+                          contentPadding: EdgeInsets.only(bottom: 5),
+                          leading: Container(
+                              width: 70, height:80,
+                              decoration: BoxDecoration(
+                                  color: Colors.grey.shade100,
+                                  borderRadius: BorderRadius.circular(10)
                               ),
-                              ),
-                            ),
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              child: AppNetworkImage(src: data.images![0].imageUrl! ?? "", width: 60, height:60,)),
+                          title: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width*.50,
+                                  child: Text("${data.price}€ ",style: TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color:AppColors.textBlack,
+                                  ),
+                                  ),
+                                ),
+
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("${data.productInfo!.name}",
-                                      style: TextStyle(fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: Colors.black),
-                                    ),
-                                    Text("${data.itemPrice}€ / ${data.productInfo!.productType}",
-                                      style: TextStyle(fontSize: 10,
-                                          fontWeight: FontWeight.w100,
-                                          color: Colors.black),
+                                    Column(
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("${data.name}",
+                                          style: TextStyle(fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black),
+                                        ),
+                                        Text("${data.price}€",
+                                          style: TextStyle(fontSize: 10,
+                                              fontWeight: FontWeight.w100,
+                                              color: Colors.black),
+                                        ),
+
+                                      ],
                                     ),
 
                                   ],
-                                ),
-
-                              ],
-                            )
-                        ]
-                      )
+                                )
+                              ]
+                          )
                       );
                     },
                   ),
@@ -161,7 +161,7 @@ class _TrackOrderState extends State<TrackOrder> {
                       ),
                       SizedBox(
                         width: 200,
-                        child: Text("${widget.orderModel!.address!.postCode}, ${widget.orderModel!.address!.city}, ${widget.orderModel!.address!.address}, ${widget.orderModel!.address!.contact}",
+                        child: Text("${widget.orderModel!.userDeliveryAddress!.postCode}, ${widget.orderModel!.userDeliveryAddress!.city}, ${widget.orderModel!.userDeliveryAddress!.address}, ${widget.orderModel!.userDeliveryAddress!.contact}",
                           textAlign: TextAlign.right,
                           style: TextStyle(
                               fontSize: 16,
@@ -221,7 +221,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${widget.orderModel.subTotal}€",
+                      Text("${widget.orderModel.subTotal!.toStringAsFixed(2)}€",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w400,
@@ -260,7 +260,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${totalTax.toStringAsFixed(2)}€",
+                      Text("${widget.orderModel.taxAmount!.toStringAsFixed(2)}€",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600
@@ -280,7 +280,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${widget.orderModel!.totalAmount}€",
+                      Text("${widget.orderModel!.taxAmount!.toStringAsFixed(2)}€",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600
@@ -319,7 +319,7 @@ class _TrackOrderState extends State<TrackOrder> {
                       return orderStatus[index].toString().toLowerCase() == widget.orderModel!.orderStatus!.toLowerCase()
                           ? OrderTrakingSteper(
                           status: widget.orderModel!.orderStatus!,
-                          date: widget.orderModel!.createAt!,
+                          date: widget.orderModel!.createdAt!.toString(),
                           number: (index+1).toString(),
                           color: AppColors.mainColor,
                         index: index,

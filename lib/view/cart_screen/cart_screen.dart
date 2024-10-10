@@ -3,22 +3,24 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:nectar/controller/cart_controller.dart';
-import 'package:nectar/model/orders_model.dart';
+import 'package:nectar/data/global/global_controller.dart';
+import 'package:nectar/data/global/global_variable.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/fontsize.dart';
-import 'package:nectar/view/cart_screen/widget/bottomsheet_list.dart';
+import 'package:nectar/view/account_screen/controller/address_controller.dart';
+import 'package:nectar/view/cart_screen/controller/car_controller.dart';
 import 'package:nectar/view/cart_screen/widget/order_popup.dart';
 import 'package:nectar/view/cart_screen/widget/recomandation_products.dart';
-import 'package:nectar/view/order_accepted/order_accepted.dart';
-import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_network_images.dart';
+import 'package:nectar/widget/app_shimmer.dart';
 
 import '../../controller/auth_controller.dart';
 import '../../utility/app_color.dart';
 import '../../utility/app_const.dart';
-import '../../utility/assets.dart';
 import '../../widget/not_found.dart';
+import 'controller/order_controller.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -28,114 +30,19 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
-  int _initial = 1;
 
-  double totalPrice = 0.00;
-
-  List qty = [];
-
-
-  List<double> itemPrice = [];
-
-  List<ProductModel> productModel = [];
-  List<String> _cartProductId = [];
-
-  Future<List<ProductModel>>? carFuture;
-  List<ProductModel> _cartProducts = [];
-
-  Future getCartFuture() async {
-    carFuture = CartController.getCartProduct();
-    await getCartItems();
-    if (mounted) {
-      setState(() {});
-    }
-    return carFuture;
-  }
-
-  Future totalProductList() async {
-    var data = await CartController.getCartProduct();
-    if (mounted) {
-      totalPriceCalculat(data);
-    }
-  }
+  CartControllerNew cartController = Get.find<CartControllerNew>();
+  AddressControllerNew addressController = Get.put(AddressControllerNew());
+  GlobalController globalController = Get.find<GlobalController>();
+  OrderControllerNew orderControllerNew = Get.put(OrderControllerNew());
 
 
-
-  getCartItems(){
-    _cartProductId.clear();
-    qty.clear();
-    FirebaseFirestore.instance.collection(cartCollection).where("email", isEqualTo: FirebaseAuth.instance.currentUser!.email).get().then((value) {
-      for(var i in value.docs){
-        if(i.exists){
-          setState(() {
-            _cartProductId.add(i.id);
-            qty.add(int.parse("${i.data()["qty"]}"));
-          });
-          print("_cartProductId --------- id --- ${_cartProductId}");
-
-        }
-      }
-    });
-    setState(() {
-
-    });
-  }
-
-  totalPriceCalculat(productModelList){
-    for(var i =0; i< productModelList!.length; i++){
-      //totalPrice = 0.0;
-      if(role != null && role == restaurantAccount){
-        setState(() {
-          totalPrice = totalPrice + (double.parse(productModelList[i]!.regularPrice!) * qty[i]);
-        });
-        //totalPriceGet(double.parse(data.regularPrice!), double.parse("${data.tax}"));
-      }else if( role == sellerAccount){
-        setState(() {
-          totalPrice = totalPrice + (double.parse(productModelList[i]!.sellingPrice!) * qty[i]);
-        });
-      }else{
-        setState(() {
-          totalPrice = totalPrice + (double.parse(productModelList[i]!.wholePrice!) * qty[i]);
-        });
-      }
-
-    }
-  }
-
-  String? role;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    getCartFuture();
-    totalProductList();
-    AuthController.accountRole().then((value) => setState(()=> role = value ));
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-    totalProductList();
-  }
+  var _cartProductId;
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      //backgroundColor: AppColors.bgWhite,
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: false,
-      //   elevation: 0,
-      //   backgroundColor: AppColors.bgWhite,
-      //   title: Text("Mon panier",
-      //     style: TextStyle(
-      //         fontSize: titleFont,
-      //         fontWeight: FontWeight.w600,
-      //         color: AppColors.textBlack,
-      //     ),
-      //   ),
-      //   centerTitle: false,
-      // ),
+
       body: SingleChildScrollView(
         padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Column(
@@ -157,327 +64,175 @@ class _CartScreenState extends State<CartScreen> {
               ),
             ),
             SizedBox(height: 10,),
-            FutureBuilder(
-              future: carFuture,
-              builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return Center(child: CircularProgressIndicator(),);
-                }
 
-
-                totalPrice = 0.00;
-                productModel.clear();
-
-                for(var i in snapshot!.data!){
-                  productModel.add(i);
-                }
-
-                return snapshot.data!.isNotEmpty ? ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data!.length,
+            //show cart product
+            Obx((){
+              if(cartController.isCartLoading.value){
+                return  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: 5,
                     itemBuilder: (context,index){
-                    var data = snapshot.data![index];
-                    //totalPrice = 0.0;
-                    if(role != null && role == restaurantAccount){
-                      itemPrice.add(double.parse(data!.regularPrice!));
-                      //totalPriceGet(double.parse(data.regularPrice!), double.parse("${data.tax}"));
-                    }else if( role == sellerAccount){
-                      itemPrice.add(double.parse(data.sellingPrice!));
-                    }else{
-                      itemPrice.add(double.parse(data.wholePrice!));
-                    }
+                      return Container(margin: EdgeInsets.only(bottom: 10), height: 70, child: AppShimmer());
+                    });
+              }else if(cartController.cartList.value.data == null || cartController.cartList.value.data!.isEmpty){
+                return NotFound();
+              }else{
+                return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: cartController.cartList.value.data!.length,
+                    itemBuilder: (context,index){
+                      var data = cartController.cartList.value.data![index];
 
-                    return ListTile(
-                    shape: Border(bottom:  BorderSide(color:Colors.grey.shade200)),
-                    contentPadding: EdgeInsets.only(bottom: 5),
-                    leading: Container(
-                        width: 70, height:80,
-                        decoration: BoxDecoration(
-                          color: Colors.grey.shade100,
-                          borderRadius: BorderRadius.circular(10)
-                        ),
-                        child: AppNetworkImage(src: data.images![0], width: 60, height:60,)),
-                    title: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width*.50,
-                          child: Text("${itemPrice[index]}€ ",style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                            color:AppColors.textBlack,
-                          ),
-                          ),
-                        ),
 
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment : CrossAxisAlignment.end,
+                      return ListTile(
+                        shape: Border(bottom:  BorderSide(color:Colors.grey.shade200)),
+                        contentPadding: EdgeInsets.only(bottom: 5),
+                        leading: Container(
+                            width: 70, height:80,
+                            decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(10)
+                            ),
+                            child: AppNetworkImage(src: data.productImages!, width: 60, height:60,)),
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(
-                              width: MediaQuery.of(context).size.width*.40,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text("${data.name}",
-                                    style: TextStyle(fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: Colors.black),
-                                  ),
-                                  Text("${itemPrice[index]}€ / ${data.productType}",
-                                    style: TextStyle(fontSize: 10,
-                                        fontWeight: FontWeight.w100,
-                                        color: Colors.black),
-                                  ),
-
-                                ],
+                              width: MediaQuery.of(context).size.width*.50,
+                              child: Text(
+                                "${data.productName}",style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color:AppColors.textBlack,
                               ),
+                              )
                             ),
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment : CrossAxisAlignment.end,
                               children: [
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width*.40,
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+
+                                  Obx(() {
+                                    return Text(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble())}€ ",style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color:AppColors.textBlack,
+                                    ),
+                                    );
+                                  }
+                                  )
+
+                                    ],
+                                  ),
+                                ),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    InkWell(
-                                      onTap: ()async{
-
-                                        setState((){
-                                            qty[index]--;
-                                            totalPriceCalculat(productModel);
-                                        });
-                                        if(qty[index] == 0){
-                                          print("_cartProductId  ==== ${_cartProductId[index]}");
-                                          await CartController.removeFromCart(context, _cartProductId[index]);
-                                          getCartFuture();
-                                          setState(() {
-
-                                          });
-                                        }
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 1, color: Colors.grey.shade200),
-                                          borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(5),
-                                            topLeft: Radius.circular(5),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        InkWell(
+                                          onTap: ()async{
+                                            cartController.decrementQty(index); //decrement qty
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(width: 1, color: Colors.grey.shade200),
+                                              borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(5),
+                                                topLeft: Radius.circular(5),
+                                              ),
+                                              color: AppColors.bgWhite,
+                                            ),
+                                            child: Center(
+                                              child: Icon(Icons.remove,size: 20, color: AppColors.mainColor,),
+                                            ),
                                           ),
-                                          color: AppColors.bgWhite,
                                         ),
-                                        child: Center(
-                                          child: Icon(Icons.remove,size: 20, color: AppColors.mainColor,),
+                                        Obx(() {
+                                            return Container(
+                                                width: 25,
+                                                height: 27,
+                                                decoration: BoxDecoration(
+                                                  border: Border.all(width: 1, color: AppColors.mainColor),
+                                                  color: AppColors.mainColor,
+                                                ),
+                                                child: Center(child: Text("${cartController.qtyList.value[index]}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),)));
+                                          }
                                         ),
-                                      ),
-                                    ),
-                                    Container(
-                                        width: 25,
-                                        height: 27,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 1, color: AppColors.mainColor),
-                                          color: AppColors.mainColor,
-                                        ),
-                                        child: Center(child: Text("${qty[index]}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),))),
 
 
-                                    InkWell(
-                                      onTap: (){
-
-                                        setState(() {
-                                          qty[index]++;
-                                          totalPriceCalculat(productModel);
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: EdgeInsets.all(3),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(width: 1, color: Colors.grey.shade200),
-                                          borderRadius: BorderRadius.only(
-                                            bottomRight: Radius.circular(5),
-                                            topRight: Radius.circular(5),
+                                        InkWell(
+                                          onTap: (){
+                                            cartController.incrementQty(index);
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(3),
+                                            decoration: BoxDecoration(
+                                              border: Border.all(width: 1, color: Colors.grey.shade200),
+                                              borderRadius: BorderRadius.only(
+                                                bottomRight: Radius.circular(5),
+                                                topRight: Radius.circular(5),
+                                              ),
+                                              color: AppColors.bgWhite,
+                                            ),
+                                            child: Center(
+                                              child: Icon(Icons.add,size: 20, color: AppColors.mainColor,),
+                                            ),
                                           ),
-                                          color: AppColors.bgWhite,
                                         ),
-                                        child: Center(
-                                          child: Icon(Icons.add,size: 20, color: AppColors.mainColor,),
-                                        ),
-                                      ),
+                                      ],
                                     ),
                                   ],
-                                ),
+                                )
                               ],
                             )
+
+
+
+                            ///TODO: Remove this block if need to show the tax
+                            // Text("TVA: ${double.parse("${data.tax}")}%",
+                            //   style: TextStyle(fontSize: 10,
+                            //       fontWeight: FontWeight.w100,
+                            //       color: Colors.black),
+                            // ),
                           ],
-                        )
+                        ),
 
-
-
-                        ///TODO: Remove this block if need to show the tax
-                        // Text("TVA: ${double.parse("${data.tax}")}%",
-                        //   style: TextStyle(fontSize: 10,
-                        //       fontWeight: FontWeight.w100,
-                        //       color: Colors.black),
-                        // ),
-                      ],
-                    ),
-                    // title: Column(
-                    //   mainAxisAlignment: MainAxisAlignment.start,
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     Row(
-                    //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //       crossAxisAlignment: CrossAxisAlignment.center,
-                    //       children: [
-                    //         Column(
-                    //           mainAxisAlignment: MainAxisAlignment.start,
-                    //           crossAxisAlignment: CrossAxisAlignment.start,
-                    //           children: [
-                    //             SizedBox(
-                    //               width: MediaQuery.of(context).size.width*.50,
-                    //               child: Text("${itemPrice[index]}€ ",style: TextStyle(
-                    //                 fontSize: 17,
-                    //                 fontWeight: FontWeight.w600,
-                    //                 color:AppColors.textBlack,
-                    //               ),
-                    //               ),
-                    //             ),
-                    //
-                    //             Row(
-                    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //               children: [
-                    //                 Column(
-                    //                   children: [
-                    //                     Text("${data.name}",
-                    //                       style: TextStyle(fontSize: 12,
-                    //                           fontWeight: FontWeight.w200,
-                    //                           color: Colors.black),
-                    //                     ),
-                    //                     Text("${itemPrice[index]}€ / ${data.productType}",
-                    //                       style: TextStyle(fontSize: 10,
-                    //                           fontWeight: FontWeight.w100,
-                    //                           color: Colors.black),
-                    //                     ),
-                    //
-                    //                   ],
-                    //                 ),
-                    //                 Row(
-                    //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    //                   crossAxisAlignment: CrossAxisAlignment.center,
-                    //                   children: [
-                    //                     Row(
-                    //                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    //                       crossAxisAlignment: CrossAxisAlignment.center,
-                    //                       children: [
-                    //                         InkWell(
-                    //                           onTap: (){
-                    //                             setState(() {
-                    //                               if(qty[index] > 1){
-                    //                                 qty[index]--;
-                    //                               }
-                    //                             });
-                    //                           },
-                    //                           child: Container(
-                    //                             padding: EdgeInsets.all(3),
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(width: 1, color: Colors.grey.shade200),
-                    //                               borderRadius: BorderRadius.only(
-                    //                                 bottomLeft: Radius.circular(5),
-                    //                                 topLeft: Radius.circular(5),
-                    //                               ),
-                    //                               color: AppColors.bgWhite,
-                    //                             ),
-                    //                             child: Center(
-                    //                               child: Icon(Icons.remove,size: 20, color: AppColors.mainColor,),
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                         Container(
-                    //                           width: 25,
-                    //                           height: 27,
-                    //                           decoration: BoxDecoration(
-                    //                             border: Border.all(width: 1, color: AppColors.mainColor),
-                    //                             color: AppColors.mainColor,
-                    //                           ),
-                    //                             child: Center(child: Text("${qty[index]}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),))),
-                    //
-                    //
-                    //                         InkWell(
-                    //                           onTap: (){
-                    //                             setState(() {
-                    //                               qty[index]++;
-                    //                             });
-                    //                           },
-                    //                           child: Container(
-                    //                             padding: EdgeInsets.all(3),
-                    //                             decoration: BoxDecoration(
-                    //                               border: Border.all(width: 1, color: Colors.grey.shade200),
-                    //                               borderRadius: BorderRadius.only(
-                    //                                 bottomRight: Radius.circular(5),
-                    //                                 topRight: Radius.circular(5),
-                    //                               ),
-                    //                               color: AppColors.bgWhite,
-                    //                             ),
-                    //                             child: Center(
-                    //                               child: Icon(Icons.add,size: 20, color: AppColors.mainColor,),
-                    //                             ),
-                    //                           ),
-                    //                         ),
-                    //                       ],
-                    //                     ),
-                    //                   ],
-                    //                 )
-                    //               ],
-                    //             )
-                    //
-                    //
-                    //
-                    //             ///TODO: Remove this block if need to show the tax
-                    //             // Text("TVA: ${double.parse("${data.tax}")}%",
-                    //             //   style: TextStyle(fontSize: 10,
-                    //             //       fontWeight: FontWeight.w100,
-                    //             //       color: Colors.black),
-                    //             // ),
-                    //           ],
-                    //         ),
-                    //
-                    //
-                    //         ///TODO: if need to show the closs button then uncomment this block
-                    //         // InkWell(
-                    //         //     onTap:()async{
-                    //               print("_cartProductId  ==== ${_cartProductId[index]}");
-                    //              await CartController.removeFromCart(context, _cartProductId[index]);
-                    //               getCartFuture();
-                    //
-                    //               setState(() {
-                    //
-                    //               });
-                    //         //     },
-                    //         //     child: Icon(Icons.close,color: AppColors.textGrey,))
-                    //       ],
-                    //     ),
-                    //   ],
-                    // ),
-                  );
-                }) : NotFound() ;
+                      );
+                    });
               }
-            ),
+            }),
 
           ],
         ),
       ),
       bottomNavigationBar: InkWell(
         onTap: (){
+          if(cartController.cartList!.value! == null || cartController.cartList!.value!.data!.isEmpty){
+            return;
+          }
           showModalBottomSheet(context: context, builder:(BuildContext context){
-            return OrderPopup(
-                docId: _cartProductId,
-                productList: productModel,
-                qty: qty,
-                totalPrice: itemPrice
+            return Obx((){
+                return OrderPopup(
+                    qty: [1,1,1],
+                    totalPrice: cartController.priceList.value
+                );
+              }
             );
           });
         },
@@ -508,12 +263,15 @@ class _CartScreenState extends State<CartScreen> {
                   )
                 ],
               ),
-              Text("${totalPrice}€",
-                style: TextStyle(
-                  fontSize: 17,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white
-                ),
+              Obx(() {
+                  return Text("${cartController.totalPrice.toStringAsFixed(2)}€",
+                    style: TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white
+                    ),
+                  );
+                }
               )
             ],
           ),
@@ -523,13 +281,11 @@ class _CartScreenState extends State<CartScreen> {
   }
 
 
-  totalPriceGet(tax, itemPrice){
-    for(var i =0; i < qty.length; i++){
-        totalPrice = totalPrice + (itemPrice * qty[i]) + (totalPrice * qty[i]) / 100 * double.parse("${tax}");
-    }
-
-
-  }
+  // totalPriceGet(tax, itemPrice){
+  //   for(var i =0; i < qty.length; i++){
+  //       totalPrice = totalPrice + (itemPrice * qty[i]) + (totalPrice * qty[i]) / 100 * double.parse("${tax}");
+  //   }
+  // }
 
 
 }

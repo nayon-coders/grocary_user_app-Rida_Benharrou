@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:nectar/model/sub_category_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
 import 'package:nectar/view/explore_screen/widget/category_card.dart';
 import 'package:nectar/view/search_product.dart';
+import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/widget/app_input.dart';
 import 'package:nectar/widget/not_found.dart';
 
@@ -17,20 +19,14 @@ import '../../widget/app_network_images.dart';
 import '../../widget/app_shimmer.dart';
 import '../shop_screen/widget/categoreis.dart';
 
-class ExploreScreen extends StatefulWidget {
-  const ExploreScreen({super.key});
+class ExploreScreen extends GetView<HomeController> {
 
-  @override
-  State<ExploreScreen> createState() => _ExploreScreenState();
-}
+  const ExploreScreen({Key? key}) : super(key: key);
 
-class _ExploreScreenState extends State<ExploreScreen> {
-  final _searchController = TextEditingController();
-  //store category into category list
-  List<SubCategoryModel> category = [];
-  List<SubCategoryModel> searchCategory = [];
   @override
   Widget build(BuildContext context) {
+    final _searchController = TextEditingController();
+
     return Scaffold(
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
@@ -54,122 +50,84 @@ class _ExploreScreenState extends State<ExploreScreen> {
           // },
         )
       ),
-      body: SingleChildScrollView(
+      body: Padding(
         padding: const EdgeInsets.all(10),
-        child:  SubCategoreis(showTitle: false,),
-        // child: StreamBuilder(
-        //     stream: FirebaseFirestore.instance.collection(subCategoryCollection).snapshots(),
-        //     builder: (context, snapshot) {
-        //       if(snapshot.connectionState == ConnectionState.waiting){
-        //         return GridView.builder(
-        //           physics: NeverScrollableScrollPhysics(),
-        //           shrinkWrap: true,
-        //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //             crossAxisCount: 2,
-        //             crossAxisSpacing: 10.0,
-        //             mainAxisSpacing: 10.0,
-        //           ),
-        //           itemCount: 8,
-        //           itemBuilder: (context, index) {
-        //             return AppShimmer();
-        //           },
-        //         );
-        //       }
-        //
-        //
-        //       if(searchCategory.isEmpty){
-        //         for(var i in snapshot.data!.docs){
-        //           category.add(SubCategoryModel.fromJson(i));
-        //         }
-        //       }
-        //
-        //
-        //       return searchCategory.isNotEmpty
-        //           ? GridView.builder(
-        //               // physics: NeverScrollableScrollPhysics(),
-        //               shrinkWrap: true,
-        //               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //                   crossAxisCount: 3,
-        //                   crossAxisSpacing: 10.0,
-        //                   mainAxisSpacing: 10.0,
-        //                   mainAxisExtent: 180
-        //               ),
-        //               itemCount: searchCategory.length,
-        //               itemBuilder: (context, index) {
-        //                 var data = searchCategory[index];
-        //                 return InkWell(
-        //                   onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
-        //                   child: Container(
-        //                     padding: EdgeInsets.all(10),
-        //                     decoration: BoxDecoration(
-        //                         color: Colors.blue.shade50,
-        //                         borderRadius: BorderRadius.circular(5),
-        //                         border: Border.all(width: 1, color: Colors.grey.shade200)
-        //                     ),
-        //                     child: Column(
-        //                       children: [
-        //                         Text("${data.name}",
-        //                           textAlign: TextAlign.center,
-        //                           style: TextStyle(
-        //                               fontSize: 13,
-        //                               fontWeight: FontWeight.w600,
-        //                               color: Colors.black
-        //                           ),
-        //                         ),
-        //                         Spacer(),
-        //                         AppNetworkImage(src: data.image!, height: 110, width: 110,),
-        //
-        //                       ],
-        //                     ),
-        //                   ),
-        //                 );
-        //               },
-        //             )
-        //           : category.isNotEmpty
-        //           ? GridView.builder(
-        //        // physics: NeverScrollableScrollPhysics(),
-        //         shrinkWrap: true,
-        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //             crossAxisCount: 3,
-        //             crossAxisSpacing: 10.0,
-        //             mainAxisSpacing: 10.0,
-        //             mainAxisExtent: 190
-        //         ),
-        //         itemCount: category.length,
-        //         itemBuilder: (context, index) {
-        //           var data = category[index];
-        //           return InkWell(
-        //             onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> CategoryProduct(categoryName: data.name!, mainCatId: data.docId!, mainCatImage: data.image!,))),
-        //             child: Container(
-        //               padding: EdgeInsets.all(10),
-        //               decoration: BoxDecoration(
-        //                   color: Colors.blue.shade50,
-        //                   borderRadius: BorderRadius.circular(5),
-        //                   border: Border.all(width: 1, color: Colors.grey.shade200)
-        //               ),
-        //               child: Column(
-        //                 children: [
-        //                   Text("${data.name}",
-        //                     textAlign: TextAlign.center,
-        //                     style: TextStyle(
-        //                         fontSize: 13,
-        //                         fontWeight: FontWeight.w400,
-        //                         color: Colors.black
-        //                     ),
-        //                   ),
-        //                   Spacer(),
-        //                   AppNetworkImage(src: data.image!, height: 110, width: 110,),
-        //
-        //                 ],
-        //               ),
-        //             ),
-        //           );
-        //         },
-        //       )
-        //           : NotFound();
-        //     }
-        // ),
-      ),
+        child: Obx(() {
+            return controller.isGettingCategory.value
+                ? Center(child: AppShimmer(height: 100, width: 100))
+                : ListView.builder(
+                    shrinkWrap: true,
+                  //  physics: NeverScrollableScrollPhysics(),
+                    itemCount: controller.categoryListModel.value.data!.length,
+                    itemBuilder: (context, index) {
+                      var data = controller.categoryListModel.value.data![index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width,
+                            padding: const EdgeInsets.only(left: 10, top: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50
+                            ),
+                            child: Text(
+                              data.name!,
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          GridView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              crossAxisSpacing: 7.0,
+                              mainAxisSpacing: 7.0,
+                              mainAxisExtent: 170,
+                            ),
+                            itemCount:  data.subCategories!.length,
+                            itemBuilder: (context, i) {
+                              var subCat = data.subCategories![i];
+                              return InkWell(
+                                onTap: ()=>Get.to(CategoryProduct(categoryName: data.name!, subCategories: data.subCategories!, mainCatIndex: index, subCatName: subCat.name!)),
+                                child: Container(
+                                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                                  decoration: BoxDecoration(
+                                      color: Colors.blue.shade50,
+                                      borderRadius: BorderRadius.circular(5),
+                                      border: Border.all(width: 1, color: Colors.grey.shade200)
+                                  ),
+                                  child: Column(
+                                    children: [
+
+                                      SizedBox(
+                                        child: Text("${subCat.name}",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              fontSize: 13,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black
+                                          ),
+                                        ),
+                                      ),
+                                      Spacer(),
+                                      AppNetworkImage(src: subCat.image ?? "", height: 110,),
+
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          )
+                        ],
+                      );
+                    },
+                  );
+          }
+        ),
+        )
     );
   }
 }

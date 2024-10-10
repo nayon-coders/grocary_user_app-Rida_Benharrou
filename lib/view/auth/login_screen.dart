@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nectar/controller/auth_controller.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:nectar/utility/assets.dart';
+import 'package:nectar/view/auth/controller/auth_controller.dart';
 import 'package:nectar/view/auth/signup_screen.dart';
 import 'package:nectar/view/auth/widget/app_field.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
@@ -22,11 +24,8 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
 
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
+  AuthController _authController = Get.put(AuthController());
   bool _obscureText = true;
-  bool _isLoading = false;
 
   final _key = GlobalKey<FormState>();
 
@@ -90,7 +89,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   Text("E-mail",
                     style: TextStyle(fontSize: normalFont,fontWeight: FontWeight.w600,color: AppColors.textGrey),),
                   AppField(
-                      controller: _emailController,
+                      controller: _authController.email.value,
                       hintText: "Email",
                     validator: (v) {
                       if (v!.isEmpty) {
@@ -108,7 +107,7 @@ class _LogInScreenState extends State<LogInScreen> {
                       color: AppColors.textGrey,
                     ),),
                     AppField(
-                        controller: _passwordController,
+                        controller: _authController.pass.value,
                         hintText: "Mot de passe",
                         obscureText: _obscureText,
                         validator: (v){
@@ -140,18 +139,18 @@ class _LogInScreenState extends State<LogInScreen> {
                     ),
                   ),
                   SizedBox(height: 40,),
-                  AppButton(
-                    bgColor: AppColors.bgGreen,
-                    name: "Se connecter",
-                    isLoading: _isLoading,
-                    onClick: ()async{
-                      setState(() => _isLoading = true);
-                      if(_key.currentState!.validate()){
-                       await AuthController.userLogin(context: context, email: _emailController.text, pass: _passwordController.text);
-                      }
-                      setState(() => _isLoading = false);
-      
-                    },
+                  Obx(() {
+                      return AppButton(
+                        bgColor: AppColors.bgGreen,
+                        name: "Se connecter",
+                        isLoading: _authController.isLogin.value,
+                        onClick: ()async{
+                          if(_key.currentState!.validate()){
+                           await _authController.login();
+                          }
+                        },
+                      );
+                    }
                   ),
                   SizedBox(height: 20,),
                   Center(

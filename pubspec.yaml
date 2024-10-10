@@ -54,6 +54,7 @@ dependencies:
 
   #datetime_picker_formfield_new: ^2.1.0
   omni_datetime_picker: ^1.1.0
+  get: ^4.6.6
 
 
 dev_dependencies:

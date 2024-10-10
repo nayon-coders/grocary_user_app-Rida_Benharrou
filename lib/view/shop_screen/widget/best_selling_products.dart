@@ -56,16 +56,16 @@ class BestSellingProducts extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 10,),
-              SizedBox(
-                  height: 230,
-                  child: ListView.builder(
-                  padding: EdgeInsets.only(right: 10),
-                  itemCount: products.length,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context,index){
-                  return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
-                  }),
-              )
+              // SizedBox(
+              //     height: 230,
+              //     child: ListView.builder(
+              //     padding: EdgeInsets.only(right: 10),
+              //     itemCount: products.length,
+              //     scrollDirection: Axis.horizontal,
+              //     itemBuilder: (context,index){
+              //     return products[index].status == "Active" ? ItemCard(singleProduct: products[index],) : Center();
+              //     }),
+              // )
 
             ],
           )  :Center();

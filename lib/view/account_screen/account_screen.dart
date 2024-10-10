@@ -3,8 +3,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/controller/setting_controller.dart';
+import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/account_screen/about_us.dart';
@@ -13,6 +15,7 @@ import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
+import 'package:nectar/view/account_screen/widget/my_profile_widgets_top_info.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
 import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
@@ -69,36 +72,9 @@ class _AccountScreenState extends State<AccountScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Container(
-              height: 200,
-              padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.pink.shade100
-              ),
-              child: FutureBuilder(
-                  future: AuthController.getMyInfo(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return Center();
-                    }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Ravis de vous revoir,",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.pink,
-                            fontSize: 35
-                          ),
-                        ),
-                        Text("${snapshot.data!.docs[0].data()["company"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
-                      ],
-                    );
-                  }
-              ),
-            ),
+            //my profile top widgets
+            MyProfileInfoTopWidgets(),//my profile top widgets
+
             SizedBox(height: 10,),
             Padding(
               padding: EdgeInsets.all(15),
@@ -129,7 +105,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       ProfileMenus(
                         text: "Adresses de livraison",
                         icon: Icons.location_on_outlined,
-                        onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
+                        onClick: ()=>Get.toNamed(AppRoutes.addressList),
                       ),
                       ProfileMenus(
                         text: "Favoris",
@@ -202,7 +178,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               "Suppression de votre compte",
                               "Souhaitez-vous réellement supprimer votre compte?",
                                   () async{
-                                await AuthController.deleteAccout(context);
+                                await AuthControllerOld.deleteAccout(context);
                               }
                           );
                         },
@@ -227,7 +203,7 @@ class _AccountScreenState extends State<AccountScreen> {
               "Déconnexion",
               "Souhaitez-vous vraiment vous déconnecter?",
                   () async{
-                await AuthController.logOut(context);
+                await AuthControllerOld.logOut(context);
               }
           );
         },
@@ -243,6 +219,5 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 }
-
 
 

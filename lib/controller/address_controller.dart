@@ -17,7 +17,7 @@ class AddressController{
       appSnackBar(context: context, text: "L'adresse a été ajoutée", bgColor: Colors.green);
       Navigator.pop(context);
     }catch(e){
-      print("addAddress ---- ${e}"); 
+      print("addAddress ---- ${e}");
     }
   }
 
@@ -32,8 +32,8 @@ class AddressController{
       print("addAddress ---- ${e}");
     }
   }
-  
-  
+
+
 
   //get address
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAddress(){
@@ -54,7 +54,7 @@ class AddressController{
   //get address
   static deleteAddress(context, id)async{
     try{
-      _firestore.collection(addressCollection).doc(id).delete(); 
+      _firestore.collection(addressCollection).doc(id).delete();
       appSnackBar(context: context, text: "L'adresse a été supprimée.", bgColor: Colors.green);
       Navigator.pop(context);
     }catch (e){
@@ -62,7 +62,7 @@ class AddressController{
 
     }
   }
-  
+
   //get post code
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllPostCode(){
     return _firestore.collection(postCodeCollection).snapshots();

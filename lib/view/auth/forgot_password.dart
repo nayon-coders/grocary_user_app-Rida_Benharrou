@@ -109,7 +109,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     if(_key.currentState!.validate()){
       print("email --- $email");
       setState(() => _isLoading = true);
-      await AuthController.resetPassword(email)
+      await AuthControllerOld.resetPassword(email)
           .then((_) => {
         // Show success message or navigate to a success screen
         appSnackBar(context: context, text: "nous envoyons un e-mail de réinitialisation du mot de passe dans votre e-mail.", bgColor: Colors.green), 

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/controller/address_controller.dart';
-import 'package:nectar/model/address_model.dart';
+import 'package:get/get.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
+import '../../../data/models/delivery_address_model.dart';
+import '../../account_screen/controller/address_controller.dart';
 
-import '../../../utility/fontsize.dart';
-
-class SelectDeliveryAddress extends StatelessWidget {
+class SelectDeliveryAddress extends GetView<AddressControllerNew> {
   const SelectDeliveryAddress({super.key, required this.callback});
 
   final Function(AddressModel) callback;
@@ -30,25 +29,23 @@ class SelectDeliveryAddress extends StatelessWidget {
               appBar: AppBar(
                 title: Text("Sélectionnez l'adresse de livraison"),
               ),
-              body: StreamBuilder(
-                stream: AddressController.getAddress(),
-                builder: (context, snapshot) {
-                  if(snapshot.connectionState == ConnectionState.waiting){
-                    return Center(child: CircularProgressIndicator.adaptive(),);
-                  }
-
-                  List<AddressModel> _addressList = [];
-                  for(var i in snapshot.data!.docs){
-                    _addressList.add(AddressModel.fromSnapshot(i));
-                  }
-
-                  return _addressList.isNotEmpty
-                      ? Padding(
+              body: Obx((){
+                if(controller.isLoading.value){
+                  return Center(child: CircularProgressIndicator.adaptive(),);
+                }else if(controller.address.value.data!.isEmpty){
+                  return TextButton(
+                          onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
+                          },
+                          child: Text("Ajouter une nouvelle adress")
+                        );
+                }else{
+                 return Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: ListView.builder(
-                      itemCount: _addressList.length,
+                      itemCount: controller.address.value.data!.length,
                       itemBuilder: (context, index){
-                        var data = _addressList[index];
+                        var data = controller.address.value.data![index];
                         return InkWell(
                           onTap: (){
                             callback(data);
@@ -64,21 +61,16 @@ class SelectDeliveryAddress extends StatelessWidget {
                             ),
                             child: ListTile(
                               title: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}"),
-                              subtitle: Text("${data.messages}"),
+                              subtitle: Text("${data.message}"),
                             ),
                           ),
                         );
                       },
                     ),
-                  )
-                      : TextButton(
-                        onPressed: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
-                        },
-                        child: Text("Ajouter une nouvelle adress")
-                      );
+                  );
                 }
-              )
+              }),
+
           ),
         ),
       ),

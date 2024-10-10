@@ -1,29 +1,24 @@
 import 'dart:math';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nectar/controller/address_controller.dart';
-import 'package:nectar/controller/order_controller.dart';
-import 'package:nectar/model/address_model.dart';
-import 'package:nectar/utility/app_const.dart';
+import 'package:nectar/view/account_screen/controller/address_controller.dart';
 import 'package:nectar/view/cart_screen/widget/select_payment_method.dart';
 import 'package:nectar/view/cart_screen/widget/selecte_delivery_address.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-
-import '../../../model/product_model.dart';
+import '../../../data/models/delivery_address_model.dart';
 import '../../../utility/app_color.dart';
 import '../../../utility/fontsize.dart';
 import '../../../widget/app_button.dart';
-import '../../order_accepted/order_accepted.dart';
+import '../controller/car_controller.dart';
+import '../controller/order_controller.dart';
 import 'bottomsheet_list.dart';
 
 class OrderPopup extends StatefulWidget {
-  final List<String> docId;
-  final List<ProductModel> productList;
+
   final List qty;
   final List<double> totalPrice;
-  const OrderPopup({super.key, required this.docId, required this.productList, required this.qty, required this.totalPrice});
+  const OrderPopup({super.key,required this.qty, required this.totalPrice});
 
   @override
   State<OrderPopup> createState() => _OrderPopupState();
@@ -31,15 +26,17 @@ class OrderPopup extends StatefulWidget {
 
 class _OrderPopupState extends State<OrderPopup> {
 
-  double totalPrice = 0.00;
-  double subTotal = 0.00;
-  double itemPrice = 0.00;
+
+  //cart controller init
+   CartControllerNew _cartController = Get.find();
+   AddressControllerNew addressControllerNew = Get.find();
+   OrderControllerNew orderController = Get.find();
+
+
+
   double deliveryFeeMinmum = 66.00;
   double deliveryFee = 0.00;
-  double tax = 0.0;
   bool _deliveryAddressAlert = false;
-  double totalTVA = 0.00;
-  double totalTVAamount = 0.00;
 
   DateTime getInitialDate() {
     DateTime initialDate = DateTime.now().add(Duration(days: 10));
@@ -72,40 +69,17 @@ class _OrderPopupState extends State<OrderPopup> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    if(widget.qty!.isNotEmpty){
-      totalPrice = 0.00;
-      tax = 0.00;
-      subTotal = 0.00;
-      print("priduct price === ${widget.productList.length}");
-      print("priduct price === ${widget.qty.length}");
-      for(var i = 0; i<widget.qty.length; i++){
 
-        setState(() {
-          totalPrice = totalPrice + (widget.totalPrice[i] * widget.qty[i]) + ((widget.totalPrice[i] * widget.qty[i]) / 100 * double.parse("${widget.productList[i].tax}"));
-
-          totalTVAamount = (widget.totalPrice[i] * widget.qty[i]) + ((widget.totalPrice[i] * widget.qty[i]) / 100 * double.parse("${widget.productList[i].tax}"));
-          subTotal = subTotal + (widget.totalPrice[i] * widget.qty[i]);
-          totalTVA = totalTVA + double.parse("${widget.productList[i].tax}");
-          print("totalPrice --- ${totalPrice}");
-          itemPrice = widget.totalPrice[i];
-          //tax = double.parse("${widget.productList[i].tax}");
-          //delivery fee
-          if(subTotal > deliveryFeeMinmum){
-            deliveryFee = 15.00;
-          }else{
-            deliveryFee = 0.00;
-          }
-        });
-
-
-
-      }
-
+    if(_cartController.totalPrice > 60){
+      deliveryFee = 15.00;
+    }else{
+      deliveryFee = 0.00;
     }
 
-    print("total price -- ${tax}");
     //get init address
-    getAddress();
+    setState(() {
+      _selectedAddress = addressControllerNew.address.value.data!.first;
+    });
 
     //init date
     selectedDeliveryDateTime = DateFormat("dd/MM/yyyy HH'h'mm").format(DateTime.now().add(Duration(days: 1)));
@@ -113,16 +87,6 @@ class _OrderPopupState extends State<OrderPopup> {
 
     //init payment method
     paymentMethod = "Virement";
-  }
-
-  getAddress()async{
-    var initAddress = await AddressController.getInitAddress();
-    if(initAddress.isNotEmpty){
-      setState(() {
-        _selectedAddress = initAddress[0];
-      });
-    }
-
   }
 
   bool _isLoading = false;
@@ -259,7 +223,7 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total H.T.",
-            subtitle: Text("${subTotal.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${_cartController.totalPrice.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
@@ -281,16 +245,19 @@ class _OrderPopupState extends State<OrderPopup> {
             ),
           ),
           Divider(color: Colors.grey.shade200,),
-          ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
-            title: "Total TVA",
-            subtitle: Text("${totalTVAamount.toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-            onClick: (){},
-            isOpen: false,
+          Obx((){
+              return ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+                title: "Total TVA",
+                subtitle: Text("${(_cartController.totalTVAamount - _cartController.totalPrice).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+                onClick: (){},
+                isOpen: false,
+              );
+            }
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total TTC.",
-            subtitle: Text("${(totalPrice + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${(_cartController.totalTVAamount + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
           ),
@@ -301,58 +268,15 @@ class _OrderPopupState extends State<OrderPopup> {
               margin: EdgeInsets.only(bottom: 20),
                 width:300,
                 child:
-                AppButton(
-                    name: "Passer la commande",
-                    isLoading: _isLoading,
-                    onClick: ()async{
-
-                      //check _selectedAddress is empty or not 
-                      if(_selectedAddress == null){
-                        setState(() {
-                          _deliveryAddressAlert = true;
+                Obx(() {
+                    return AppButton(
+                        name: "Passer la commande",
+                        isLoading: orderController.isPlacingOrder.value,
+                        onClick: ()async{
+                          orderController.placeOrder(selectedDeliveryDateTime, paymentMethod, deliveryFee, _selectedAddress!);
                         });
-                        return;
-                      }
-
-                      print("qty --- ${widget.qty}");
-                      print("qty produt--- ${widget.productList.length}");
-
-                      var id = Random().nextInt(9999);
-                      List orderProducts = [];
-
-
-                      setState(() => _isLoading = true);
-                      for(var i = 0; i< widget.productList.length; i++){
-                        orderProducts.add({
-                          "product_info" :  widget.productList[i].toJson(),
-                          "qty" : widget.qty[i],
-                          "item_price" : itemPrice,
-                          "tax" : double.parse("${widget.productList[i].tax.toString()}").toStringAsFixed(2)
-                        });
-                      }
-                      
-                      
-                      Map<String, dynamic> orders = {
-                        "id" : id.toString(),
-                        "products" : orderProducts,
-                        "create_by" : FirebaseAuth.instance.currentUser!.email.toString(),
-                        "create_at" : DateFormat("dd-MM-yyyy HH'h'mm").format(DateTime.now()),
-                        "order_status" : orderStatus[0],
-                        "address" : _selectedAddress!.toJson(),
-                        "sub_total" : subTotal.toStringAsFixed(2),
-                        "tax" : totalTVA.toStringAsFixed(2),
-                        "tax_amount" : totalTVAamount.toStringAsFixed(2),
-                        "delivery_date" : selectedDeliveryDateTime.toString(),
-                        "total" : (totalPrice).toStringAsFixed(2),
-                        "delivery_fee" : deliveryFee.toStringAsFixed(2),
-                        "payment_method" : "$paymentMethod", ///TODO: payment method need to make it dynamic
-                      };
-                     await OrderController.placeOrder(context, orders, widget.docId).then((value) {
-                       // Navigator.push(context,
-                       //     MaterialPageRoute(builder: (context)=>OrderAccepted()));
-                     });
-                      setState(() => _isLoading = false);
-                    })),
+                  }
+                )),
           )
         ],
       ),

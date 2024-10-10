@@ -33,69 +33,70 @@ class _SearchProductState extends State<SearchProduct> {
       ),
       body: Padding(
         padding: EdgeInsets.all(20),
-        child: StreamBuilder(
-            stream: ProductController.getNewProduct(),
-            builder: (context, snapshot) {
-              if(snapshot.connectionState == ConnectionState.waiting){
-                return SizedBox(
-                  height: 250,
-                  child: ListView.builder(
-                      padding: EdgeInsets.only(right: 10),
-                      itemCount: 6,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context,index){
-                        return AppShimmer();
-                      }),
-                );
-              }
-
-
-              //store data into product model list
-              List<ProductModel> products = [];
-              List<ProductModel> searchProducts = [];
-
-              for(var i in snapshot.data!.docs){
-                products.add(ProductModel.fromJson(i.data()));
-              }
-
-              if(searchValue != null)
-              for(var i in snapshot.data!.docs){
-                if(ProductModel.fromJson(i.data()).name!.toLowerCase().contains(searchValue.toString())){
-                  searchProducts.add(ProductModel.fromJson(i.data()));
-                }
-              }
-
-
-
-              print("products --- ${products.length}");
-
-              return searchValue != null && searchProducts.isNotEmpty
-                  ? GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      crossAxisSpacing: 5.0,
-                      mainAxisSpacing: 5.0,
-                      mainAxisExtent: 220,
-                    ),
-                    itemCount: searchProducts.length,
-                    itemBuilder: (context, index) {
-                      return searchProducts[index].status == "Active" ? ItemCard(productModel: searchProducts[index],) : Center();
-                    },
-                  )
-                  : GridView.builder(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 5.0,
-                  mainAxisSpacing: 5.0,
-                  mainAxisExtent: 220,
-                ),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
-                },
-              );
-            }
-        ),
+        // child: StreamBuilder(
+        //     stream: ProductController.getNewProduct(),
+        //     builder: (context, snapshot) {
+        //       if(snapshot.connectionState == ConnectionState.waiting){
+        //         return SizedBox(
+        //           height: 250,
+        //           child: ListView.builder(
+        //               padding: EdgeInsets.only(right: 10),
+        //               itemCount: 6,
+        //               scrollDirection: Axis.horizontal,
+        //               itemBuilder: (context,index){
+        //                 return AppShimmer();
+        //               }),
+        //         );
+        //       }
+        //
+        //
+        //       //store data into product model list
+        //       List<ProductModel> products = [];
+        //       List<ProductModel> searchProducts = [];
+        //
+        //       for(var i in snapshot.data!.docs){
+        //         products.add(ProductModel.fromJson(i.data()));
+        //       }
+        //
+        //       if(searchValue != null)
+        //       for(var i in snapshot.data!.docs){
+        //         if(ProductModel.fromJson(i.data()).name!.toLowerCase().contains(searchValue.toString())){
+        //           searchProducts.add(ProductModel.fromJson(i.data()));
+        //         }
+        //       }
+        //
+        //
+        //
+        //       print("products --- ${products.length}");
+        //
+        //       return searchValue != null && searchProducts.isNotEmpty
+        //           ? GridView.builder(
+        //             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //               crossAxisCount: 3,
+        //               crossAxisSpacing: 5.0,
+        //               mainAxisSpacing: 5.0,
+        //               mainAxisExtent: 220,
+        //             ),
+        //             itemCount: searchProducts.length,
+        //             itemBuilder: (context, index) {
+        //               return searchProducts[index].status == "Active" ? ItemCard(productModel: searchProducts[index],) : Center();
+        //             },
+        //           )
+        //           : GridView.builder(
+        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //           crossAxisCount: 3,
+        //           crossAxisSpacing: 5.0,
+        //           mainAxisSpacing: 5.0,
+        //           mainAxisExtent: 220,
+        //         ),
+        //         itemCount: products.length,
+        //         itemBuilder: (context, index) {
+        //           return products[index].status == "Active" ? ItemCard(productModel: products[index],) : Center();
+        //         },
+        //       );
+        //     }
+        // ),
+        child: Text("Search Product"),
       ),
     );
   }

@@ -1,17 +1,27 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nectar/data/binding/auth_binding.dart';
+import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/firebase_options.dart';
+import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/flash/flash.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'routes/app_pages.dart';
 
+// Declare global controller
+SharedPreferences ? sharedPreferences;
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+  sharedPreferences = await SharedPreferences.getInstance();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform
   );
+
   runApp( MyApp());
 
 }
@@ -21,12 +31,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       theme: ThemeData(
         fontFamily: "kanitFont"
       ),
       debugShowCheckedModeBanner: false,
-      home: FlashScreen(),
+      initialRoute: AppRoutes.flashScreen,
+      getPages: AppPages.routes,
+      initialBinding: AuthBinding(),
     );
   }
 }

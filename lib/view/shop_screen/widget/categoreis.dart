@@ -1,10 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:nectar/app_config.dart';
 import 'package:nectar/model/category_model.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
 import 'package:nectar/view/explore_screen/explore_screen.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
+import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/app_shimmer.dart';
 import 'package:nectar/widget/not_found.dart';
@@ -13,15 +16,13 @@ import '../../../model/sub_category_model.dart';
 import '../../../utility/app_color.dart';
 import '../../../utility/fontsize.dart';
 
-class Categoreis extends StatelessWidget {
+class Categoreis extends GetView<HomeController> {
   const Categoreis({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: FirebaseFirestore.instance.collection(categoryCollection).snapshots(),
-      builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
+    return Obx(() {
+        if(controller.isGettingCategory.value){
           return GridView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -37,22 +38,16 @@ class Categoreis extends StatelessWidget {
           );
         }
 
-        //store category into category list
-        List<CategoryModel> category = [];
-        for(var i in snapshot.data!.docs){
-          category.add(CategoryModel.fromSnapshot(i));
-        }
-
-        return category.isNotEmpty ? SizedBox(
+        return controller.categoryListModel.value.data!.isNotEmpty ? SizedBox(
           height: 170,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
 
-            itemCount: category.length,
+            itemCount: controller.categoryListModel.value.data!.length,
             itemBuilder: (context, index) {
-              var data = category[index];
+              var data = controller.categoryListModel.value.data![index];
               return  InkWell(
-                onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!, fromSubCat: false, mainCatId: data.docId!, mainCatImage: data.categoryImage!, ))),
+               // onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.name!, fromSubCat: false, mainCatId: data.id.toString(), mainCatImage: data.image!, ))),
                 child: Stack(
                   children:[
                     Container(
@@ -70,14 +65,14 @@ class Categoreis extends StatelessWidget {
                       bottom: 15,
                       child: SizedBox(
                           width: 130,
-                          child: Center(child: AppNetworkImage(src: data.categoryImage!, fit: BoxFit.contain,))),
+                          child: Center(child: AppNetworkImage(src: data.image!, fit: BoxFit.contain,))),
                     ),
                     Positioned(
                       left: 10,
                       top: 10,
                       child: SizedBox(
                           width: 130,
-                          child: Center(child: Text("${data.categoryName!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: AppColors.textBlack),))),
+                          child: Center(child: Text("${data.name!}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: AppColors.textBlack),))),
                     ),
                     Positioned(
                       right: 20,
@@ -131,16 +126,14 @@ class Categoreis extends StatelessWidget {
 }
 
 
-class SubCategoreis extends StatelessWidget {
+class SubCategoreis extends GetView<HomeController> {
   final bool showTitle;
   const SubCategoreis({super.key, this.showTitle = true});
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-        stream: FirebaseFirestore.instance.collection(categoryCollection).snapshots(),
-        builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting){
+    return Obx(() {
+          if(controller.isGettingCategory.value){
             return GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
@@ -163,13 +156,8 @@ class SubCategoreis extends StatelessWidget {
           //   category.add(SubCategoryModel.fromJson(i));
           // }
 
-          //store category into category list
-          List<CategoryModel> category = [];
-          for(var i in snapshot.data!.docs){
-            category.add(CategoryModel.fromSnapshot(i));
-          }
 
-          return category.isNotEmpty ? Column(
+          return controller.categoryListModel.value.data!.isNotEmpty ? Column(
 
             children: [
               showTitle ? Row(
@@ -190,11 +178,11 @@ class SubCategoreis extends StatelessWidget {
                     mainAxisSpacing: 7.0,
                     mainAxisExtent: 170,
                   ),
-                  itemCount:  category.length,
+                  itemCount:  controller.categoryListModel.value.data!.length,
                   itemBuilder: (context, index) {
-                    var data = category[index];
+                    var data = controller.categoryListModel.value.data![index];
                     return InkWell(
-                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (context)=>CategoryProduct(categoryName: data.categoryName!, mainCatId: data.docId!, mainCatImage: data.categoryImage!,  ))),
+                      onTap: ()=>Get.to(CategoryProduct(categoryName: data.name!, subCategories:  data.subCategories!, mainCatIndex: index, subCatName: "All")),
                       child: Container(
                         padding: EdgeInsets.all(10),
                         decoration: BoxDecoration(
@@ -206,7 +194,7 @@ class SubCategoreis extends StatelessWidget {
                           children: [
 
                             SizedBox(
-                              child: Text("${data.categoryName}",
+                              child: Text("${data.name}",
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                     fontSize: 13,
@@ -216,7 +204,7 @@ class SubCategoreis extends StatelessWidget {
                               ),
                             ),
                             Spacer(),
-                            AppNetworkImage(src: data.categoryImage!, height: 110,),
+                            AppNetworkImage(src: data.image!, height: 110,),
 
                           ],
                         ),

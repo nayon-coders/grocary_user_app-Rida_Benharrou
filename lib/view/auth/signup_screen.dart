@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/model/user_model.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/assets.dart';
@@ -17,6 +17,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../utility/app_color.dart';
 import '../../utility/fontsize.dart';
+import 'controller/auth_controller.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -27,29 +28,9 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
 
+  AuthController _authController = Get.find();
+
   final _key = GlobalKey<FormState>();
-
-  final _emailController = TextEditingController();
-  final _usernameController = TextEditingController();
-  final _passwordController = TextEditingController();
-  final _companyController = TextEditingController();
-  final _brandController = TextEditingController();
-  final _addressController = TextEditingController();
-  final _postCodeController = TextEditingController();
-  final _cityController = TextEditingController();
-  final _stratController = TextEditingController();
-
-
-  final _contactFacturation = TextEditingController();
-  final _contactComptabilit = TextEditingController();
-  final _contactEmail = TextEditingController();
-  final _contactPhone = TextEditingController();
-
-
-  List accountType = [restaurantAccount, sellerAccount, wholeSellerAccount];
-  List accountTypeName = ["Restauration", "Revendeur", "Grossiste"];
-  List selectedType = [];
-  bool _isLoading = false;
   bool _obscureText = true;
   bool _checkTerms = false;
 
@@ -114,41 +95,54 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       )
                      ),
                       SizedBox(height: 10,),
-        
+
                       SizedBox(height: 40,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap:true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: accountType.length,
-                          itemBuilder: (_, index){
-                            return InkWell(
-                              onTap: (){
-                                setState(() {
-                                  selectedType.clear();
-                                  selectedType.add(accountType[index]);
-                                });
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 7),
+                        child: Obx(() {
+                          return ListView.builder(
+                            scrollDirection: Axis.horizontal,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: _authController.accountTypeName.length,
+                            itemBuilder: (_, index) {
+                              return InkWell(
+                                onTap: (){
+                                  _authController.selectedProfileType(index);
+                                  setState(() {
+
+                                  });
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 7),
                                   padding: EdgeInsets.all(10),
                                   decoration: BoxDecoration(
-                                    color: selectedType.contains(accountType[index])  ? AppColors.bgGreen : Colors.white,
+                                    color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
+                                        ? AppColors.bgGreen
+                                        : Colors.white,
                                     borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(width: 1, color: selectedType.contains(accountType[index]) ? Colors.white :   AppColors.bgGreen ,)
+                                    border: Border.all(
+                                      width: 1,
+                                      color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
+                                          ? Colors.white
+                                          : AppColors.bgGreen,
+                                    ),
                                   ),
                                   child: Text(
-                                    "${accountTypeName[index]}",
+                                    "${_authController.accountTypeName[index]}",
                                     style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                         fontSize: 12,
-                                         color: selectedType.contains(accountType[index]) ? Colors.white :   AppColors.bgGreen
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
+                                          ? Colors.white
+                                          : AppColors.bgGreen,
+                                    ),
                                   ),
-                                  )
-                              ),
-                            );
-                          },
-                        ),
+                                ),
+                              );
+                            },
+                          );
+                        })
+
+
                       ),
                      SizedBox(height: 20,),
         
@@ -159,7 +153,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _emailController,
+                       controller: _authController.emailController.value,
                        hintText: "Indiquez votre email",
                      ),
         
@@ -170,7 +164,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                         controller: _passwordController,
+                         controller:  _authController.passwordController.value,
                          hintText: "hoisissez un mot de passe facile à retenir",
                          obscureText: _obscureText,
                          suffixIcon: IconButton(
@@ -201,7 +195,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _companyController,
+                       controller:  _authController.companyController.value,
                        hintText: "Nom de la société tel que sur le KBIS",
                      ),
                      SizedBox(height: 20,),
@@ -212,7 +206,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _brandController,
+                       controller:  _authController.brandController.value,
                        hintText: "Nom commercial de votre société",
                      ),
                      SizedBox(height: 20,),
@@ -224,7 +218,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _addressController,
+                       controller:  _authController.addressController.value,
                        hintText: "Adresse",
                      ),
                      SizedBox(height: 20,),
@@ -234,7 +228,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _cityController,
+                       controller:  _authController.cityController.value,
                        hintText: "Ville",
                      ),
                      SizedBox(height: 20,),
@@ -247,7 +241,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _stratController,
+                       controller:  _authController.stratController.value,
                        hintText: "N° SIRET tel que sur le KBIS",
                      ),
                      SizedBox(height: 20,),
@@ -258,7 +252,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _postCodeController,
+                       controller:  _authController.postCodeController.value,
                        hintText: "Code postal",
                      ),
                      SizedBox(height: 20,),
@@ -274,7 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _contactFacturation,
+                       controller:  _authController.contactFacturation.value,
                        hintText: "Nom, Prénom",
                      ),
         
@@ -285,7 +279,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _contactEmail,
+                       controller:  _authController.contactEmail.value,
                        hintText: "Email",
                      ),
                      SizedBox(height: 20,),
@@ -296,7 +290,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            fontWeight: FontWeight.w500,
                            color: AppColors.textGrey),),
                      AppField(
-                       controller: _contactPhone,
+                       controller:  _authController.contactPhone.value,
                        hintText: "Mobile / Ligne direct",
                      ),
                      SizedBox(height: 20,),
@@ -343,43 +337,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        ),
                      ),
                      SizedBox(height: 40,),
-                     AppButton(
-                      isLoading: _isLoading,
-                       bgColor: AppColors.bgGreen,
-                       name: "S'inscrire", onClick: ()async{
-                        setState(() {
-                          _isLoading = true;
-                        });
-                         if(selectedType.isEmpty){
-                           appSnackBar(context: context, text: "Veuillez choisir votre type de compte", bgColor: Colors.red);
-                           return;
-                         }
-                         if(_key.currentState!.validate()){
-                           int id = Random().nextInt(9999999);
-                           var userModel = UserModel(
-                             id: id.toString(),
-                             email: _emailController.text,
-                             name: _usernameController.text,
-                             company: _cityController.text,
-                             brand: _brandController.text,
-                             address: _addressController.text,
-                             city: _cityController.text,
-                             postCode: _postCodeController.text,
-                             siret: _stratController.text,
-                             status: "Pending",
-                             contactFacturation: _contactFacturation.text,
-                             accountEmail: _contactEmail.text,
-                             accountPhone: _contactPhone.text,
-                             accountType: selectedType[0],
-                             createAt: DateFormat("dd/MM/yyyy").format(DateTime.now())
-                           );
-                           AuthController.userRegistration(context: context, userModel: userModel, pass: _passwordController.text);
-                         }
-                        setState(() {
-                          _isLoading = false;
-                        });
-                       //Navigator.push(context, MaterialPageRoute(builder: (_)=>LogInScreen()));
-                     },
+                     Obx(() {
+                         return AppButton(
+                          isLoading: _authController.isSignUp.value,
+                           bgColor: AppColors.bgGreen,
+                           name: "S'inscrire", onClick: ()async{
+                             if( _authController.selectedAccountType.value.isEmpty){
+                               appSnackBar(context: context, text: "Veuillez choisir votre type de compte", bgColor: Colors.red);
+                               return;
+                             }
+                             if(_key.currentState!.validate()){
+                               int id = Random().nextInt(9999999);
+                              await _authController.signUp();
+                             }
+                           //Navigator.push(context, MaterialPageRoute(builder: (_)=>LogInScreen()));
+                         },
+                         );
+                       }
                      ),
                      SizedBox(height: 20,),
                      Center(

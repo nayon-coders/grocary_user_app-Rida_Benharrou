@@ -14,7 +14,7 @@ class EmailSendController{
   static sendAdminEmail({required Map orders})async{
 
     //get the profile
-    var customerInfo = await AuthController.getMyInfo();
+    var customerInfo = await AuthControllerOld.getMyInfo();
     UserModel customer = UserModel.fromJson(customerInfo.docs[0].data());
 
 
@@ -60,7 +60,7 @@ class EmailSendController{
   static sendCustomerEmail({required Map orders})async{
 
     //get the profile
-    var customerInfo = await AuthController.getMyInfo();
+    var customerInfo = await AuthControllerOld.getMyInfo();
     UserModel customer = UserModel.fromJson(customerInfo.docs[0].data());
 
 

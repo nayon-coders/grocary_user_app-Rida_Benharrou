@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar/model/orders_model.dart';
 import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/app_const.dart';
 

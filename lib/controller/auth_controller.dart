@@ -2,13 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:nectar/main.dart';
 import 'package:nectar/model/user_model.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 
 
-class AuthController{
+class AuthControllerOld{
 
   static final _firestore = FirebaseFirestore.instance;
   static final _auth = FirebaseAuth.instance;
@@ -130,6 +131,7 @@ class AuthController{
   //logout
   static logOut(context)async{
     try{
+      sharedPreferences!.clear();
       await FirebaseAuth.instance.signOut();
       appSnackBar(context: context, text: "Vous devez vous connecter ou créer un nouveau compte pour continuer.", bgColor: Colors.green);
       Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>LogInScreen()), (route) => false);

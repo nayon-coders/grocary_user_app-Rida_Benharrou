@@ -1,14 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:nectar/controller/product_controller.dart';
-import 'package:nectar/model/product_model.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/view/show_product/all_products.dart';
 import 'package:nectar/widget/app_shimmer.dart';
-import 'package:nectar/widget/not_found.dart';
-
 import '../../../utility/app_color.dart';
 import '../../../utility/fontsize.dart';
 import 'item_card.dart';

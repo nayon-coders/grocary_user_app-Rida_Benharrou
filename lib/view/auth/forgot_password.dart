@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/view/auth/login_screen.dart';
@@ -109,19 +108,20 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     if(_key.currentState!.validate()){
       print("email --- $email");
       setState(() => _isLoading = true);
-      await AuthControllerOld.resetPassword(email)
-          .then((_) => {
-        // Show success message or navigate to a success screen
-        appSnackBar(context: context, text: "nous envoyons un e-mail de réinitialisation du mot de passe dans votre e-mail.", bgColor: Colors.green), 
-        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LogInScreen()), (route) => false)
-
-      })
-          .catchError((error) {
-        // Handle errors (e.g., email not found, etc.)
-        print("Password reset failed: $error");
-        appSnackBar(context: context, text: "${error}", bgColor: Colors.red);
-        // Show appropriate error message to the user
-      });
+      ///TODO: Forget Password
+      // await AuthControllerOld.resetPassword(email)
+      //     .then((_) => {
+      //   // Show success message or navigate to a success screen
+      //   appSnackBar(context: context, text: "nous envoyons un e-mail de réinitialisation du mot de passe dans votre e-mail.", bgColor: Colors.green),
+      //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LogInScreen()), (route) => false)
+      //
+      // })
+      //     .catchError((error) {
+      //   // Handle errors (e.g., email not found, etc.)
+      //   print("Password reset failed: $error");
+      //   appSnackBar(context: context, text: "${error}", bgColor: Colors.red);
+      //   // Show appropriate error message to the user
+      // });
       setState(() => _isLoading = false);
 
     }

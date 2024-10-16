@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:nectar/view/shop_screen/widget/item_card.dart';
 import 'package:nectar/widget/app_input.dart';
-
-import '../controller/product_controller.dart';
-import '../model/product_model.dart';
-import '../widget/app_shimmer.dart';
 
 
 class SearchProduct extends StatefulWidget {

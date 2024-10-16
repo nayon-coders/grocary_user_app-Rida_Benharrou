@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../controller/product_controller.dart';
-import '../../../model/product_model.dart';
 import '../../../utility/fontsize.dart';
 import '../../../widget/app_shimmer.dart';
 import '../../shop_screen/widget/item_card.dart';

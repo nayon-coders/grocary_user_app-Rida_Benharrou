@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/model/category_model.dart';
-import 'package:nectar/model/sub_category_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/view/category_prodouct/controller/category_product_controller.dart';
 import 'package:nectar/view/category_prodouct/widgets/main_cat_view.dart';

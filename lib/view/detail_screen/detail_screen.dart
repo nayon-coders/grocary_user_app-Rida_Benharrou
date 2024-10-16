@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/cart_controller.dart';
 import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/data/global/global_variable.dart';
 import 'package:nectar/data/models/product_model.dart';
@@ -397,45 +396,4 @@ class _DetailScreenState extends State<DetailScreen> {
 
 
 
-class TotalCartCountWidgets extends StatelessWidget {
-  const TotalCartCountWidgets({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: CartController.getCart(),
-      builder: (context, snapshot) {
-        if(snapshot.connectionState == ConnectionState.waiting){
-          return Center(child:  CircularProgressIndicator(),);
-        }
-        return InkWell(
-          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen(pageIndex: 2,))),
-          child: Container(
-            width: 60,
-            height: 50,
-            decoration: BoxDecoration(
-              color: AppColors.mainColor,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Stack(
-              children: [
-                Positioned(
-                  right: 7,
-                  top: 2,
-                  child: Text("${snapshot.data!.docs.length??0}",
-                    style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.white
-                    ),
-                  ),
-                ),
-                Center(child: Icon(Icons.shopping_cart, color: Colors.white, size: 25,)),
-              ],
-            ),
-          ),
-        );
-      }
-    );
-  }
-}
 

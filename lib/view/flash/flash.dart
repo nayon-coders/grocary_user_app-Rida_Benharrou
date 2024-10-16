@@ -1,15 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:nectar/controller/auth_controller.dart';
 import 'package:nectar/main.dart';
 import 'package:nectar/routes/app_routes.dart';
-import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:video_player/video_player.dart';
-
-import '../../utility/app_color.dart';
-import '../../utility/assets.dart';
-import '../auth/login_screen.dart';
 
 class FlashScreen extends StatefulWidget {
   const FlashScreen({super.key});
@@ -50,8 +44,6 @@ class _FlashScreenState extends State<FlashScreen> {
         // Optionally, you can perform actions here after video finishes
       }
     });
-
-    AuthControllerOld.accountRole();
   }
 
   @override

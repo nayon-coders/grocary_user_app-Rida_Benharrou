@@ -38,32 +38,43 @@ class GlobalController extends GetxController {
     print('Calculated Price: $newPrice');
     return newPrice;
   }
-   calculate(SingleProduct singleProduct){
+  calculate(SingleProduct singleProduct) {
     var productType = singleProduct.productType;
-    //looping to find the product type
-    for(var i = 0; i < unitList.length; i++){
+    var unit = singleProduct.unit.toString();
 
-      if(productType == "KG (€ / Kg)"){
+    // Helper method to safely parse double values
+    double safeParse(String value, {double defaultValue = 0.0}) {
+      return double.tryParse(value) ?? defaultValue;
+    }
+
+    // Looping to find the product type
+    for (var i = 0; i < unitList.length; i++) {
+      if (productType == "KG (€ / Kg)") {
         var inG = 1000;
-        var totalGram = double.parse(singleProduct.unit.toString()) * inG;
-        var oneGramPrice = GlobalVariables.gPrice.value /double.parse(totalGram.toString()) ;
+        double totalGram() {
+          return safeParse(unit) * inG;
+        }
+
+        var oneGramPrice = GlobalVariables.gPrice.value / totalGram();
         GlobalVariables.productPriceInKg.value = oneGramPrice * inG;
         GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
         break;
-      }else if(productType == "U (€ / U)" && unitList[i]["name"] == productType){
-        GlobalVariables.productPriceInKg.value = GlobalVariables.gPrice.value /double.parse(singleProduct.unit.toString());
+
+      } else if (productType == "U (€ / U)" && unitList[i]["name"] == productType) {
+        GlobalVariables.productPriceInKg.value = GlobalVariables.gPrice.value / safeParse(unit);
         GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
         break;
-      }else if(unitList[i]["name"] == productType){
-        GlobalVariables.productPriceInKg.value = (GlobalVariables.gPrice.value / double.parse(singleProduct.unit.toString())) * unitList[i]["inKg"];
-        GlobalVariables.productTypeNameInKg = unitList[i]["kgName"];
+
+      } else if (unitList[i]["name"] == productType) {
+        GlobalVariables.productPriceInKg.value = (GlobalVariables.gPrice.value / safeParse(unit)) * unitList[i]["inKg"];
+        GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
         break;
-      }else{
-        GlobalVariables.productPriceInKg.value = double.parse(GlobalVariables.gPrice.value.toString());
+
+      } else {
+        GlobalVariables.productPriceInKg.value = GlobalVariables.gPrice.value;
         GlobalVariables.productTypeNameInKg.value = singleProduct.productType!;
       }
     }
-
   }
 
 }

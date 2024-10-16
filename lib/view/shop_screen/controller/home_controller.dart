@@ -48,6 +48,7 @@ class HomeController extends GetxController{
     if(res.statusCode == 200){
       productListModel.value = ProductListModel.fromJson(jsonDecode(res.body));
       for(var i in productListModel.value.data!){
+        print("i.discountPrice -- ${i.status}");
 
         globalController.priceCalculat(i.regularPrice, i.sellingPrice, i.wholePrice); //calculate price
         globalController.calculate(i); //calculate price

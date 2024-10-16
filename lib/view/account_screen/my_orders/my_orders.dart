@@ -1,14 +1,8 @@
-import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:nectar/controller/order_controller.dart';
 import 'package:nectar/utility/app_color.dart';
-import 'package:nectar/utility/assets.dart';
 import 'package:nectar/utility/fontsize.dart';
-import 'package:nectar/view/account_screen/account_screen.dart';
 import 'package:nectar/view/account_screen/my_orders/track_order.dart';
 import 'package:nectar/view/cart_screen/controller/order_controller.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';

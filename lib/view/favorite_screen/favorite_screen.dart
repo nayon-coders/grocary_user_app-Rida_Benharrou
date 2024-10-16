@@ -2,22 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/favourite_controller.dart';
 import 'package:nectar/data/models/product_model.dart';
-import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/app_color.dart';
-import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/detail_screen.dart';
-import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/favorite_screen/controller/fav_controller.dart';
-import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_network_images.dart';
-import 'package:nectar/widget/dialog.dart';
-
-import '../../utility/assets.dart';
 import '../../widget/app_dialog.dart';
-import '../../widget/not_found.dart';
 
 class FavoriteScreen extends GetView<FavController> {
   const FavoriteScreen({super.key});

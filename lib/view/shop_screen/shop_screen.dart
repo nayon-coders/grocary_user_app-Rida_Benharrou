@@ -2,33 +2,18 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/email_send_controller.dart';
 import 'package:nectar/data/global/global_controller.dart';
-import 'package:nectar/generated/assets.dart';
-import 'package:nectar/main.dart';
-import 'package:nectar/utility/assets.dart';
+import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
-import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
-import 'package:nectar/view/auth/controller/auth_controller.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
-import 'package:nectar/view/shop_screen/widget/best_selling_products.dart';
 import 'package:nectar/view/shop_screen/widget/categoreis.dart';
-import 'package:nectar/view/shop_screen/widget/groceries_card.dart';
 import 'package:nectar/view/shop_screen/widget/item_card.dart';
 import 'package:nectar/view/shop_screen/widget/offer_products.dart';
-import 'package:nectar/view/shop_screen/widget/recent_products.dart';
-import 'package:nectar/widget/app_input.dart';
 import 'package:nectar/widget/show_hint_widgets.dart';
 
-import '../../controller/auth_controller.dart';
-import '../../controller/product_controller.dart';
-import '../../model/product_model.dart';
-import '../../routes/app_routes.dart';
 import '../../utility/app_color.dart';
-import '../../widget/app_network_images.dart';
 import '../../widget/app_shimmer.dart';
-import '../../widget/slider.dart';
 import '../show_product/all_products.dart';
 
 class Home extends GetView<HomeController> {
@@ -60,7 +45,7 @@ class Home extends GetView<HomeController> {
 
                     hintText: "Ajoutez votre lieu de livraison maintenant.",
                     child:  InkWell(
-                      onTap: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
+                      onTap: ()=>Get.toNamed(AppRoutes.addressList),
 
                       child: Row(
                         children: [

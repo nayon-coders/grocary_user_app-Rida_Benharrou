@@ -4,20 +4,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/auth_controller.dart';
-import 'package:nectar/controller/setting_controller.dart';
 import 'package:nectar/routes/app_routes.dart';
-import 'package:nectar/utility/assets.dart';
-import 'package:nectar/utility/fontsize.dart';
-import 'package:nectar/view/account_screen/about_us.dart';
 import 'package:nectar/view/account_screen/contact_widgets/terms_conditions.dart';
-import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
-import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
 import 'package:nectar/view/account_screen/widget/my_profile_widgets_top_info.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
-import 'package:nectar/view/auth/login_screen.dart';
+import 'package:nectar/view/auth/controller/auth_controller.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -35,31 +28,13 @@ class _AccountScreenState extends State<AccountScreen> {
 
   //get social media
   var whatsapp, whatsAppMessages, terms, policy, legal;
-  getSocialMedia()async{
-    var res = await SettingController.getSocialMedia();
-    print("res --- ${res}");
-    setState(() {
-      whatsapp = res.data()["whatssapp"];
-      whatsAppMessages = res.data()["whatsapp_messages"];
-    });
-  }
-
-  getSettings()async{
-    var res = await SettingController.getSetting();
-    print("res --- ${res}");
-    setState(() {
-      terms = res.data()["terms"];
-      policy = res.data()["privacy"];
-      legal = res.data()["legal"];
-    });
-  }
+  AuthController authController = Get.find();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSocialMedia();
-    getSettings();
+
   }
 
 
@@ -178,7 +153,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               "Suppression de votre compte",
                               "Souhaitez-vous réellement supprimer votre compte?",
                                   () async{
-                                await AuthControllerOld.deleteAccout(context);
+                                //await authController.deleteAccout(context);
                               }
                           );
                         },
@@ -203,7 +178,8 @@ class _AccountScreenState extends State<AccountScreen> {
               "Déconnexion",
               "Souhaitez-vous vraiment vous déconnecter?",
                   () async{
-                await AuthControllerOld.logOut(context);
+                //await AuthControllerOld.logOut(context);
+                await authController.logout();
               }
           );
         },

@@ -2,22 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/model/sub_category_model.dart';
 import 'package:nectar/utility/app_color.dart';
-import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
-import 'package:nectar/view/explore_screen/widget/category_card.dart';
 import 'package:nectar/view/search_product.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/widget/app_input.dart';
-import 'package:nectar/widget/not_found.dart';
-
-import '../../generated/assets.dart';
-import '../../model/category_model.dart';
-import '../../utility/app_const.dart';
 import '../../widget/app_network_images.dart';
 import '../../widget/app_shimmer.dart';
-import '../shop_screen/widget/categoreis.dart';
 
 class ExploreScreen extends GetView<HomeController> {
 

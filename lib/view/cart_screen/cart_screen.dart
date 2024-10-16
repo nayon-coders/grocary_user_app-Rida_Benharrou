@@ -4,10 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/cart_controller.dart';
 import 'package:nectar/data/global/global_controller.dart';
-import 'package:nectar/data/global/global_variable.dart';
-import 'package:nectar/model/product_model.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/account_screen/controller/address_controller.dart';
 import 'package:nectar/view/cart_screen/controller/car_controller.dart';
@@ -15,10 +12,7 @@ import 'package:nectar/view/cart_screen/widget/order_popup.dart';
 import 'package:nectar/view/cart_screen/widget/recomandation_products.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/app_shimmer.dart';
-
-import '../../controller/auth_controller.dart';
 import '../../utility/app_color.dart';
-import '../../utility/app_const.dart';
 import '../../widget/not_found.dart';
 import 'controller/order_controller.dart';
 

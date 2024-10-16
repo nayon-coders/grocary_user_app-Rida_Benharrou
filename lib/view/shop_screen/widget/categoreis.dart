@@ -1,18 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/app_config.dart';
-import 'package:nectar/model/category_model.dart';
-import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
-import 'package:nectar/view/explore_screen/explore_screen.dart';
-import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/widget/app_network_images.dart';
 import 'package:nectar/widget/app_shimmer.dart';
 import 'package:nectar/widget/not_found.dart';
-
-import '../../../model/sub_category_model.dart';
 import '../../../utility/app_color.dart';
 import '../../../utility/fontsize.dart';
 

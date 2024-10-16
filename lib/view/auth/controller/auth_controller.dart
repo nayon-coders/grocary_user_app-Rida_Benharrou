@@ -138,4 +138,11 @@ class AuthController extends GetxController{
   }
 
 
+  //logout
+  logout()async{
+    sharedPreferences!.clear();
+    Get.offAllNamed(AppRoutes.LOGIN);
+  }
+
+
 }

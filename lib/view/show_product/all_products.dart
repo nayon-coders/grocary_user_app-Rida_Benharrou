@@ -1,13 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../controller/product_controller.dart';
-import '../../generated/assets.dart';
-import '../../model/product_model.dart';
-import '../../utility/app_color.dart';
 import '../../utility/fontsize.dart';
-import '../../widget/app_network_images.dart';
-import '../../widget/app_shimmer.dart';
-import '../shop_screen/widget/item_card.dart';
 
 
 class AllProducts extends StatefulWidget {

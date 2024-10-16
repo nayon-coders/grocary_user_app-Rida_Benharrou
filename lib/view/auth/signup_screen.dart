@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:nectar/model/user_model.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/assets.dart';
 import 'package:nectar/view/auth/login_screen.dart';

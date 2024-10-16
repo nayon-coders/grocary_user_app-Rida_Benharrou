@@ -2,13 +2,9 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/view/category_prodouct/controller/category_product_controller.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
-import 'package:nectar/view/shop_screen/widget/categoreis.dart';
 
-import '../../../data/models/category_list_model.dart';
-import '../../../model/sub_category_model.dart';
 import '../../../utility/app_color.dart';
 import '../../../widget/app_network_images.dart';
 

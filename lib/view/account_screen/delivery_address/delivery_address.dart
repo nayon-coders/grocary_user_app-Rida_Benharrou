@@ -4,7 +4,6 @@ import 'package:dropdown_search/dropdown_search.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/model/address_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';

@@ -4,10 +4,6 @@ import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/data/global/global_variable.dart';
 import 'package:nectar/view/favorite_screen/controller/fav_controller.dart';
 
-import '../../../controller/favourite_controller.dart';
-import '../../../utility/app_color.dart';
-
-
 class FavWidgets extends GetView<FavController> {
   final String id;
 

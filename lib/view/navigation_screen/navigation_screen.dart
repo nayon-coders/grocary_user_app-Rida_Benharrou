@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/controller/cart_controller.dart';
 import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/view/account_screen/account_screen.dart';

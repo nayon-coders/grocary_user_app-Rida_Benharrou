@@ -53,13 +53,13 @@ class SingleCartItem {
   final String? productName;
   final String? productType;
   final String? productUnit;
-  final double? productTax;
+  final  dynamic? productTax;
   final int? productIsStock;
-  final int? productPurchasePrice;
-  final double? productRegularPrice;
-  final double? productSellingPrice;
-  final double? productWholePrice;
-  final double? productDiscountPrice;
+  final dynamic? productPurchasePrice;
+  final  dynamic? productRegularPrice;
+  final  dynamic? productSellingPrice;
+  final  dynamic? productWholePrice;
+  final  dynamic? productDiscountPrice;
   final String? productImages;
 
   SingleCartItem({
@@ -90,13 +90,13 @@ class SingleCartItem {
     productName: json["product_name"],
     productType: json["product_type"],
     productUnit: json["product_unit"],
-    productTax: json["product_tax"]?.toDouble(),
+    productTax: json["product_tax"],
     productIsStock: json["product_is_stock"],
     productPurchasePrice: json["product_purchase_price"],
-    productRegularPrice: json["product_regular_price"]?.toDouble(),
-    productSellingPrice: json["product_selling_price"]?.toDouble(),
-    productWholePrice: json["product_whole_price"]?.toDouble(),
-    productDiscountPrice: json["product_discount_price"]?.toDouble(),
+    productRegularPrice: json["product_regular_price"],
+    productSellingPrice: json["product_selling_price"],
+    productWholePrice: json["product_whole_price"],
+    productDiscountPrice: json["product_discount_price"],
     productImages: json["product_images"],
   );
 

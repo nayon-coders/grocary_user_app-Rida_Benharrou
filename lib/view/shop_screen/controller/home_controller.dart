@@ -39,27 +39,25 @@ class HomeController extends GetxController{
   getAllProduct()async{
     isLoading.value = false;
 
-    //clear lists
-    productList.clear();
+
     promosProduct.clear();
 
     var res = await ApiService().getApi(AppConfig.PRPDUCT_GET);
 
     if(res.statusCode == 200){
+      //clear lists
+      productList.value.clear();
       productListModel.value = ProductListModel.fromJson(jsonDecode(res.body));
+      print("Product List: ${productListModel.value.data!.length}");
       for(var i in productListModel.value.data!){
-        print("i.discountPrice -- ${i.status}");
-
-        globalController.priceCalculat(i.regularPrice, i.sellingPrice, i.wholePrice); //calculate price
+        globalController.priceCalculat(i.regularPrice, i.sellingPrice, i.wholePrice, i.supperMarcent); //calculate price
         globalController.calculate(i); //calculate price
-        if(i.status!.toLowerCase() == "active"){
+        if(i.status!.toLowerCase().contains("active")){
           productList.add(i);
         }
-        if(i.discountPrice! > 0){
+        if(i.discountPrice != null && i.discountPrice > 0){
           promosProduct.add(i);
         }
-
-
       }
     }
     isLoading.value = false;

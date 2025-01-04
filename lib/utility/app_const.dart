@@ -23,7 +23,8 @@ String postCodeCollection = "post_code";
 
 String restaurantAccount = "Restauration";
 String wholeSellerAccount = "Grossiste";
-String sellerAccount = "Seller";
+String sellerAccount = "Revendeur";
+String supperMarcent = "Supper Marcen";
 
 
 List orderStatus = [

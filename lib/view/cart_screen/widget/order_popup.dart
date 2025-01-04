@@ -78,7 +78,7 @@ class _OrderPopupState extends State<OrderPopup> {
 
     //get init address
     setState(() {
-      _selectedAddress = addressControllerNew.address.value.data!.first;
+      _selectedAddress = addressControllerNew.address.value.data != null ? addressControllerNew.address.value.data!.first : null;
     });
 
     //init date

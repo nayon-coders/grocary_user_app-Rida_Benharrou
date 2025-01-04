@@ -93,7 +93,6 @@ class Home extends GetView<HomeController> {
                     ],
                   ),
                   SizedBox(height: 10,),
-
                   Obx(() {
                         if(controller.isLoading.value){
                           return SizedBox(
@@ -118,6 +117,7 @@ class Home extends GetView<HomeController> {
                                     itemBuilder: (context,index){
                                       var data = controller.productList[index];
 
+                                      print("controller.productList.length -- ${controller.productList.length}");
                                       return  ItemCard(singleProduct: data);
                                     });
                               }

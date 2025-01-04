@@ -116,9 +116,10 @@ class _CartScreenState extends State<CartScreen> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
 
+                                      ///TODO: Cart api error
                                   Obx(() {
                                     return Text(
-                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble())}€ ",style: TextStyle(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), 0.00)}€ ",style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,

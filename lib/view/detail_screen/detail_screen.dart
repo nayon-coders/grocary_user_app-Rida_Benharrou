@@ -177,7 +177,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     children: [
                                       Obx((){
                                         return
-                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice)}€",
+                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent!)}€",
                                           style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       })
                                     ],
@@ -189,9 +189,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               ///Edit increment
                               ///Si
 
-                              singleProduct!.shortDescription!.isNotEmpty ? Container(
+                              singleProduct!.shortDescription != null && singleProduct!.shortDescription!.isNotEmpty ? Container(
                                 margin: EdgeInsets.only(top: 8),
-                                child: Text("${  singleProduct!.shortDescription}",
+                                child: Text("${singleProduct!.shortDescription}",
                                   style: TextStyle(
                                     fontSize: 12, color: Colors.black,
                                     fontWeight: FontWeight.w400,

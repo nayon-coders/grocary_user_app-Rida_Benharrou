@@ -59,7 +59,9 @@ class ItemCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: singleProduct!.images!.isEmpty ? Icon(Icons.error) : AppNetworkImage(src: singleProduct!.images![0].imageUrl.toString(),height:100,width:double.infinity,fit: BoxFit.contain,),
+                      child: singleProduct!.images!.isEmpty
+                          ? Image.asset("assets/images/empty_error.png",height: 100,width: double.infinity,fit: BoxFit.contain,)
+                          : AppNetworkImage(src: singleProduct!.images![0].imageUrl.toString(),height:100,width:double.infinity,fit: BoxFit.contain,),
                     ),
                     Positioned(
                       bottom: 5,
@@ -116,7 +118,7 @@ class ItemCard extends StatelessWidget {
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
                    Obx(() {
-                       return Text("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice, singleProduct.wholePrice)} €",
+                       return Text("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice!, singleProduct.wholePrice, singleProduct.supperMarcent)} €",
                          style: const TextStyle(
                              fontSize: 15,
                              fontWeight: FontWeight.w700,

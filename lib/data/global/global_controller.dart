@@ -14,23 +14,27 @@ class GlobalController extends GetxController {
 
   RxDouble calculatedPrice = 1.0.obs; // Make the price reactive
 
-  double priceCalculat(double? product_regular_price, double? product_selling_price, double? product_whole_price) {
+  double priceCalculat(dynamic? product_regular_price, dynamic? product_selling_price, dynamic? product_whole_price, dynamic? supper_marcent) {
     print('Account Type: ${_accountController.myProfile.value.accountType}');
     print('Regular Price: $product_regular_price, Selling Price: $product_selling_price, Wholesale Price: $product_whole_price');
 
-    double newPrice = 1.00; // Default value
+    double newPrice = 0.00; // Default value
 
     if (_accountController.myProfile.value.accountType == sellerAccount) {
       if (product_selling_price != null) {
-        newPrice = product_selling_price;
+        newPrice = double.parse("$product_selling_price"); // Set the selling price
       }
     } else if (_accountController.myProfile.value.accountType == restaurantAccount) {
       if (product_regular_price != null) {
-        newPrice = product_regular_price;
+        newPrice = double.parse("${product_regular_price}"); // Set the regular price
       }
     } else if (_accountController.myProfile.value.accountType == wholeSellerAccount) {
       if (product_whole_price != null) {
-        newPrice = product_whole_price;
+        newPrice = double.parse("$product_whole_price"); // Set the wholesale price
+      }
+    }else if (_accountController.myProfile.value.accountType == supperMarcent) {
+      if (supper_marcent != null) {
+        newPrice = double.parse("$supper_marcent"); // Set the supper marcent
       }
     }
 

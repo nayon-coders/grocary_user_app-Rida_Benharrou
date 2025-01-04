@@ -34,6 +34,11 @@ class FavoriteScreen extends GetView<FavController> {
         child: Obx(() {
               if(controller.isLoading.value){
                 return Center(child: CircularProgressIndicator());
+              }else if(controller.favProduct.value.data == null){
+                return Center(
+                  child: Text("Aucun produit favori trouvé"),
+                );
+
               }else{
                 return ListView.builder(
                     itemCount: controller.favProduct.value.data!.length,

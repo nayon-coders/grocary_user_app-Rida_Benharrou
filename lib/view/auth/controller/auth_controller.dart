@@ -30,7 +30,7 @@ class AuthController extends GetxController{
   Rx<TextEditingController> contactComptabilit = TextEditingController().obs;
   Rx<TextEditingController> contactEmail = TextEditingController().obs;
   Rx<TextEditingController> contactPhone = TextEditingController().obs;
-  RxList<String> accountTypeName = ["Restauration", "Revendeur", "Grossiste"].obs;
+  RxList<String> accountTypeName = ["Restauration", "Revendeur", "Grossiste", "Supper Marcent"].obs;
   RxList<String> selectedAccountType = <String>[].obs;
 
 

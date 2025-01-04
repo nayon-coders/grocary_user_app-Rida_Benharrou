@@ -43,7 +43,7 @@ class SingleOrder {
   final String? deliveryDate;
   final String? orderStatus;
   final String? paymentMethod;
-  final double? subTotal;
+  final int? subTotal;
   final double? tax;
   final double? taxAmount;
   final int? deliveryFee;
@@ -81,10 +81,10 @@ class SingleOrder {
     orderStatus: json["order_status"],
     paymentMethod: json["payment_method"],
     subTotal: json["sub_total"],
-    tax: json["tax"],
-    taxAmount: json["tax_amount"],
+    tax: json["tax"]?.toDouble(),
+    taxAmount: json["tax_amount"]?.toDouble(),
     deliveryFee: json["delivery_fee"],
-    total: json["total"],
+    total: json["total"]?.toDouble(),
     userDeliveryAddressId: json["user_delivery_address_id"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
@@ -96,7 +96,7 @@ class SingleOrder {
     "id": id,
     "company": company,
     "created_by": createdBy,
-    "delivery_date": "${deliveryDate!}",
+    "delivery_date": deliveryDate,
     "order_status": orderStatus,
     "payment_method": paymentMethod,
     "sub_total": subTotal,
@@ -116,7 +116,7 @@ class Product {
   final int? productId;
   final String? name;
   final int? quantity;
-  final double? price;
+  final int? price;
   final List<Image>? images;
 
   Product({
@@ -131,7 +131,7 @@ class Product {
     productId: json["product_id"],
     name: json["name"],
     quantity: json["quantity"],
-    price: json["price"]?.toDouble(),
+    price: json["price"],
     images: json["images"] == null ? [] : List<Image>.from(json["images"]!.map((x) => Image.fromJson(x))),
   );
 

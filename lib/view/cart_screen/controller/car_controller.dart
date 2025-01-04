@@ -53,6 +53,8 @@ class CartControllerNew extends GetxController{
   RxBool isCartLoading = false.obs;
   Rx<CartListModel> cartList = CartListModel().obs;
   void getCartProduct()async{
+    priceList.clear();
+    qtyList.clear();
     isCartLoading.value = true;
     var response = await ApiService().getApi(AppConfig.CART_GET);
     if(response.statusCode == 200){
@@ -61,9 +63,9 @@ class CartControllerNew extends GetxController{
       for(var i in cartList.value.data!){
         print("i.productTax! -- ${i.productTax!}");
         qtyList.add(i.quantity!);
-        priceList.add(_globalController.priceCalculat(i.productRegularPrice!.toDouble(), i.productSellingPrice!.toDouble(), i.productWholePrice!.toDouble()));
+        ///TODO: Card api error
+        priceList.add(_globalController.priceCalculat(i.productRegularPrice!.toDouble(), i.productSellingPrice!.toDouble(), i.productWholePrice!.toDouble(), 0.00));
         productTax.add(i.productTax!.toDouble());
-
       }
     //  cartList.value = response.body['data'];
     }
@@ -115,11 +117,17 @@ class CartControllerNew extends GetxController{
   RxList<int> qtyList = <int>[].obs; //for cart item quantity
   RxList<double> priceList = <double>[].obs; //for cart item quantity
   RxList<double> productTax = <double>[].obs; //for cart item quantity
-  // Calculate total price based on the quantities and prices
-  double get totalPrice => List.generate(priceList.length, (index) {
-    return priceList[index] * qtyList[index];
-  }).fold(0, (sum, element) => sum + element);
+  double get totalPrice {
+    if (priceList.length != qtyList.length) {
+      // Handle the case where the lists are not synchronized
+      return 0.0;
+    }
 
+    return List.generate(priceList.length, (index) {
+      print("priceList[index] ------ ${priceList[index]}"); // Print the price for each product
+      return priceList[index] * qtyList[index];
+    }).fold(0, (sum, element) => sum + element);
+  }
   // Getter for calculating the total amount including tax (TVA)
   double get totalTVAamount {
     double totalTax = 0.0;

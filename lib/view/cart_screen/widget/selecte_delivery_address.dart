@@ -32,13 +32,15 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
               body: Obx((){
                 if(controller.isLoading.value){
                   return Center(child: CircularProgressIndicator.adaptive(),);
-                }else if(controller.address.value.data!.isEmpty){
-                  return TextButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
-                          },
-                          child: Text("Ajouter une nouvelle adress")
-                        );
+                }else if(controller.address.value.data == null){
+                  return Center(
+                    child: TextButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
+                            },
+                            child: Text("Ajouter une nouvelle adress")
+                          ),
+                  );
                 }else{
                  return Padding(
                     padding: const EdgeInsets.all(20.0),

@@ -22,7 +22,7 @@ class AppConfig{
   static const String USER_DELETE = "$BASE_URL/user/delete/";
 
   //product
-  static const String PRPDUCT_GET = "$BASE_URL/product/all";
+  static const String PRPDUCT_GET = "$BASE_URL/product/all?limit=1000";
   static const String PRPDUCT_SINGLE = "$BASE_URL/product/";
   static const String POST_CODE_GET = "$BASE_URL/product/post-code";
 

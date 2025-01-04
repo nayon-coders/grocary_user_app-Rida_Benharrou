@@ -100,7 +100,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: NeverScrollableScrollPhysics(), // new line
                             itemCount: _authController.accountTypeName.length,
                             itemBuilder: (_, index) {
                               return InkWell(
@@ -112,7 +112,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 7),
-                                  padding: EdgeInsets.all(10),
+                                  padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
                                   decoration: BoxDecoration(
                                     color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
                                         ? AppColors.bgGreen
@@ -125,15 +125,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                           : AppColors.bgGreen,
                                     ),
                                   ),
-                                  child: Text(
-                                    "${_authController.accountTypeName[index]}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
-                                          ? Colors.white
-                                          : AppColors.bgGreen,
-                                    ),
+                                  child: Obx(() {
+                                      return Text(
+                                        "${_authController.accountTypeName[index]}",
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                          color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
+                                              ? Colors.white
+                                              : AppColors.bgGreen,
+                                        ),
+                                      );
+                                    }
                                   ),
                                 ),
                               );

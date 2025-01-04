@@ -17,7 +17,7 @@ class AppNetworkImage extends StatelessWidget {
       height: height,
       width: width,
       fit: fit,
-
+      placeholder: (context, url) => Image.asset("assets/images/empty_error.png",height: height,width: width,fit: fit,),
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }

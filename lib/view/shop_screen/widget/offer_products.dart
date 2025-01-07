@@ -24,7 +24,7 @@ class OfferProducts extends GetView<HomeController> {
 
             Text("Promos",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
-                onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Offre exclusive",))),
+                onTap: ()=>Get.to(AllProducts(title: "Offre exclusive", products: controller.promosProduct.value,)),
                 child: Container(
                     padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
                     decoration: BoxDecoration(
@@ -54,10 +54,30 @@ class OfferProducts extends GetView<HomeController> {
                   height: 200,
                   child: ListView.builder(
                       padding: EdgeInsets.only(right: 10),
-                      itemCount: controller.promosProduct!.length,
+                      itemCount: controller.promosProduct!.length > 12 ? 11 : controller.promosProduct!.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context,index){
-                        return ItemCard(singleProduct: controller.promosProduct[index]);
+                        return index == 10
+                            ? InkWell(
+                          onTap: ()=>Get.to(AllProducts(title: "Offre exclusive", products: controller.promosProduct.value,)),
+                          child: Container(
+                              width: Get.width*.35,
+                              height: 100,
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.arrow_forward_ios_rounded,color: Colors.pink,),
+                                  Text("Voir plus",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.pink),)
+                                ],
+                              )
+                          ),
+                        )
+                            : ItemCard(singleProduct: controller.promosProduct[index]);
                       }),
                 );
               });

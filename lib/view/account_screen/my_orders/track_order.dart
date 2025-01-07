@@ -1,12 +1,13 @@
-import 'package:easy_stepper/easy_stepper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_network_images.dart';
+import 'package:timeline_tile/timeline_tile.dart';
 
 import '../../../data/models/order_model.dart';
 import '../../../generated/assets.dart';
@@ -52,7 +53,7 @@ class _TrackOrderState extends State<TrackOrder> {
       appBar: AppBar(
         backgroundColor: AppColors.bgWhite,
         leading: InkWell(
-          onTap: ()=>Get.to(NavigationScreen(pageIndex: 4,)),
+          onTap: ()=>Get.back(),
             child: Icon(Icons.arrow_back,color:AppColors.textBlack,size: 30,)),
 
       ),
@@ -280,7 +281,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${widget.orderModel!.taxAmount!.toStringAsFixed(2)}€",
+                      Text("${(double.parse("${widget.orderModel.subTotal}") + double.parse("${widget.orderModel!.taxAmount}") + double.parse("${widget.orderModel!.deliveryFee!}"))!.toStringAsFixed(2)}€",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.w600
@@ -311,26 +312,63 @@ class _TrackOrderState extends State<TrackOrder> {
                     )
                   ),
                   SizedBox(height: 10,),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-                    itemCount: orderStatus.length,
-                    itemBuilder: (_, index){
-                      return orderStatus[index].toString().toLowerCase() == widget.orderModel!.orderStatus!.toLowerCase()
-                          ? OrderTrakingSteper(
-                          status: widget.orderModel!.orderStatus!,
-                          date: widget.orderModel!.createdAt!.toString(),
-                          number: (index+1).toString(),
-                          color: AppColors.mainColor,
-                        index: index,
-                      ) : OrderTrakingSteper(
-                          status: orderStatus[index],
-                          date: "-----",
-                          number: (index+1).toString(),
-                          color: Colors.grey,
-                        index: index,
-                      );
-                    },
+                  Padding(
+                    padding: const EdgeInsets.only(left: 20.0, right: 20),
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: orderStatus.length,
+                      itemBuilder: (_, index){
+
+                        return TimelineTile(
+                          isFirst: index==0,
+                          beforeLineStyle: LineStyle(
+                            color: isPastOrder(orderStatus[index], widget.orderModel.orderStatus!) ?  Colors.green : Colors.black,
+                          ),
+                          indicatorStyle: IndicatorStyle(
+                            width: 30,
+                            height: 30,
+                            color: isPastOrder(orderStatus[index], widget.orderModel.orderStatus!) ?  Colors.green : Colors.black,
+                            indicator: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(100),
+                                color: isPastOrder(orderStatus[index], widget.orderModel.orderStatus!) ?  Colors.green : Colors.black,
+                              ),
+                              child: Icon(Icons.check, color: Colors.grey.shade200,),
+                            )
+                          ),
+                          isLast: index==orderStatus.length-1,
+                          endChild: Container(
+                            padding: EdgeInsets.all(20),
+                            margin: EdgeInsets.only(left: 10, bottom: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey.shade200)
+                            ),
+                            child: Column(
+                              children: [
+                                Text("${orderStatus[index]}",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.textBlack
+                                  ),
+                                ),
+                                SizedBox(height: 4,),
+                                Text("${DateFormat('dd-MM-yyyy hh:mm a').format(DateTime.now())}",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                    color: AppColors.textGrey
+                                  ),
+                                )
+                              ],
+                            ),
+
+                          )
+                        );
+                      },
+                    ),
                   )
 
 

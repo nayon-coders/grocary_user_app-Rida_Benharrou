@@ -10,6 +10,7 @@ import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/auth/signup_screen.dart';
+import 'package:nectar/view/cart_screen/controller/car_controller.dart';
 import 'package:nectar/view/detail_screen/detail_screen.dart';
 import 'package:nectar/view/flash/flash.dart';
 

@@ -56,10 +56,11 @@ class AddressControllerNew extends GetxController {
      print("data --- ${data}");
     var res = await ApiService().postApi(AppConfig.DELIVERY_ADDRESS_ADD, data);
     if(res.statusCode == 200){
+      Get.back();
+      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green);
       getAddress();
       clearTextField();
-      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green);
-      Get.back();
+
     }else{
       Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
     }

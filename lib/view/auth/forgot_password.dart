@@ -27,12 +27,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
+    return Scaffold(
 
-        backgroundColor:Colors.white,
+      backgroundColor:Colors.white,
 
-        body: SingleChildScrollView(
+      body: SafeArea(
+        child: SingleChildScrollView(
           padding: EdgeInsets.all(20),
           child: Form(
             key: _key,
@@ -87,12 +87,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 AppButton(
                   bgColor: AppColors.bgGreen,
                   name: "Continuer", isLoading: _isLoading, onClick: ()=> resetPasswordPressed(_emailController.text),
-
+        
                 ),
-
-
-
-
+        
+        
+        
+        
               ],
             ),
           ),

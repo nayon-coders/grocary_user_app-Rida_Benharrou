@@ -27,11 +27,6 @@ String sellerAccount = "Revendeur";
 String supperMarcent = "Supper Marcen";
 
 
-List orderStatus = [
-  //"En attente", "Confirmée", "Expédition", "Annulée", "Rejetée", "Livrée"
-  "Reçue en attente", "En préparation", "En cours de livraison", "Livré", "À régler", "Terminé"
-];
-
 
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> appSnackBar({required BuildContext context, required String text, required Color bgColor }){
@@ -82,3 +77,43 @@ List unitList = [
     "kgName" : "U "
   }
 ];
+
+
+
+
+List orderStatus = [
+  'Reçue en Attente',
+  'En Préparation',
+  'Prête pour Dispatch',
+  'En cours de Livraison',
+  'Livré',
+  'À régler',
+  'Terminé',
+  'Annulé',
+];
+
+//check order status is past or not
+bool isPastOrder(String status, String currentStatus) {
+  // Define the order of statuses
+  const List<String> orderStatus = [
+    'Reçue en Attente',
+    'En Préparation',
+    'Prête pour Dispatch',
+    'En cours de Livraison',
+    'Livré',
+    'À régler',
+    'Terminé',
+    'Annulé',
+  ];
+
+  print("current status --- ${currentStatus}");
+  print("current status --- ${status}");
+  // Get the index of the current status
+  int currentIndex = orderStatus.indexOf(currentStatus);
+
+  // Get the index of the status to check
+  int statusIndex = orderStatus.indexOf(status);
+
+  // Check if the status is earlier or the same as the currentStatus
+  return statusIndex <= currentIndex;
+}

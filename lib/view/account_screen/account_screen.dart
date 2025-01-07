@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/account_screen/contact_widgets/terms_conditions.dart';
+import 'package:nectar/view/account_screen/controller/acocunt_controller.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
 import 'package:nectar/view/account_screen/widget/my_profile_widgets_top_info.dart';
@@ -29,6 +30,7 @@ class _AccountScreenState extends State<AccountScreen> {
   //get social media
   var whatsapp, whatsAppMessages, terms, policy, legal;
   AuthController authController = Get.find();
+  AccountController accountController = Get.put(AccountController());
 
   @override
   void initState() {
@@ -113,19 +115,19 @@ class _AccountScreenState extends State<AccountScreen> {
                       ProfileMenus(
                         text: "Conditions générales de vente",
                         icon: Icons.info_outline,
-                       onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: terms ?? "Terms", title: "Conditions générales de vente",))),
+                       onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.terms ?? "Terms", title: "Conditions générales de vente",))),
                        // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
                       ),
                       ProfileMenus(
                         text: "Politique de confidentialité",
                         icon: Icons.info_outline,
-                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: policy ?? "Privacy", title: "Politique de confidentialité",))),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.privacy ?? "Privacy", title: "Politique de confidentialité",))),
 
                         // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ), ProfileMenus(
                         text: "Mentions légales",
                         icon: Icons.info_outline,
-                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: legal ??"Legal", title: "Mentions légales",))),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.legal ??"Legal", title: "Mentions légales",))),
 
                         //onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ),

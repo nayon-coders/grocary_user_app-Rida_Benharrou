@@ -85,7 +85,7 @@ class ItemCard extends StatelessWidget {
                         child: Center(child: Icon(Icons.add,color: AppColors.bgGreen,)),
                       ),
                     )),
-                    singleProduct!.discountPrice != null && singleProduct!.discountPrice != "0" ? Positioned(
+                    singleProduct!.discountPrice != null && singleProduct!.discountPrice != 0 ? Positioned(
                       right: 0,
                       top: 5,
                       child: Container(
@@ -99,7 +99,7 @@ class ItemCard extends StatelessWidget {
                               bottomLeft: Radius.circular(100)
                             )
                         ),
-                        child: Center(child: Text("\$${singleProduct!.discountPrice!} OFF",
+                        child: Center(child: Text("${singleProduct!.discountPrice!}% OFF",
                             style: TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 10, color: Colors.white

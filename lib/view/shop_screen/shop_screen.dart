@@ -36,7 +36,6 @@ class Home extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ///ToDo modify
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -81,7 +80,7 @@ class Home extends GetView<HomeController> {
                     children: [
                       Text("Nouveauté",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                       InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles",))),
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles", products: controller.productList.value,))),
                           child: Container(
                               padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
                               decoration: BoxDecoration(
@@ -112,13 +111,29 @@ class Home extends GetView<HomeController> {
                             child: Obx(() {
                                 return ListView.builder(
                                     padding: EdgeInsets.only(right: 10),
-                                    itemCount: controller.productList.length,
+                                    itemCount: controller.productList.length > 12 ? 11 : controller.productList.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context,index){
                                       var data = controller.productList[index];
-
-                                      print("controller.productList.length -- ${controller.productList.length}");
-                                      return  ItemCard(singleProduct: data);
+                                      return index == 10 ? InkWell(
+                                        onTap: ()=>Get.to(AllProducts(title: "Nouveaux articles", products: controller.productList.value,)),
+                                        child: Container(
+                                          width: Get.width*.35,
+                                          height: 100,
+                                          decoration: BoxDecoration(
+                                              color: Colors.white,
+                                              borderRadius: BorderRadius.circular(10)
+                                          ),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.arrow_forward_ios_rounded,color: Colors.pink,),
+                                              Text("Voir plus",style: TextStyle(fontSize: 12,fontWeight: FontWeight.w500,color: Colors.pink),)
+                                            ],
+                                          )
+                                        ),
+                                      ) :  ItemCard(singleProduct: data);
                                     });
                               }
                             ),

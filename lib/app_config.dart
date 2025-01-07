@@ -55,6 +55,7 @@ class AppConfig{
   static const String ORDER_SINGLE_GET = "$BASE_URL/order/";
   static const String ORDER_GET_ALL = "$BASE_URL/order/my";
   static const String ORDER_BULK_DELETE = "$BASE_URL/cart/delete/bulk";
+  static const String pageLink = "$BASE_URL/settings/privacy";
 
 
 

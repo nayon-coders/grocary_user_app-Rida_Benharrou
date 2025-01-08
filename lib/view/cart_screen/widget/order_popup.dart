@@ -70,7 +70,7 @@ class _OrderPopupState extends State<OrderPopup> {
     // TODO: implement initState
     super.initState();
 
-    if(_cartController.totalPrice > 60){
+    if(_cartController.totalPrice < 61){
       deliveryFee = 15.00;
     }else{
       deliveryFee = 0.00;

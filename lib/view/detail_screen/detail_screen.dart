@@ -177,7 +177,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     children: [
                                       Obx((){
                                         return
-                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent!)}€",
+                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}€",
                                           style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       })
                                     ],

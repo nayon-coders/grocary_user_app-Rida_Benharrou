@@ -81,6 +81,9 @@ class OrderControllerNew extends GetxController {
       Get.snackbar(
           "Success!", "Order Place success!", backgroundColor: Colors.green,
           colorText: Colors.white);
+      cartController.cartList.value.data!.clear();
+      cartController.cartCount.value = 0;
+      cartController.priceList.value.clear();
       Get.to(OrderAccepted()); //navigate to order accepted screen
     } else {
       //show error message

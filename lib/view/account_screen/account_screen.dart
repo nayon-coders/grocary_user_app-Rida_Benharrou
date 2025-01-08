@@ -29,7 +29,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   //get social media
   var whatsapp, whatsAppMessages, terms, policy, legal;
-  AuthController authController = Get.find();
+  AuthController authController = Get.put(AuthController());
   AccountController accountController = Get.put(AccountController());
 
   @override

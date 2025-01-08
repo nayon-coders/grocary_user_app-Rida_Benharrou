@@ -34,7 +34,7 @@ class AddressList extends GetView<AddressControllerNew> {
         child:   Obx(() {
           if(controller.isLoading.value){
             return Center(child: CircularProgressIndicator.adaptive(),);
-          }else if(controller.address.value.data!.isEmpty){
+          }else if(controller.address.value.data == null){
             return NotFound();
           }else{
             return ListView.builder(

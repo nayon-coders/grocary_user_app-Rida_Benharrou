@@ -120,7 +120,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Center(child: Text("\$${ singleProduct!.discountPrice!} OFF",
+                                  child: Center(child: Text("${ singleProduct!.discountPrice!}% OFF",
                                       style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white

@@ -99,6 +99,8 @@ class AuthController extends GetxController{
           "Content-Type" : "application/json"
         }
     );
+    print("login response =---- ${res.statusCode}");
+    print("login response =---- ${res.body}");
     if(res.statusCode == 200){
       sharedPreferences!.setString("token", jsonDecode(res.body)["data"]["token"]);
       Get.offAllNamed(AppRoutes.HOME);

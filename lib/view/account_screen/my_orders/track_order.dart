@@ -55,7 +55,6 @@ class _TrackOrderState extends State<TrackOrder> {
         leading: InkWell(
           onTap: ()=>Get.back(),
             child: Icon(Icons.arrow_back,color:AppColors.textBlack,size: 30,)),
-
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(20),
@@ -114,7 +113,7 @@ class _TrackOrderState extends State<TrackOrder> {
                               children: [
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width*.50,
-                                  child: Text("${data.price}€ ",style: TextStyle(
+                                  child: Text("${data.price}€ X ${data.quantity.toString()}",style: TextStyle(
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color:AppColors.textBlack,

@@ -116,7 +116,7 @@ class Product {
   final int? productId;
   final String? name;
   final int? quantity;
-  final int? price;
+  final dynamic? price;
   final List<Image>? images;
 
   Product({

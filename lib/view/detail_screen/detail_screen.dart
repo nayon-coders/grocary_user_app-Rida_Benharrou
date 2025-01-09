@@ -56,6 +56,7 @@ class _DetailScreenState extends State<DetailScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _detailsScreenController.getMainCatRelatedProduct(singleProduct!.categoryName.toString());
     });
+
     // _detailsScreenController.getSingleProductByID(singleProduct!.id.toString());
   }
 
@@ -253,10 +254,15 @@ class _DetailScreenState extends State<DetailScreen> {
                               Obx(() {
                                   return AppButton(
                                     isLoading: carControllerNew.isAddingCart.value,
-                                    bgColor: AppColors.bgGreen,
-                                    name: "Ajouter au panier",
+                                    bgColor:  carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? Colors.grey : AppColors.bgGreen,
+                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Product already in cart" : "Ajouter au panier",
                                     onClick: (){
-                                       carControllerNew.addToCart(_initial, singleProduct!.id.toString());
+                                      if( carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString())){
+                                        return null;
+                                      }else{
+                                        carControllerNew.addToCart(_initial, singleProduct!.id.toString());
+                                      }
+
                                     },
                                   );
                                 }

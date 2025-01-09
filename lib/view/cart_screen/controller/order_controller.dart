@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/data/global/global_variable.dart';
 import 'package:nectar/data/models/delivery_address_model.dart';
+import 'package:nectar/data/models/myprofile_model.dart';
 import 'package:nectar/data/models/order_model.dart';
 import 'package:nectar/view/order_accepted/order_accepted.dart';
 
@@ -16,13 +17,16 @@ import 'car_controller.dart';
 
 class OrderControllerNew extends GetxController {
 
+  final AuthController authController = Get.put(AuthController());
   //cart controller init
   var cartController = Get.find<CartControllerNew>();
   GlobalController _globalController = Get.find();
 
 
+
   //model
   Rx<OrderModelNew> orderModel = OrderModelNew().obs;
+
 
   @override
   void onInit() {
@@ -42,9 +46,28 @@ class OrderControllerNew extends GetxController {
       double deliveryFee, AddressModel selectedAddress) async {
     isPlacingOrder.value = true;
     print('Place order');
+    await authController.getMyProfile(); //geting my profile first then cehck...
+
+    //check user is active or deactive?
+    if(GlobalVariables.myProfile.value.status != "Active"){
+      Get.snackbar("Error!", "Sorry! Your account is not Active. Please contact with Admin.", backgroundColor: Colors.red);
+      isPlacingOrder.value = false;
+      return null;
+    }
+
 
     List<Map<String, dynamic>> products = [];
+    for(var i = 0; i < cartController.cartList.value.data!.length; i++){
+      products.add({
+        "product_id": cartController.cartList.value.data![i].productId.toString(),
+        "quantity": cartController.qtyList[i],
+        "price": _globalController.priceCalculat(
+            cartController.cartList.value.data![i].productRegularPrice,  cartController.cartList.value.data![i].productSellingPrice,
+            cartController.cartList.value.data![i].productWholePrice,  cartController.cartList.value.data![i].productSupperMarcent) ///TODO: cart api error
+      });
+    }
     cartController.cartList.value.data!.forEach((element) {
+      print("element.quantity -- ${element.quantity}");
       products.add({
         "product_id": element.productId.toString(),
         "quantity": element.quantity,
@@ -53,6 +76,8 @@ class OrderControllerNew extends GetxController {
             element.productWholePrice, element.productSupperMarcent) ///TODO: cart api error
       });
     });
+
+    print("products -- ${products}");
 
     var body = {
       "company": GlobalVariables.myProfile.value.name,
@@ -70,7 +95,7 @@ class OrderControllerNew extends GetxController {
       "user_delivery_address_id": selectedAddress.id.toString(),
       "products": products
     };
-    print("order controller init ${body}");
+    print("order controller init ${products}");
 
     var response = await ApiService().postApi(AppConfig.ORDER_PLACE, body);
 
@@ -95,7 +120,7 @@ class OrderControllerNew extends GetxController {
   }
 
   //get order list
-  void getOrderList()async {
+  Future getOrderList()async {
     isLoading.value = true;
     var response = await ApiService().getApi(AppConfig.ORDER_GET_ALL);
     if (response.statusCode == 200) {

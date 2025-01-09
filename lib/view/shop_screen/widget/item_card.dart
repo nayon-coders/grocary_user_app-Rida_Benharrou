@@ -118,7 +118,7 @@ class ItemCard extends StatelessWidget {
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
                    Obx(() {
-                       return Text("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice!, singleProduct.wholePrice, singleProduct.supperMarcent)} €",
+                       return Text("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice!, singleProduct.wholePrice, singleProduct.supperMarcent).toStringAsFixed(2)} €",
                          style: const TextStyle(
                              fontSize: 15,
                              fontWeight: FontWeight.w700,

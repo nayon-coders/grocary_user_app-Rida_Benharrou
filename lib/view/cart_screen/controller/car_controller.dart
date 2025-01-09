@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -53,9 +54,10 @@ class CartControllerNew extends GetxController{
   RxBool isCartLoading = false.obs;
   Rx<CartListModel> cartList = CartListModel().obs;
   void getCartProduct()async{
+    cartList.value = CartListModel();
     cartCount.value = 0;
-    priceList.clear();
-    qtyList.clear();
+    // priceList.clear();
+    // qtyList.clear();
     isCartLoading.value = true;
     var response = await ApiService().getApi(AppConfig.CART_GET);
     if(response.statusCode == 200){
@@ -123,17 +125,13 @@ class CartControllerNew extends GetxController{
       // Handle the case where the lists are not synchronized
       return 0.0;
     }
-
     return List.generate(priceList.length, (index) {
-      print("priceList[index] ------ ${priceList[index]}"); // Print the price for each product
       return priceList[index] * qtyList[index];
     }).fold(0, (sum, element) => sum + element);
   }
   // Getter for calculating the total amount including tax (TVA)
   double get totalTVAamount {
-    double totalTax = 0.0;
-    print("priceList.length -- ${productTax}");
-
+    double totalTax = 0.0; // Initialize the total tax amount
     for (int i = 0; i < priceList.length; i++) {
       double subtotal = priceList[i] * qtyList[i]; // Subtotal for each product
       double taxAmount = (subtotal / 100) * double.parse(productTax[i].toString()); // Tax for each product
@@ -156,9 +154,14 @@ class CartControllerNew extends GetxController{
     if (qtyList[index] > 1) {
       qtyList[index]--; // Decrease the quantity
     }else{
-      qtyList[index] = 0;
       removeCartProduct(cartList.value.data![index].id.toString(), index);
     }
+  }
+
+
+  //is already in the cart or not
+  bool isAlreadyInCart(String pId) {
+    return cartList.value?.data?.any((e) => e.productId.toString() == pId) ?? false;
   }
 
 

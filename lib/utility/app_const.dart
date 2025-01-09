@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 String categoryCollection = "category";
@@ -117,3 +118,5 @@ bool isPastOrder(String status, String currentStatus) {
   // Check if the status is earlier or the same as the currentStatus
   return statusIndex <= currentIndex;
 }
+
+String frenchDateFormat(date) => DateFormat("dd/mm/yyyy hh:mm ").format(DateTime.parse("${date}"));

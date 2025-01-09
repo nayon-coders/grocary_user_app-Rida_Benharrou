@@ -150,7 +150,7 @@ class SubCategoreis extends GetView<HomeController> {
           // }
 
 
-          return controller.categoryListModel.value.data!.isNotEmpty ? Column(
+          return controller.categoryListModel.value.data != null && controller.categoryListModel.value.data!.isNotEmpty ? Column(
 
             children: [
               showTitle ? Row(

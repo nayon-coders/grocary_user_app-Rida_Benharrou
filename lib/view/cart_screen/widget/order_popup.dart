@@ -95,7 +95,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(10),
-      height: 470,
+      height: 430,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -186,39 +186,39 @@ class _OrderPopupState extends State<OrderPopup> {
             },
             isOpen: false,
           ),
-          Divider(color: Colors.grey.shade200,),
-          ListbottomSheet(
-            title: "Méthode de paiement ",
-            subtitle: SizedBox(
-              width: MediaQuery.of(context).size.width*.40,
-              child: Row(
-                children: [
-                  Icon(Icons.credit_card,color: Colors.orange,),
-                  SizedBox(width: 10,),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width*.30,
-                    child: Text("${paymentMethod ?? "Méthode de paiement"}",
-                        overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.right,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600
-                      ),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            onClick: (){
-                 showDialog<void>(
-                  context: context,
-                  barrierDismissible: false, // user must tap button!
-                  builder: (BuildContext context) {
-                    return SelectPaymentMethod(callback: getPaymentMethod,);
-                  },
-                );
-              }
-          ),
+          // Divider(color: Colors.grey.shade200,),
+          // ListbottomSheet(
+          //   title: "Méthode de paiement ",
+          //   subtitle: SizedBox(
+          //     width: MediaQuery.of(context).size.width*.40,
+          //     child: Row(
+          //       children: [
+          //         Icon(Icons.credit_card,color: Colors.orange,),
+          //         SizedBox(width: 10,),
+          //         SizedBox(
+          //           width: MediaQuery.of(context).size.width*.30,
+          //           child: Text("${paymentMethod ?? "Méthode de paiement"}",
+          //               overflow: TextOverflow.ellipsis,
+          //             textAlign: TextAlign.right,
+          //             style: TextStyle(
+          //               fontSize: 15,
+          //               fontWeight: FontWeight.w600
+          //             ),
+          //           ),
+          //         )
+          //       ],
+          //     ),
+          //   ),
+          //   onClick: (){
+          //        showDialog<void>(
+          //         context: context,
+          //         barrierDismissible: false, // user must tap button!
+          //         builder: (BuildContext context) {
+          //           return SelectPaymentMethod(callback: getPaymentMethod,);
+          //         },
+          //       );
+          //     }
+          // ),
 
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
@@ -273,6 +273,10 @@ class _OrderPopupState extends State<OrderPopup> {
                         name: "Passer la commande",
                         isLoading: orderController.isPlacingOrder.value,
                         onClick: ()async{
+                          if(_selectedAddress == null){
+                            Get.snackbar("Error!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.white);
+                            return;
+                          }
                           orderController.placeOrder(selectedDeliveryDateTime, paymentMethod, deliveryFee, _selectedAddress!);
                         });
                   }

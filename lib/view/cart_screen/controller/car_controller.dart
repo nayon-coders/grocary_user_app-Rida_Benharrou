@@ -53,6 +53,7 @@ class CartControllerNew extends GetxController{
   RxBool isCartLoading = false.obs;
   Rx<CartListModel> cartList = CartListModel().obs;
   void getCartProduct()async{
+    cartCount.value = 0;
     priceList.clear();
     qtyList.clear();
     isCartLoading.value = true;

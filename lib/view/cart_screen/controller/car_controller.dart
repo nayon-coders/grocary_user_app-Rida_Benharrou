@@ -64,7 +64,7 @@ class CartControllerNew extends GetxController{
         print("i.productTax! -- ${i.productTax!}");
         qtyList.add(i.quantity!);
         ///TODO: Card api error
-        priceList.add(_globalController.priceCalculat(i.productRegularPrice!.toDouble(), i.productSellingPrice!.toDouble(), i.productWholePrice!.toDouble(), 0.00));
+        priceList.add(_globalController.priceCalculat(i.productRegularPrice!.toDouble(), i.productSellingPrice!.toDouble(), i.productWholePrice!.toDouble(), double.parse("${ i.productSupperMarcent}")));
         productTax.add(i.productTax!.toDouble());
       }
     //  cartList.value = response.body['data'];
@@ -155,6 +155,7 @@ class CartControllerNew extends GetxController{
     if (qtyList[index] > 1) {
       qtyList[index]--; // Decrease the quantity
     }else{
+      qtyList[index] = 0;
       removeCartProduct(cartList.value.data![index].id.toString(), index);
     }
   }

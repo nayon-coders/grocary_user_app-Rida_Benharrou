@@ -69,7 +69,7 @@ class _CartScreenState extends State<CartScreen> {
                     itemBuilder: (context,index){
                       return Container(margin: EdgeInsets.only(bottom: 10), height: 70, child: AppShimmer());
                     });
-              }else if(cartController.cartList.value.data == null || cartController.cartList.value.data!.isEmpty){
+              }else if(cartController.cartList.value.data == null|| cartController.cartList.value.data!.isEmpty || cartController.qtyList.isEmpty || cartController.priceList.isEmpty){
                 return NotFound();
               }else{
                 return ListView.builder(
@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ///TODO: Cart api error
                                   Obx(() {
                                     return Text(
-                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), 0.00)}€ ",style: TextStyle(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), data.productSupperMarcent)}€ ",style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,
@@ -159,7 +159,7 @@ class _CartScreenState extends State<CartScreen> {
                                           ),
                                         ),
                                         Obx(() {
-                                            return Container(
+                                            return  Container(
                                                 width: 25,
                                                 height: 27,
                                                 decoration: BoxDecoration(

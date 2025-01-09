@@ -50,7 +50,7 @@ class OrderControllerNew extends GetxController {
         "quantity": element.quantity,
         "price": _globalController.priceCalculat(
             element.productRegularPrice, element.productSellingPrice,
-            element.productWholePrice, 00.00) ///TODO: cart api error
+            element.productWholePrice, element.productSupperMarcent) ///TODO: cart api error
       });
     });
 

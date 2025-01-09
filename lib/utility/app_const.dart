@@ -24,7 +24,7 @@ String postCodeCollection = "post_code";
 String restaurantAccount = "Restauration";
 String wholeSellerAccount = "Grossiste";
 String sellerAccount = "Revendeur";
-String supperMarcent = "Supper Marcen";
+String supperMarcent = "Supper Marcent";
 
 
 

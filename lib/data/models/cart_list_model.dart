@@ -59,6 +59,7 @@ class SingleCartItem {
   final  dynamic? productRegularPrice;
   final  dynamic? productSellingPrice;
   final  dynamic? productWholePrice;
+  final  dynamic? productSupperMarcent;
   final  dynamic? productDiscountPrice;
   final String? productImages;
 
@@ -79,6 +80,7 @@ class SingleCartItem {
     this.productWholePrice,
     this.productDiscountPrice,
     this.productImages,
+    this.productSupperMarcent
   });
 
   factory SingleCartItem.fromJson(Map<String, dynamic> json) => SingleCartItem(
@@ -96,6 +98,7 @@ class SingleCartItem {
     productRegularPrice: json["product_regular_price"],
     productSellingPrice: json["product_selling_price"],
     productWholePrice: json["product_whole_price"],
+    productSupperMarcent: json["product_supper_marcent"],
     productDiscountPrice: json["product_discount_price"],
     productImages: json["product_images"],
   );

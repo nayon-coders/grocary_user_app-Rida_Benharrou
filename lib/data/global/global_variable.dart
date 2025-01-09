@@ -10,6 +10,7 @@ class GlobalVariables {
   static BuildContext? currentContext;
   static RxDouble productPriceInKg = 0.00.obs;
   static RxString productTypeNameInKg = "".obs;
+  static RxList<String> productTypeNameInKeyList = <String>[].obs;
   static RxBool isFav = false.obs;
   static RxString selectedFavId = "".obs;
   static RxList<SingleFavList> favList = <SingleFavList>[].obs;

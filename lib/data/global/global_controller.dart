@@ -42,43 +42,39 @@ class GlobalController extends GetxController {
     print('Calculated Price: $newPrice');
     return newPrice;
   }
-  calculate(SingleProduct singleProduct) {
-    var productType = singleProduct.productType;
-    var unit = singleProduct.unit.toString();
+  String calculate(SingleProduct singleProduct) {
+    var productType = singleProduct.unit.toString();
+    var unit = singleProduct.uvw.toString();
+
+    print(":productType -- ${productType}");
 
     // Helper method to safely parse double values
     double safeParse(String value, {double defaultValue = 0.0}) {
       return double.tryParse(value) ?? defaultValue;
     }
 
-    // Looping to find the product type
-    for (var i = 0; i < unitList.length; i++) {
-      if (productType == "KG (€ / Kg)") {
-        var inG = 1000;
-        double totalGram() {
-          return safeParse(unit) * inG;
-        }
-
-        var oneGramPrice = GlobalVariables.gPrice.value / totalGram();
-        GlobalVariables.productPriceInKg.value = oneGramPrice * inG;
-        GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
-        break;
-
-      } else if (productType == "U (€ / U)" && unitList[i]["name"] == productType) {
-        GlobalVariables.productPriceInKg.value = GlobalVariables.gPrice.value / safeParse(unit);
-        GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
-        break;
-
-      } else if (unitList[i]["name"] == productType) {
-        GlobalVariables.productPriceInKg.value = (GlobalVariables.gPrice.value / safeParse(unit)) * unitList[i]["inKg"];
-        GlobalVariables.productTypeNameInKg.value = unitList[i]["kgName"];
-        break;
-
-      } else {
-        GlobalVariables.productPriceInKg.value = GlobalVariables.gPrice.value;
-        GlobalVariables.productTypeNameInKg.value = singleProduct.productType!;
-      }
+print("GlobalVariables.productTypeNameInKg.value -- ${GlobalVariables.productTypeNameInKg.value}");
+    if(productType.toString().contains("KG (€ / KG)")) {
+      return GlobalVariables.productTypeNameInKg.value = "KG";
+    }else if(productType.toString().contains("G (€ / G)")) {
+      return GlobalVariables.productTypeNameInKg.value = "G";
+    }else if(productType.toString().contains("MG (€ / MG)")) {
+      return GlobalVariables.productTypeNameInKg.value = "MG";
+    }else if(productType.toString().contains("ML (€ / ML)")) {
+      return GlobalVariables.productTypeNameInKg.value = "ML";
+    }else if(productType.toString().contains("L (€ / L)")) {
+      return GlobalVariables.productTypeNameInKg.value = "L";
+    }else if(productType.toString().contains("CM (€ / CM)")) {
+      return GlobalVariables.productTypeNameInKg.value = "CM";
+    }else if(productType.toString().contains("MM (€ / MM)")) {
+      return GlobalVariables.productTypeNameInKg.value = "MM";
+    }else if(productType.toString().contains("U (€ / U)")) {
+      return GlobalVariables.productTypeNameInKg.value = "U";
+    }else{
+      return GlobalVariables.productTypeNameInKg.value = "uck";
     }
+
+
   }
 
 }

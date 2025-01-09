@@ -135,7 +135,7 @@ class ItemCard extends StatelessWidget {
                          fontSize: 13,
                          color: Colors.black),
                    ),
-                   Text("${GlobalVariables.productPriceInKg} € / 1 ${GlobalVariables.productTypeNameInKg!.toString()}",
+                   Text("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice!, singleProduct.wholePrice, singleProduct.supperMarcent)} € / ${singleProduct.uvw} ${singleProduct.unit!.split(" ")[0]}",
                      style: TextStyle(
                          fontWeight: FontWeight.w200,
                          fontSize: 10,

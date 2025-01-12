@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/view/category_prodouct/category_product.dart';
-import 'package:nectar/view/search_product.dart';
+import 'package:nectar/view/category_prodouct/search_product.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/widget/app_input.dart';
 import '../../widget/app_network_images.dart';

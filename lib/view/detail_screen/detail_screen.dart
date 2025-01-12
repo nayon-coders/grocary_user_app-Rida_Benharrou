@@ -180,7 +180,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                         return
                                           Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}€",
                                           style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
-                                      })
+                                      }),
+                                      Obx((){
+                                        return
+                                          Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw!}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
+                                          style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
+                                      }),
                                     ],
                                   )
 

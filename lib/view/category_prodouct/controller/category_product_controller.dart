@@ -34,6 +34,7 @@ class CategoryProductController extends GetxController{
   GlobalController globalController = Get.put(GlobalController());
   // Rx<CategoryProductModel> catProductModel = CategoryProductModel().obs;
   Rx<ProductListModel> catProductModel = ProductListModel().obs;
+  Rx<ProductListModel> searchProduct = ProductListModel().obs;
   RxBool isSubCatProduct = false.obs;
 
   RxBool isLoading = false.obs;
@@ -81,6 +82,29 @@ class CategoryProductController extends GetxController{
       duration: Duration(milliseconds: 500), // Duration of scroll animation
       curve: Curves.easeInOut, // Animation curve
     );
+  }
+
+
+  //get search product
+  getSearchProduct(String searchValue) async {
+    isLoading.value = true;
+    print("search value --- $searchValue");
+    try {
+      var res = await ApiService().getApi("${AppConfig.BASE_URL}/product/all?name=${searchValue.toLowerCase()}");
+
+      print("search product --- ${res.body}");
+
+      if (res.statusCode == 200) {
+        searchProduct.value =
+            ProductListModel.fromJson(jsonDecode(res.body));
+      } else {
+        searchProduct.value = ProductListModel();
+      }
+    } catch (e) {
+      print("error --- $e");
+    } finally {
+      isLoading.value = false;
+    }
   }
 
 

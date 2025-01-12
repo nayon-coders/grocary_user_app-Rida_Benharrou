@@ -22,7 +22,7 @@ class OfferProducts extends GetView<HomeController> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
 
-            Text("Promos",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+            Text("Les Meilleures Ventes",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
             InkWell(
                 onTap: ()=>Get.to(AllProducts(title: "Offre exclusive", products: controller.promosProduct.value,)),
                 child: Container(

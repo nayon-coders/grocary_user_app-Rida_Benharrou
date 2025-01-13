@@ -148,13 +148,12 @@ class Home extends GetView<HomeController> {
             // SizedBox(height: 15,),
             // //offer products
             // NewProducts(),
-            SizedBox(height: 15,),
-            //offer products
-            OfferProducts(),
+            // SizedBox(height: 15,),
+            // //offer products
+            // OfferProducts(),
 
 
            // NewItems(),
-            SizedBox(height: 15,),
             SizedBox(height: 15,),
             //Categoreis()
             SubCategoreis(),

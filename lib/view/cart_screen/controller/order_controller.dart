@@ -45,11 +45,11 @@ class OrderControllerNew extends GetxController {
   void placeOrder(String selectedDeliveryDateTime, String payment_method,
       double deliveryFee, AddressModel selectedAddress) async {
     isPlacingOrder.value = true;
-    print('Place order');
+    print('Place order -- ${ GlobalVariables.myProfile.value.status}');
     await authController.getMyProfile(); //geting my profile first then cehck...
 
     //check user is active or deactive?
-    if(GlobalVariables.myProfile.value.status != "Active"){
+    if( GlobalVariables.myProfile.value.status != "Actif"){
       Get.snackbar("Error!", "Sorry! Your account is not Active. Please contact with Admin.", backgroundColor: Colors.red);
       isPlacingOrder.value = false;
       return null;

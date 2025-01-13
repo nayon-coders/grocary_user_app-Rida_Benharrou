@@ -169,6 +169,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black),
                                         ),
+                                        Text("${ singleProduct!.packaging.toString()}",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black),
+                                        ),
 
                                       ],
                                     ),
@@ -178,7 +184,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     children: [
                                       Obx((){
                                         return
-                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}€",
+                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent).toStringAsFixed(2)}€",
                                           style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       }),
                                       Obx((){

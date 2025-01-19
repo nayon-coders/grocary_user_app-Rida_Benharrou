@@ -27,18 +27,18 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
           height: MediaQuery.of(context).size.height,
           child: Scaffold(
               appBar: AppBar(
-                title: Text("Sélectionnez l'adresse de livraison"),
+                title: const Text("Sélectionnez l'adresse de livraison"),
               ),
               body: Obx((){
                 if(controller.isLoading.value){
-                  return Center(child: CircularProgressIndicator.adaptive(),);
+                  return const Center(child: CircularProgressIndicator.adaptive(),);
                 }else if(controller.address.value.data == null){
                   return Center(
                     child: TextButton(
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
                             },
-                            child: Text("Ajouter une nouvelle adress")
+                            child: const Text("Ajouter une nouvelle adress")
                           ),
                   );
                 }else{
@@ -55,7 +55,7 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
 
                           },
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 10),
+                            margin: const EdgeInsets.only(bottom: 10),
                             decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),

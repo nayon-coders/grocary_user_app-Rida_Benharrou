@@ -44,7 +44,7 @@ class CategoryProductController extends GetxController{
     isLoading.value = true;
     try {
       if(selectedSubCategory.value == "All") {
-        var res = await ApiService().getApi(
+        var res = await ApiService.getApi(
             AppConfig.PRPDUCT_GET + "?category=${selectedMainCategory.value}");
         if (res.statusCode == 200) {
           catProductModel.value =
@@ -53,7 +53,7 @@ class CategoryProductController extends GetxController{
           catProductModel.value = ProductListModel();
         }
       } else {
-        var res = await ApiService().getApi(
+        var res = await ApiService.getApi(
             AppConfig.PRPDUCT_GET +
                 "?category=${selectedMainCategory.value}&subcategory=${selectedSubCategory.value}");
         if (res.statusCode == 200) {
@@ -90,7 +90,7 @@ class CategoryProductController extends GetxController{
     isLoading.value = true;
     print("search value --- $searchValue");
     try {
-      var res = await ApiService().getApi("${AppConfig.BASE_URL}/product/all?name=${searchValue.toLowerCase()}");
+      var res = await ApiService.getApi("${AppConfig.BASE_URL}/product/all?name=${searchValue.toLowerCase()}");
 
       print("search product --- ${res.body}");
 

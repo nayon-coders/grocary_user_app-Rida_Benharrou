@@ -35,15 +35,15 @@ class CartControllerNew extends GetxController{
       "product_id": "$productId",
       "quantity": "$qty"
     };
-    var response = await ApiService().postApi(AppConfig.CART_ADD, body);
+    var response = await ApiService.postApi(AppConfig.CART_ADD, body);
 
     if(response.statusCode == 200){
       getCartProduct();
       //show success message
-      Get.snackbar("Success!", "Product added to cart", backgroundColor: Colors.green, colorText: Colors.white);
+      Get.snackbar("C'est noté !", "Produit ajouté au panier", backgroundColor: Colors.green, colorText: Colors.white);
     }else{
       //show error message
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red, colorText: Colors.white);
+      Get.snackbar("Échoué !", "Quelque chose s'est mal passé", backgroundColor: Colors.red, colorText: Colors.black);
     }
     isAddingCart.value = false;
 
@@ -59,7 +59,7 @@ class CartControllerNew extends GetxController{
     // priceList.clear();
     // qtyList.clear();
     isCartLoading.value = true;
-    var response = await ApiService().getApi(AppConfig.CART_GET);
+    var response = await ApiService.getApi(AppConfig.CART_GET);
     if(response.statusCode == 200){
       cartList.value = CartListModel.fromJson(jsonDecode(response.body));
       cartCount.value = cartList.value.totalProducts!;
@@ -83,7 +83,7 @@ class CartControllerNew extends GetxController{
   void getRecomandationProduct()async{
     recomandationProduct.clear();//clear previous data
     isRecomandationLoading.value = true;
-    var response = await ApiService().getApi(AppConfig.RECOMANDATION_PRODUCT);
+    var response = await ApiService.getApi(AppConfig.RECOMANDATION_PRODUCT);
     if(response.statusCode == 200){
       for(var i in jsonDecode(response.body)["data"]){
         recomandationProduct.add(SingleProduct.fromJson(i));
@@ -100,7 +100,7 @@ class CartControllerNew extends GetxController{
   RxBool isRemovingCart = false.obs;
   void removeCartProduct(productId, index)async{
     isRemovingCart.value = true;
-    var response = await ApiService().deleteApi("${AppConfig.CART_REMOVE}$productId");
+    var response = await ApiService.deleteApi("${AppConfig.CART_REMOVE}$productId");
     if(response.statusCode == 200){
       qtyList.clear();
       priceList.clear();
@@ -137,6 +137,7 @@ class CartControllerNew extends GetxController{
       double taxAmount = (subtotal / 100) * double.parse(productTax[i].toString()); // Tax for each product
       totalTax += taxAmount; // Sum up the taxes
     }
+    update();
 
     return totalPrice + totalTax; // Return totalPrice + totalTax
   }

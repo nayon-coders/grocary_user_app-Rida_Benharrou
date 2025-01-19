@@ -1,11 +1,8 @@
-import 'dart:math';
 
 import 'package:dropdown_search/dropdown_search.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nectar/utility/app_color.dart';
-import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_input.dart';
@@ -45,10 +42,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         backgroundColor: AppColors.bgWhite,
         leading: InkWell(
           onTap: ()=>Navigator.pop(context),
-            child: Icon(Icons.arrow_back_ios_sharp,color: AppColors.textBlack,size: 30,)),
+            child: const Icon(Icons.arrow_back_ios_sharp,color: AppColors.textBlack,size: 30,)),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -61,16 +58,16 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20,),
-                Text("Adress *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Adress *"),
+                const SizedBox(height: 10,),
                 AppInput(
                     validator: (value)=>value!.isEmpty ? "Indiquez l'adresse":null,
                     controller: addressController.addressText.value,
                     hintText: "Indiquez l'adresse *"),
-                SizedBox(height: 20,),
-                Text("Code Postal *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Code Postal *"),
+                const SizedBox(height: 10,),
                 Obx(()=>DropdownSearch<String>(
                   popupProps: PopupProps.menu(
                     showSelectedItems: true,
@@ -80,12 +77,12 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   dropdownDecoratorProps: DropDownDecoratorProps(
                     dropdownSearchDecoration: InputDecoration(
                         hintText: "Code Postal",
-                        hintStyle: TextStyle(
+                        hintStyle: const TextStyle(
                             fontSize: 13,
                             color: Colors.grey,
                             fontWeight: FontWeight.w600
                         ),
-                        contentPadding: EdgeInsets.only(left: 10, right: 10),
+                        contentPadding: const EdgeInsets.only(left: 10, right: 10),
                         border: OutlineInputBorder(
                             borderSide: BorderSide.none,
                             borderRadius: BorderRadius.circular(10)
@@ -99,39 +96,39 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   },
                   //selectedItem: "Code Postal",
                 )),
-                SizedBox(height: 20,),
-                Text("Ville *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Ville *"),
+                const SizedBox(height: 10,),
                 AppInput(
                     validator: (value)=>value!.isEmpty ? "Indiquez la ville":null,
                     controller: addressController.villeText.value, hintText: "Indiquez la ville"),
-                SizedBox(height: 20,),
-                Text("Message *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Message *"),
+                const SizedBox(height: 10,),
                 AppInput(
                   maxLine: 4,
                   validator: (value)=>value!.isEmpty ? "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.":null,
                   controller: addressController.messageText.value,
                   hintText: "Indiquez dans ce champs toutes information utile à la livraison, ex: rideau de fer ouvert, déposez les marchandises et refermez.",
                 ),
-                SizedBox(height: 20,),
-                Text("Contact Livraison *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Contact Livraison *"),
+                const SizedBox(height: 10,),
                 AppInput(
                   validator: (value)=>value!.isEmpty ? " Indiquez le nom et/ou prénom de la personne à contacter":null,
                   controller: addressController.contactText.value,
                   hintText: " Indiquez le nom et/ou prénom de la personne à contacter",
                 ),
-                SizedBox(height: 20,),
-                Text("Mobile *"),
-                SizedBox(height: 10,),
+                const SizedBox(height: 20,),
+                const Text("Mobile *"),
+                const SizedBox(height: 10,),
                 AppInput(
                   validator: (value)=>value!.isEmpty ? "Indiquez le mobile de la personne à contacter":null,
                   controller: addressController.phoneText.value,
                   hintText: "Mobile ",
                 ),
 
-                SizedBox(height: 20,),
+                const SizedBox(height: 20,),
 
               ],
             ),
@@ -144,7 +141,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
         child: Obx(() {
             return AppButton(
               isLoading: addressController.isLoading.value,
-                name: addressModel != null ? "Edit Address" : "Ajouter une Nouvelle Adresse", onClick: ()async{
+                name: addressModel != null ? "Modifier Adresse" : "Ajouter une Nouvelle Adresse", onClick: ()async{
                   if(_formKey.currentState!.validate()){
                     if(addressModel != null){
                       await addressController.updateAddress(addressModel!.id.toString());

@@ -20,7 +20,7 @@ class DetailsScreenController extends GetxController{
 
   getSingleProductByID(id)async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.PRPDUCT_SINGLE+"$id");
+    var res = await ApiService.getApi(AppConfig.PRPDUCT_SINGLE+"$id");
     if(res.statusCode == 200){
       singleProduct.value = SingleProductModel.fromJson(jsonDecode(res.body));
     }
@@ -31,7 +31,7 @@ class DetailsScreenController extends GetxController{
 
   getSingleProductByCategory()async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.PRPDUCT_GET+"");
+    var res = await ApiService.getApi(AppConfig.PRPDUCT_GET+"");
     if(res.statusCode == 200){
       singleProduct.value = SingleProductModel.fromJson(jsonDecode(res.body));
     }
@@ -45,7 +45,7 @@ class DetailsScreenController extends GetxController{
   getMainCatRelatedProduct(categoryName)async{
     isGetRelatedProduct.value = true;
     relatedProduct.value.clear(); //clear list
-    var res = await ApiService().getApi(AppConfig.PRPDUCT_GET+"?category=$categoryName");
+    var res = await ApiService.getApi(AppConfig.PRPDUCT_GET+"?category=$categoryName");
     var data = ProductListModel.fromJson(jsonDecode(res.body));
     if(res.statusCode == 200){
       for(var i in data.data!){

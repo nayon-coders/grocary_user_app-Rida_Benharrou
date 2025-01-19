@@ -8,7 +8,10 @@ import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/account_screen/controller/address_controller.dart';
 import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
+import 'package:nectar/view/auth/forgot_password.dart';
 import 'package:nectar/view/auth/login_screen.dart';
+import 'package:nectar/view/auth/new_password.dart';
+import 'package:nectar/view/auth/otp_screen.dart';
 import 'package:nectar/view/auth/signup_screen.dart';
 import 'package:nectar/view/cart_screen/controller/car_controller.dart';
 import 'package:nectar/view/detail_screen/detail_screen.dart';
@@ -56,6 +59,24 @@ class AppPages{
       name: AppRoutes.singleProduct,
       page: () =>  DetailScreen(),
       bindings: [SingleProductBuind(), HomeBinding()],
+    ),
+
+    GetPage(
+      name: AppRoutes.forgotScreen,
+      binding: AuthBinding(),
+      page: () =>  ForgotPassword(),
+    ),
+
+    GetPage(
+      name: AppRoutes.otpVerify,
+      binding: AuthBinding(),
+      page: () =>  OtpScreen(),
+    ),
+
+    GetPage(
+      name: AppRoutes.newPassword,
+      binding: AuthBinding(),
+      page: () =>  NewPassword(),
     ),
   ];
 

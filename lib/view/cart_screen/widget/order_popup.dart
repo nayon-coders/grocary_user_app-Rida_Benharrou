@@ -39,19 +39,19 @@ class _OrderPopupState extends State<OrderPopup> {
   bool _deliveryAddressAlert = false;
 
   DateTime getInitialDate() {
-    DateTime initialDate = DateTime.now().add(Duration(days: 10));
+    DateTime initialDate = DateTime.now().add(const Duration(days: 10));
     while (initialDate.weekday == DateTime.saturday || initialDate.weekday == DateTime.sunday) {
       if(initialDate.weekday == DateTime.friday){
         setState(() {
-          initialDate = initialDate.add(Duration(days: 3));
+          initialDate = initialDate.add(const Duration(days: 3));
         });
       }else if(initialDate.weekday == DateTime.saturday){
         setState(() {
-          initialDate = initialDate.add(Duration(days: 2));
+          initialDate = initialDate.add(const Duration(days: 2));
         });
       }else{
         setState(() {
-          initialDate = initialDate.add(Duration(days: 1));
+          initialDate = initialDate.add(const Duration(days: 1));
         });
       }
 
@@ -82,7 +82,7 @@ class _OrderPopupState extends State<OrderPopup> {
     });
 
     //init date
-    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy HH'h'mm").format(DateTime.now().add(Duration(days: 1)));
+    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy").format(DateTime.now().add(Duration(days: 1)));
 
 
     //init payment method
@@ -95,7 +95,7 @@ class _OrderPopupState extends State<OrderPopup> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(10),
-      height: 450,
+      height: 500,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -119,7 +119,7 @@ class _OrderPopupState extends State<OrderPopup> {
               border: Border.all(width: 1, color: _deliveryAddressAlert ? Colors.red : Colors.transparent)
             ),
             child: ListbottomSheet(
-              title: "Mode de livraison",
+              title: "Adresse de livraison",
               subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
               onClick: (){
                 showDialog<void>(
@@ -180,7 +180,7 @@ class _OrderPopupState extends State<OrderPopup> {
 
 
               setState(() {
-                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy HH'h'mm ").format(selectedTime!);
+                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy").format(selectedTime!);
               });
 
             },
@@ -236,7 +236,7 @@ class _OrderPopupState extends State<OrderPopup> {
             onClick: (){},
             isOpen: false,
           ),
-          Text("Livraison gratuite à partir de 60€",
+          const Text("Livraison gratuite à partir de 60€ ht",
             style: TextStyle(
               fontWeight: FontWeight.w400,
               color: Colors.black,
@@ -256,7 +256,7 @@ class _OrderPopupState extends State<OrderPopup> {
           ),
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
-            title: "Total TTC.",
+            title: "Total TTC ",
             subtitle: Text("${(_cartController.totalTVAamount + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: (){},
             isOpen: false,
@@ -274,7 +274,7 @@ class _OrderPopupState extends State<OrderPopup> {
                         isLoading: orderController.isPlacingOrder.value,
                         onClick: ()async{
                           if(_selectedAddress == null){
-                            Get.snackbar("Error!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.black);
+                            Get.snackbar("échoué!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.black);
                             return;
                           }
                           orderController.placeOrder(selectedDeliveryDateTime, paymentMethod, deliveryFee, _selectedAddress!);

@@ -50,7 +50,7 @@ class OrderControllerNew extends GetxController {
 
     //check user is active or deactive?
     if( GlobalVariables.myProfile.value.status != "Actif"){
-      Get.snackbar("Error!", "Sorry! Your account is not Active. Please contact with Admin.", backgroundColor: Colors.red);
+      Get.snackbar("Désolé !", "Votre compte n'est pas encore actif. Nous allons vous contacter. Vous pouvez écrire à  commande@commandespros.com", backgroundColor: Colors.red,colorText: Colors.white);
       isPlacingOrder.value = false;
       return null;
     }
@@ -97,14 +97,14 @@ class OrderControllerNew extends GetxController {
     };
     print("order controller init ${products}");
 
-    var response = await ApiService().postApi(AppConfig.ORDER_PLACE, body);
+    var response = await ApiService.postApi(AppConfig.ORDER_PLACE, body);
 
     if (response.statusCode == 200) {
       getOrderList();
       //show success message
-      await ApiService().deleteApi(AppConfig.ORDER_BULK_DELETE);
+      await ApiService.deleteApi(AppConfig.ORDER_BULK_DELETE);
       Get.snackbar(
-          "Success!", "Order Place success!", backgroundColor: Colors.green,
+          "Bravo !", "Commande passée avec succès!", backgroundColor: Colors.green,
           colorText: Colors.white);
       cartController.cartList.value.data!.clear();
       cartController.cartCount.value = 0;
@@ -113,7 +113,7 @@ class OrderControllerNew extends GetxController {
     } else {
       //show error message
       Get.snackbar(
-          "Error!", "Something went wrong", backgroundColor: Colors.red,
+          "Désolé!", "Quelque chose s'est mal passé", backgroundColor: Colors.red,
           colorText: Colors.white);
     }
     isPlacingOrder.value = false;
@@ -122,7 +122,7 @@ class OrderControllerNew extends GetxController {
   //get order list
   Future getOrderList()async {
     isLoading.value = true;
-    var response = await ApiService().getApi(AppConfig.ORDER_GET_ALL);
+    var response = await ApiService.getApi(AppConfig.ORDER_GET_ALL);
     if (response.statusCode == 200) {
       orderModel.value = OrderModelNew.fromJson(jsonDecode(response.body));
     }

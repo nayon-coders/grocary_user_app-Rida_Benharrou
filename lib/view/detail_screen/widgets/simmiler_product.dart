@@ -18,11 +18,11 @@ class SimmilerProduct extends GetView<DetailsScreenController> {
         return SizedBox(
           height: 200,
           child: ListView.builder(
-            padding: EdgeInsets.only(right: 10),
+            padding: const EdgeInsets.only(right: 10),
             itemCount: 5,
             scrollDirection: Axis.horizontal,
             itemBuilder: (context, index) {
-              return AppShimmer();
+              return const AppShimmer();
             },
           ),
         );
@@ -43,15 +43,15 @@ class SimmilerProduct extends GetView<DetailsScreenController> {
               color: Colors.black,
             ),
           )
-              : Center(), // Show nothing or provide a fallback widget if empty
+              : const Center(), // Show nothing or provide a fallback widget if empty
 
-          SizedBox(height: 10),
+          const SizedBox(height: 10),
 
           // Display the related products in a horizontal list
           SizedBox(
             height: 200,
             child: ListView.builder(
-              padding: EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10),
               itemCount: controller.relatedProduct.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
@@ -59,7 +59,7 @@ class SimmilerProduct extends GetView<DetailsScreenController> {
                 if (controller.relatedProduct[index] != null) {
                   return ItemCard(singleProduct: controller.relatedProduct[index]!);
                 }
-                return SizedBox(); // Return an empty widget if the product is null
+                return const SizedBox(); // Return an empty widget if the product is null
               },
             ),
           ),

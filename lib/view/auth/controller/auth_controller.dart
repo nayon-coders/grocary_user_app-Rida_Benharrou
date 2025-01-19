@@ -34,6 +34,13 @@ class AuthController extends GetxController{
   RxList<String> selectedAccountType = <String>[].obs;
 
 
+
+  // Map for UI display name
+  Map<String, String> accountTypeDisplayName = {
+    "Supper Marcent": "Supermarché",
+  };
+
+
   @override
   void onInit() {
     // TODO: implement onInit
@@ -73,9 +80,9 @@ class AuthController extends GetxController{
     print("response =---- ${response.body}");
     if(response.statusCode == 200){
       Get.offAllNamed(AppRoutes.HOME);
-      Get.snackbar("Success!", "Account has been created.", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo !", "Votre compté a bien été crée! Un membre de notre équipre prendra contact avec vous pour activer votre compte. ", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong with server.", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Désolé!", "Une erreur s'est produite avec le serveur.", backgroundColor: Colors.red,colorText: Colors.black);
     }
     isSignUp.value = false;
   }
@@ -104,9 +111,9 @@ class AuthController extends GetxController{
     if(res.statusCode == 200){
       sharedPreferences!.setString("token", jsonDecode(res.body)["data"]["token"]);
       Get.offAllNamed(AppRoutes.HOME);
-      Get.snackbar("Success!", "Login Success", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo!", "Vous pouvez commander!", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "invalid credentials!", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Désolé!", "Email ou mot de passe incorrect", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLogin.value = false;
   }
@@ -114,7 +121,7 @@ class AuthController extends GetxController{
 
   //get my profile
   getMyProfile()async{
-    var res = await ApiService().getApi(AppConfig.MY_PROFILE);
+    var res = await ApiService.getApi(AppConfig.MY_PROFILE);
     if(res.statusCode == 200){
       GlobalVariables.myProfile.value = MyProfileModel.fromJson(jsonDecode(res.body));
     }

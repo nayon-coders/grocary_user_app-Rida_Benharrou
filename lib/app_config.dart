@@ -21,6 +21,11 @@ class AppConfig{
   static const String USER_PASS_UPDATE = "$BASE_URL/user/password";
   static const String USER_DELETE = "$BASE_URL/user/delete/";
 
+  //FORGOT PASSWORD
+  static const String FORGOT_PASSWORD ="$BASE_URL/forgot/forgot-password";
+  static const String VERIFY_CODE ="$BASE_URL/forgot/verify-reset-code";
+  static const String NEW_PASSWORD ="$BASE_URL/forgot/new-password";
+
   //product
   static const String PRPDUCT_GET = "$BASE_URL/product/all?limit=1000";
   static const String PRPDUCT_SINGLE = "$BASE_URL/product/";

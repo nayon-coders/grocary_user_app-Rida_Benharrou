@@ -9,7 +9,7 @@ import '../../main.dart';
 class ApiService{
 
   //get api
-  Future<http.Response> getApi(url)async{
+  static Future<http.Response> getApi(url)async{
     var response = await http.get(Uri.parse(url),
       headers: {
         "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"
@@ -24,7 +24,7 @@ class ApiService{
 
 
   //post api
-  Future<http.Response> postApi(url, data)async{
+  static Future<http.Response> postApi(url, data)async{
     var response = await http.post(Uri.parse(url),
         body: jsonEncode(data),
         headers: {
@@ -41,7 +41,7 @@ class ApiService{
 
 
   //put api
-  Future<http.Response> putApi(url, data,)async{
+  static Future<http.Response> putApi(url, data,)async{
     var response = await http.put(Uri.parse(url),
         body: jsonEncode(data),
         headers: {
@@ -58,7 +58,7 @@ class ApiService{
 
 
   //delete api
-  Future<http.Response> deleteApi(url)async{
+  static Future<http.Response> deleteApi(url)async{
     var response = await http.delete(Uri.parse(url),
         headers: {
           "Authorization" : "Bearer ${sharedPreferences!.getString("token")}"

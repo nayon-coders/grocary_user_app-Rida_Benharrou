@@ -25,7 +25,7 @@ class AccountController extends GetxController {
   //get my profile data
   void getMyProfile() async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.MY_PROFILE);
+    var res = await ApiService.getApi(AppConfig.MY_PROFILE);
     if(res.statusCode == 200){
       myProfile.value = MyProfileModel.fromJson(jsonDecode(res.body));
     }
@@ -36,7 +36,7 @@ class AccountController extends GetxController {
   // get page link
    getPageLink() async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.pageLink);
+    var res = await ApiService.getApi(AppConfig.pageLink);
     if(res.statusCode == 200){
       pageModel.value = PageModel.fromJson(jsonDecode(res.body));
     }

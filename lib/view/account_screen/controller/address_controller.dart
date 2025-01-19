@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
-
 import '../../../app_config.dart';
 import '../../../data/service/api.service.dart';
 import '../../../data/models/delivery_address_model.dart';
@@ -25,7 +22,7 @@ class AddressControllerNew extends GetxController {
   //get address data
   void getAddress() async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.DELIVERY_ADDRESS);
+    var res = await ApiService.getApi(AppConfig.DELIVERY_ADDRESS);
     if(res.statusCode == 200){
       address.value = DeliveryAddressModel.fromJson(jsonDecode(res.body));
     }
@@ -54,15 +51,15 @@ class AddressControllerNew extends GetxController {
      };
 
      print("data --- ${data}");
-    var res = await ApiService().postApi(AppConfig.DELIVERY_ADDRESS_ADD, data);
+    var res = await ApiService.postApi(AppConfig.DELIVERY_ADDRESS_ADD, data);
     if(res.statusCode == 200){
       Get.back();
-      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green);
+      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green,colorText: Colors.white);
       getAddress();
       clearTextField();
 
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }
@@ -72,7 +69,7 @@ class AddressControllerNew extends GetxController {
   RxBool isGettingPostCode = false.obs;
   Future getPostCode()async{
     isGettingPostCode.value = true;
-    var res = await ApiService().getApi(AppConfig.POST_CODE_GET);
+    var res = await ApiService.getApi(AppConfig.POST_CODE_GET);
     if(res.statusCode == 200){
       var data = jsonDecode(res.body);
       for(var i in data["data"]){
@@ -86,7 +83,7 @@ class AddressControllerNew extends GetxController {
   //delete address
   Future deleteAddress(id) async{
     isLoading.value = true;
-    var res = await ApiService().deleteApi(AppConfig.DELIVERY_ADDRESS_delete+id);
+    var res = await ApiService.deleteApi(AppConfig.DELIVERY_ADDRESS_delete+id);
     if(res.statusCode == 200){
       getAddress();
       Get.back();
@@ -110,7 +107,7 @@ class AddressControllerNew extends GetxController {
       "message": messageText.value.text
     };
 
-    var res = await ApiService().putApi(AppConfig.DELIVERY_ADDRESS_UPDATE+id, data);
+    var res = await ApiService.putApi(AppConfig.DELIVERY_ADDRESS_UPDATE+id, data);
     if(res.statusCode == 200){
       getAddress();
       clearTextField();

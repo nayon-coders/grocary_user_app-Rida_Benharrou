@@ -87,20 +87,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
         
                      SizedBox(height: 30,),
         
-                     Text("Choisir votre profil *",
+                     const Text("Choisir votre profil *",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 16
                       )
                      ),
-                      SizedBox(height: 10,),
+                      const SizedBox(height: 10,),
 
                       SizedBox(height: 40,
                         child: Obx(() {
                           return ListView.builder(
                             scrollDirection: Axis.horizontal,
                             shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(), // new line
+                            physics: const NeverScrollableScrollPhysics(), // new line
                             itemCount: _authController.accountTypeName.length,
                             itemBuilder: (_, index) {
                               return InkWell(
@@ -111,8 +111,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   });
                                 },
                                 child: Container(
-                                  margin: EdgeInsets.only(right: 7),
-                                  padding: EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
+                                  margin: const EdgeInsets.only(right: 7),
+                                  padding: const EdgeInsets.only(left: 5, right: 5, top: 10, bottom: 10),
                                   decoration: BoxDecoration(
                                     color: _authController.selectedAccountType.contains(_authController.accountTypeName[index])
                                         ? AppColors.bgGreen
@@ -126,8 +126,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                   ),
                                   child: Obx(() {
+                                    String displayName = _authController.accountTypeDisplayName[_authController.accountTypeName[index]] ??
+                                        _authController.accountTypeName[index];
                                       return Text(
-                                        "${_authController.accountTypeName[index]}",
+                                        "${displayName}",
                                         style: TextStyle(
                                           fontWeight: FontWeight.w600,
                                           fontSize: 12,
@@ -159,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        hintText: "Indiquez votre email",
                      ),
         
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
         
                      Text("Mot de passe *",
                        style: TextStyle(fontSize: normalFont,
@@ -167,7 +169,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                            color: AppColors.textGrey),),
                      AppField(
                          controller:  _authController.passwordController.value,
-                         hintText: "hoisissez un mot de passe facile à retenir",
+                         hintText: "Choisissez un mot de passe facile à retenir",
                          obscureText: _obscureText,
                          suffixIcon: IconButton(
                            onPressed: (){
@@ -223,7 +225,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        controller:  _authController.addressController.value,
                        hintText: "Adresse",
                      ),
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
+
+                     Text("Code postal *",
+                       style: TextStyle(
+                           fontSize: normalFont,
+                           fontWeight: FontWeight.w500,
+                           color: AppColors.textGrey),),
+                     AppField(
+                       controller:  _authController.postCodeController.value,
+                       hintText: "Code postal",
+                     ),
+                     const SizedBox(height: 20,),
+
                      Text("Ville *",
                        style: TextStyle(
                            fontSize: normalFont,
@@ -233,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                        controller:  _authController.cityController.value,
                        hintText: "Ville",
                      ),
-                     SizedBox(height: 20,),
+                     const SizedBox(height: 20,),
         
         
         
@@ -248,16 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      ),
                      SizedBox(height: 20,),
         
-                     Text("Code postal *",
-                       style: TextStyle(
-                           fontSize: normalFont,
-                           fontWeight: FontWeight.w500,
-                           color: AppColors.textGrey),),
-                     AppField(
-                       controller:  _authController.postCodeController.value,
-                       hintText: "Code postal",
-                     ),
-                     SizedBox(height: 20,),
+
                      Text("Contact Facturation / Compabilité",
                        style: TextStyle(
                            fontSize: normalFont,

@@ -42,7 +42,7 @@ class HomeController extends GetxController{
 
     promosProduct.clear();
 
-    var res = await ApiService().getApi(AppConfig.PRPDUCT_GET);
+    var res = await ApiService.getApi(AppConfig.PRPDUCT_GET);
 
     if(res.statusCode == 200){
       //clear lists
@@ -73,7 +73,7 @@ class HomeController extends GetxController{
   getAllCategory()async{
     isGettingCategory.value = true;
     subCategories.clear();
-    var response = await ApiService().getApi(AppConfig.CATEGORY_GET);
+    var response = await ApiService.getApi(AppConfig.CATEGORY_GET);
     if(response.statusCode == 200){
       categoryListModel.value = CategoryListModel.fromJson(jsonDecode(response.body));
       for(var cat in categoryListModel.value.data!){

@@ -4,18 +4,14 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:nectar/data/global/global_controller.dart';
-import 'package:nectar/data/global/global_variable.dart';
 import 'package:nectar/data/models/product_model.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/detail_screen/widgets/simmiler_product.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
-
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
 import '../../widget/app_network_images.dart';
-import '../../widget/app_shimmer.dart';
-import '../shop_screen/widget/item_card.dart';
 import '../cart_screen/controller/car_controller.dart';
 import 'controller/details_screen_controller.dart';
 
@@ -69,14 +65,14 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Scaffold(
           backgroundColor:AppColors.bgWhite,
           body: Obx((){
-              return _detailsScreenController.isLoading.value ? Center(child: CircularProgressIndicator.adaptive(),)
+              return _detailsScreenController.isLoading.value ? const Center(child: CircularProgressIndicator.adaptive(),)
                   : SingleChildScrollView(
                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: EdgeInsets.only(top: 30),
+                          padding: const EdgeInsets.only(top: 30),
                           height: MediaQuery.of(context).size.height*0.35,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -95,13 +91,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                     child: Container(
                                         height: 40,
                                         width: 40,
-                                        child: Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
+                                        child: const Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
                               ),
 
                               Container(
                                 height: MediaQuery.of(context).size.height*0.23,
                                 width: MediaQuery.of(context).size.width*.65,
-                                decoration: BoxDecoration(
+                                decoration: const BoxDecoration(
 
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(20),
@@ -121,8 +117,8 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Center(child: Text("${ singleProduct!.discountPrice!}% OFF",
-                                      style: TextStyle(
+                                  child: Center(child: Text("Promo - ${ singleProduct!.discountPrice!}%",
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white
                                       )
@@ -152,7 +148,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -170,7 +166,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               color: Colors.black),
                                         ),
                                         Text("${ singleProduct!.packaging.toString()}",
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.black),
@@ -185,12 +181,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                       Obx((){
                                         return
                                           Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent).toStringAsFixed(2)}€",
-                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
+                                          style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       }),
                                       Obx((){
                                         return
                                           Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw!}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
-                                          style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
+                                          style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
                                       }),
                                     ],
                                   )
@@ -202,15 +198,17 @@ class _DetailScreenState extends State<DetailScreen> {
                               ///Si
 
                               singleProduct!.shortDescription != null && singleProduct!.shortDescription!.isNotEmpty ? Container(
-                                margin: EdgeInsets.only(top: 8),
+                                margin: const EdgeInsets.only(top: 8),
                                 child: Text("${singleProduct!.shortDescription}",
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 12, color: Colors.black,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
-                              ) : Center(),
-                              SizedBox(height: 10,),
+                              ) : const Center(),
+                              const SizedBox(height: 10,),
+
+                              //increment decrement
                               SizedBox(
                                 width: 120,
                                 child: Row(
@@ -226,20 +224,20 @@ class _DetailScreenState extends State<DetailScreen> {
                                         });
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                           border: Border.all(color: Colors.grey.shade200),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColors.bgWhite,
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Icon(Icons.remove,color: AppColors.textGrey,),
                                         ),
                                       ),
                                     ),
-                                    SizedBox(width: 10,),
+                                    const SizedBox(width: 10,),
                                     Text("${_initial}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: normalFont,color: Colors.black),),
-                                    SizedBox(width: 10,),
+                                    const SizedBox(width: 10,),
                                     InkWell(
                                       onTap: (){
                                         setState(() {
@@ -247,13 +245,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                         });
                                       },
                                       child: Container(
-                                        padding: EdgeInsets.all(5),
+                                        padding: const EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                           border: Border.all(color: Colors.grey.shade200),
                                           borderRadius: BorderRadius.circular(10),
                                           color: AppColors.bgWhite,
                                         ),
-                                        child: Center(
+                                        child: const Center(
                                           child: Icon(Icons.add,color: Colors.green,),
                                         ),
                                       ),
@@ -261,12 +259,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 15,),
+
+                              const SizedBox(height: 15,),
                               Obx(() {
                                   return AppButton(
                                     isLoading: carControllerNew.isAddingCart.value,
                                     bgColor:  carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? Colors.grey : AppColors.bgGreen,
-                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Product already in cart" : "Ajouter au panier",
+                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Produi déjà dans votre panier" : "Ajouter au panier",
                                     onClick: (){
                                       if( carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString())){
                                         return null;
@@ -279,7 +278,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 }
                               ),
 
-                              SizedBox(height: 15,),
+                              const SizedBox(height: 15,),
                               ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: InkWell(
@@ -289,7 +288,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     });
                                   },
                                   child: Container(
-                                      padding: EdgeInsets.all(10),
+                                      padding: const EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                           color: Colors.grey.shade100,
                                           borderRadius: BorderRadius.circular(10)
@@ -297,7 +296,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Text("Détails du produit",
+                                          const Text("Détails du produit",
                                             style: TextStyle(
                                                 fontSize: 15,
                                                 fontWeight: FontWeight.w700
@@ -314,7 +313,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
                               ),
 
-                              SizedBox(height: 30,),
+                              const SizedBox(height: 30,),
 
 
                               SimmilerProduct( singleProduct!),

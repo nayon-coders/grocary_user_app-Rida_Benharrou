@@ -52,7 +52,7 @@ class _MyOrdersState extends State<MyOrders> {
             onTap: (){
               Get.toNamed(AppRoutes.HOME);
             },
-              child: Icon(Icons.arrow_back,size: 30,)),
+              child: const Icon(Icons.arrow_back,size: 30,)),
       
         ),
         body: RefreshIndicator(
@@ -75,9 +75,9 @@ class _MyOrdersState extends State<MyOrders> {
 
                 Obx((){
                   if(orderController.isLoading.value){
-                    return Center(child: CircularProgressIndicator.adaptive(),);
+                    return const Center(child: CircularProgressIndicator.adaptive(),);
                   }else if(orderController.orderModel.value.data!.isEmpty){
-                    return NotFound();
+                    return const NotFound();
                   }else{
 
                     return  Expanded(
@@ -89,8 +89,8 @@ class _MyOrdersState extends State<MyOrders> {
                               return GestureDetector(
                                 child: Container(
                                   alignment: Alignment.center,
-                                  padding: EdgeInsets.all(15),
-                                  margin: EdgeInsets.only(bottom: 10),
+                                  padding: const EdgeInsets.all(15),
+                                  margin: const EdgeInsets.only(bottom: 10),
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(color: Colors.grey.shade200)
@@ -109,22 +109,22 @@ class _MyOrdersState extends State<MyOrders> {
                                               crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Text("Commande: ${data.id}",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       fontSize:18,
                                                       fontWeight: FontWeight.w600,
                                                       color: AppColors.textBlack),
                                                 ),
-                                                SizedBox(height: 8,),
+                                                const SizedBox(height: 8,),
                                                 Text("${data.createdAt.toString()}",
-                                                  style: TextStyle(fontWeight: FontWeight.w400,
+                                                  style: const TextStyle(fontWeight: FontWeight.w400,
                                                       fontSize: 12,
                                                       color: AppColors.textGrey),
                                                 ),
-                                                SizedBox(height: 3,),
+                                                const SizedBox(height: 3,),
                                                 SizedBox(
                                                   width: 160,
                                                   child: Text("Expected delivery on: ${data.deliveryDate.toString()}",
-                                                    style: TextStyle(fontWeight: FontWeight.w400,
+                                                    style: const TextStyle(fontWeight: FontWeight.w400,
                                                         fontSize: 12,
                                                         color: Colors.black),
                                                   ),
@@ -133,17 +133,17 @@ class _MyOrdersState extends State<MyOrders> {
 
                                               ],
                                             ),
-                                            SizedBox(width: 5,),
+                                            const SizedBox(width: 5,),
                                             AppButton(name: "Suivi",
                                                 onClick: ()=> Navigator.push(context,MaterialPageRoute(builder: (_)=>TrackOrder(orderModel: data,))))
                                           ],
 
                                         ),
 
-                                        SizedBox(height: 20,),
+                                        const SizedBox(height: 20,),
                                         RichText(text: TextSpan(
                                             children: [
-                                              TextSpan(
+                                              const TextSpan(
                                                   text: "Statut de la commande: ",
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.w600,
@@ -153,7 +153,7 @@ class _MyOrdersState extends State<MyOrders> {
                                               ),
                                               TextSpan(
                                                   text: "${data.orderStatus == "Pending" ? "En attente" :data.orderStatus }",
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                     fontWeight: FontWeight.w600,
                                                     color: Colors.black,
                                                     fontSize: 15,

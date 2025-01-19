@@ -1,29 +1,21 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:nectar/utility/app_const.dart';
-import 'package:nectar/utility/assets.dart';
-import 'package:nectar/view/auth/login_screen.dart';
-import 'package:nectar/view/auth/signup_screen.dart';
+import 'package:get/get.dart';
+import 'package:nectar/routes/app_routes.dart';
+import 'package:nectar/view/auth/controller/forgot_controller.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_input.dart';
 
 import '../../utility/app_color.dart';
 import '../../utility/fontsize.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ForgotPassword extends StatelessWidget {
+   ForgotPassword({super.key});
 
-  @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
-}
-
-class _ForgotPasswordState extends State<ForgotPassword> {
-
+   final ForgotController controller = Get.find<ForgotController>();
   final _emailController = TextEditingController();
 
   final _key = GlobalKey<FormState>();
-
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +25,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.all(20),
+          padding:const EdgeInsets.all(20),
           child: Form(
             key: _key,
             child: Column(
@@ -53,7 +45,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: const Center(child: Icon(Icons.keyboard_arrow_left,size:30,color: Colors.white,)),
                   ),
                 ),
-                const SizedBox(height: 150,),
+                const SizedBox(height: 70,),
                 Text("Mot de passe oublié",
                   style: TextStyle(
                     fontSize: bigFont,
@@ -84,48 +76,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       }
                 ),
                 const SizedBox(height: 40,),
-                AppButton(
-                  bgColor: AppColors.bgGreen,
-                  name: "Continuer", isLoading: _isLoading, onClick: ()=> resetPasswordPressed(_emailController.text),
-        
+                Obx((){
+                    return AppButton(
+                      bgColor: AppColors.bgGreen,
+                      name: "Continuer",
+                      isLoading:controller.isLoading.value,
+                      onClick: ()async{
+                        if(_key.currentState!.validate()){
+                          controller.sendOtp(_emailController.text);
+
+                        }
+
+                      },
+
+                    );
+                  }
                 ),
-        
-        
-        
-        
+
+
+
+
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  bool _isLoading = false;
-  // Example button press handler
-  void resetPasswordPressed(String email)async {
-
-    if(_key.currentState!.validate()){
-      print("email --- $email");
-      setState(() => _isLoading = true);
-      ///TODO: Forget Password
-      // await AuthControllerOld.resetPassword(email)
-      //     .then((_) => {
-      //   // Show success message or navigate to a success screen
-      //   appSnackBar(context: context, text: "nous envoyons un e-mail de réinitialisation du mot de passe dans votre e-mail.", bgColor: Colors.green),
-      //   Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=> LogInScreen()), (route) => false)
-      //
-      // })
-      //     .catchError((error) {
-      //   // Handle errors (e.g., email not found, etc.)
-      //   print("Password reset failed: $error");
-      //   appSnackBar(context: context, text: "${error}", bgColor: Colors.red);
-      //   // Show appropriate error message to the user
-      // });
-      setState(() => _isLoading = false);
-
-    }
-
-
   }
 }

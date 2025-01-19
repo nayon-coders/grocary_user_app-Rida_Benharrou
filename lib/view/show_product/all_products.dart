@@ -36,7 +36,7 @@ class _AllProductsState extends State<AllProducts> {
       body: Padding(
         padding: const EdgeInsets.all(15.0),
         child: GridView.builder(
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 3,
             crossAxisSpacing: 5.0,
             mainAxisSpacing: 5.0,

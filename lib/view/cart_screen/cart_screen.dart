@@ -38,7 +38,7 @@ class _CartScreenState extends State<CartScreen> {
     return SafeArea(child: Scaffold(
 
       body: SingleChildScrollView(
-        padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,9 +46,9 @@ class _CartScreenState extends State<CartScreen> {
 
             RecomandationProducts(),
 
-            SizedBox(height: 0,),
-            Divider(height: 1,),
-            SizedBox(height: 10,),
+            const SizedBox(height: 0,),
+            const Divider(height: 1,),
+            const SizedBox(height: 10,),
 
             Text("Mon panier",
               style: TextStyle(
@@ -57,24 +57,24 @@ class _CartScreenState extends State<CartScreen> {
                 color: AppColors.textBlack,
               ),
             ),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
 
             //show cart product
             Obx((){
               if(cartController.isCartLoading.value){
                 return  ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: 5,
                     itemBuilder: (context,index){
-                      return Container(margin: EdgeInsets.only(bottom: 10), height: 70, child: AppShimmer());
+                      return Container(margin: const EdgeInsets.only(bottom: 10), height: 70, child: const AppShimmer());
                     });
               }else if(cartController.cartList.value.data == null|| cartController.cartList.value.data!.isEmpty || cartController.qtyList.isEmpty || cartController.priceList.isEmpty){
-                return NotFound();
+                return const NotFound();
               }else{
                 return ListView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: cartController.cartList.value.data!.length,
                     itemBuilder: (context,index){
                       var data = cartController.cartList.value.data![index];
@@ -82,7 +82,7 @@ class _CartScreenState extends State<CartScreen> {
 
                       return ListTile(
                         shape: Border(bottom:  BorderSide(color:Colors.grey.shade200)),
-                        contentPadding: EdgeInsets.only(bottom: 5),
+                        contentPadding: const EdgeInsets.only(bottom: 5),
                         leading: Container(
                             width: 70, height:80,
                             decoration: BoxDecoration(
@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ///TODO: Cart api error
                                   Obx(() {
                                     return Text(
-                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), data.productSupperMarcent)}€ ",style: const TextStyle(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toStringAsFixed(2), data.productSellingPrice!.toStringAsFixed(2), data.productWholePrice!.toStringAsFixed(2), data.productSupperMarcent)}€ ",style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,
@@ -166,7 +166,7 @@ class _CartScreenState extends State<CartScreen> {
                                                   border: Border.all(width: 1, color: AppColors.mainColor),
                                                   color: AppColors.mainColor,
                                                 ),
-                                                child: Center(child: Text("${cartController.qtyList.value[index]}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),)));
+                                                child: Center(child: Text("${cartController.qtyList.value[index]}",style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 15,color: Colors.white),)));
                                           }
                                         ),
 

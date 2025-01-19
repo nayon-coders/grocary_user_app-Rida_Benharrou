@@ -48,7 +48,7 @@ class Home extends GetView<HomeController> {
 
                       child: Row(
                         children: [
-                          Text("Choisir une adresse",
+                          Text("Mes adresses de livraison",
                             style: TextStyle(
                               fontWeight: FontWeight.w500,
                               color: Colors.pink,
@@ -64,7 +64,7 @@ class Home extends GetView<HomeController> {
               ],
             ),
 
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             //single category product
             Container(
               height: 280,
@@ -78,31 +78,31 @@ class Home extends GetView<HomeController> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Nouveauté",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
+                      Text("Produits",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                       InkWell(
-                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nouveaux articles", products: controller.productList.value,))),
+                          onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=> AllProducts(title: "Nos produits", products: controller.productList.value,))),
                           child: Container(
-                              padding: EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
+                              padding: const EdgeInsets.only(left: 12, right: 12, top: 8, bottom: 8,),
                               decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(100)
                               ),
-                              child: Text("Voir tout",style: TextStyle(fontSize:13,fontWeight: FontWeight.w500,color:AppColors.bgGreen),))),
+                              child: const Text("Voir tout",style: TextStyle(fontSize:13,fontWeight: FontWeight.w500,color:AppColors.bgGreen),))),
 
                     ],
                   ),
-                  SizedBox(height: 10,),
+                  const SizedBox(height: 10,),
                   Obx(() {
                         if(controller.isLoading.value){
                           return SizedBox(
                             height: 200,
                             child: ListView.builder(
                                 shrinkWrap: true,
-                                padding: EdgeInsets.only(right: 10),
+                                padding: const EdgeInsets.only(right: 10),
                                 itemCount: 5,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (context,index){
-                                  return AppShimmer();
+                                  return const AppShimmer();
                                 }),
                           );
                         }else{
@@ -110,13 +110,13 @@ class Home extends GetView<HomeController> {
                             height: 200,
                             child: Obx(() {
                                 return ListView.builder(
-                                    padding: EdgeInsets.only(right: 10),
+                                    padding: const EdgeInsets.only(right: 10),
                                     itemCount: controller.productList.length > 12 ? 11 : controller.productList.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (context,index){
                                       var data = controller.productList[index];
                                       return index == 10 ? InkWell(
-                                        onTap: ()=>Get.to(AllProducts(title: "Nouveaux articles", products: controller.productList.value,)),
+                                        onTap: ()=>Get.to(AllProducts(title: "Nos produits", products: controller.productList.value,)),
                                         child: Container(
                                           width: Get.width*.35,
                                           height: 100,
@@ -124,7 +124,7 @@ class Home extends GetView<HomeController> {
                                               color: Colors.white,
                                               borderRadius: BorderRadius.circular(10)
                                           ),
-                                          child: Column(
+                                          child: const Column(
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             children: [

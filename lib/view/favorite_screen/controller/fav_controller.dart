@@ -21,7 +21,7 @@ class FavController extends GetxController {
   RxBool isLoading = false.obs;
   Future getFavProduct() async{
     isLoading.value = true;
-    var res = await ApiService().getApi(AppConfig.FAVORITE_GET);
+    var res = await ApiService.getApi(AppConfig.FAVORITE_GET);
     if(res.statusCode == 200){
       favProduct.value = FavListModel.fromJson(jsonDecode(res.body));
     }else{
@@ -35,25 +35,25 @@ class FavController extends GetxController {
     var data = {
       "product_id": id
     };
-    var res = await ApiService().postApi(AppConfig.FAVORITE_ADD, data);
+    var res = await ApiService.postApi(AppConfig.FAVORITE_ADD, data);
     if(res.statusCode == 200){
       checkFavProduct(id);
       getFavProduct();
-      Get.snackbar("Success!", "Product has been added to favourite", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo!", "Le produit a été ajouté à vos favoris", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Desole!", "Quelque chose s'est mal passé", backgroundColor: Colors.red,colorText: Colors.black);
     }
   }
 
   //remove fav product
   Future removeFavProduct(id) async{
-    var res = await ApiService().deleteApi(AppConfig.FAVORITE_REMOVE+id);
+    var res = await ApiService.deleteApi(AppConfig.FAVORITE_REMOVE+id);
     if(res.statusCode == 200){
       checkFavProduct(id);
       getFavProduct();
-      Get.snackbar("Success!", "Product has been removed from favourite", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo!", "Le produit a été retiré des favoris", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Desole!", "Quelque chose s'est mal passé", backgroundColor: Colors.red,colorText: Colors.black);
     }
   }
 
@@ -61,7 +61,7 @@ class FavController extends GetxController {
   RxBool isFavProduct = false.obs;
   RxString selectedFavProductId = "".obs;
   checkFavProduct(id)async{
-    var res = await ApiService().getApi(AppConfig.FAVORITE_CHECK+id);
+    var res = await ApiService.getApi(AppConfig.FAVORITE_CHECK+id);
     if(res.statusCode == 200) {
       if(jsonDecode(res.body)["favorite"] == false){
         isFavProduct.value = false;

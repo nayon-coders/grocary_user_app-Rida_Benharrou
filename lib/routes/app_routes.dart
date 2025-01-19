@@ -8,4 +8,8 @@ class AppRoutes{
   static const String addressList= "/address-list";
   static const String addressAdd= "/address-add";
   static const String singleProduct= "/single-product";
+
+  static const String forgotScreen = "/forgot_screen";
+  static const String otpVerify = "/otp_verify";
+  static const String newPassword = "/new_password";
 }

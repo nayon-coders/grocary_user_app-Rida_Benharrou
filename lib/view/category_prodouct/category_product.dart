@@ -117,19 +117,19 @@ class _CategoryProductState extends State<CategoryProduct> {
           ),
         ),),
       body: Padding(
-        padding: EdgeInsets.all(15),
+        padding: const EdgeInsets.all(15),
         child: Obx((){
           if(categoryProductController.isLoading.value){
             return GridView.builder(
               itemCount: 10,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   mainAxisExtent: 180
               ),
               itemBuilder: (BuildContext context, int index) {
-                return AppShimmer();
+                return const AppShimmer();
               },
             );
           }else if( categoryProductController.catProductModel.value.data == null || categoryProductController.catProductModel.value.data!.isEmpty){
@@ -137,7 +137,7 @@ class _CategoryProductState extends State<CategoryProduct> {
           }else{
             return GridView.builder(
               itemCount: categoryProductController.catProductModel.value.data!.length,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,
@@ -155,7 +155,7 @@ class _CategoryProductState extends State<CategoryProduct> {
 
       ///TODO:
       bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topRight: Radius.circular(15),
           topLeft: Radius.circular(15),
         ),
@@ -167,10 +167,10 @@ class _CategoryProductState extends State<CategoryProduct> {
             onTap: onItem,
 
             selectedItemColor: AppColors.bgGreen,
-            selectedLabelStyle: TextStyle(color: AppColors.bgGreen),
+            selectedLabelStyle: const TextStyle(color: AppColors.bgGreen),
             unselectedItemColor: AppColors.textGrey,
-            unselectedLabelStyle: TextStyle(color:AppColors.textGrey),
-            items: [
+            unselectedLabelStyle: const TextStyle(color:AppColors.textGrey),
+            items: const [
               BottomNavigationBarItem(
 
                 icon: Icon(Icons.dashboard),

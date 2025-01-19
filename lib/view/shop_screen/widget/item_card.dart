@@ -82,7 +82,7 @@ class ItemCard extends StatelessWidget {
                             )
                           ]
                         ),
-                        child: Center(child: Icon(Icons.add,color: AppColors.bgGreen,)),
+                        child: const Center(child: Icon(Icons.add,color: AppColors.bgGreen,)),
                       ),
                     )),
                     singleProduct!.discountPrice != null && singleProduct!.discountPrice != 0 ? Positioned(
@@ -92,7 +92,7 @@ class ItemCard extends StatelessWidget {
                         alignment: Alignment.centerRight,
                         width: 60,
                         height: 20,
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                             color: Colors.red,
                             borderRadius: BorderRadius.only(
                               topLeft: Radius.circular(100),
@@ -100,7 +100,7 @@ class ItemCard extends StatelessWidget {
                             )
                         ),
                         child: Center(child: Text("${singleProduct!.discountPrice!}% OFF",
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 10, color: Colors.white
                             )
@@ -110,7 +110,7 @@ class ItemCard extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 5,),
+              const SizedBox(height: 5,),
              Padding(
                padding: const EdgeInsets.only(left: 8, right: 8),
                child: Column(
@@ -130,13 +130,13 @@ class ItemCard extends StatelessWidget {
                      maxLines: 1,
                      overflow: TextOverflow.ellipsis,
                      softWrap: false,
-                     style: TextStyle(
+                     style: const TextStyle(
                          fontWeight: FontWeight.w300,
                          fontSize: 13,
                          color: Colors.black),
                    ),
                    Text("${(double.parse("${globalController.priceCalculat(singleProduct.regularPrice, singleProduct.sellingPrice!, singleProduct.wholePrice, singleProduct.supperMarcent)}") / double.parse("${singleProduct.uvw}")).toStringAsFixed(2)} € / 1 ${singleProduct.unit!.split(" ")[0]}",
-                     style: TextStyle(
+                     style: const TextStyle(
                          fontWeight: FontWeight.w200,
                          fontSize: 10,
                          color: Colors.black),

@@ -26,7 +26,7 @@ class FavWidgets extends GetView<FavController> {
 
       },
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(100),
@@ -39,8 +39,8 @@ class FavWidgets extends GetView<FavController> {
         ),
         child: Obx(() {
           return  controller.isFavProduct.value
-              ? Icon(Icons.favorite, color: Colors.red)
-              : Icon(Icons.favorite_border, color: Colors.red);
+              ? const Icon(Icons.favorite, color: Colors.red)
+              : const Icon(Icons.favorite_border, color: Colors.red);
         }
         ),
       ),

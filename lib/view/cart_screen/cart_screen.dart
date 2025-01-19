@@ -97,7 +97,7 @@ class _CartScreenState extends State<CartScreen> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width*.50,
                               child: Text(
-                                "${data.productName}",style: TextStyle(
+                                "${data.productName}",style: const TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                                 color:AppColors.textBlack,
@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ///TODO: Cart api error
                                   Obx(() {
                                     return Text(
-                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), data.productSupperMarcent)}€ ",style: TextStyle(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toDouble(), data.productSellingPrice!.toDouble(), data.productWholePrice!.toDouble(), data.productSupperMarcent)}€ ",style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,
@@ -144,16 +144,16 @@ class _CartScreenState extends State<CartScreen> {
                                             cartController.decrementQty(index); //decrement qty
                                           },
                                           child: Container(
-                                            padding: EdgeInsets.all(3),
+                                            padding: const EdgeInsets.all(3),
                                             decoration: BoxDecoration(
                                               border: Border.all(width: 1, color: Colors.grey.shade200),
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 bottomLeft: Radius.circular(5),
                                                 topLeft: Radius.circular(5),
                                               ),
                                               color: AppColors.bgWhite,
                                             ),
-                                            child: Center(
+                                            child: const Center(
                                               child: Icon(Icons.remove,size: 20, color: AppColors.mainColor,),
                                             ),
                                           ),
@@ -176,16 +176,16 @@ class _CartScreenState extends State<CartScreen> {
                                             cartController.incrementQty(index);
                                           },
                                           child: Container(
-                                            padding: EdgeInsets.all(3),
+                                            padding: const EdgeInsets.all(3),
                                             decoration: BoxDecoration(
                                               border: Border.all(width: 1, color: Colors.grey.shade200),
-                                              borderRadius: BorderRadius.only(
+                                              borderRadius: const BorderRadius.only(
                                                 bottomRight: Radius.circular(5),
                                                 topRight: Radius.circular(5),
                                               ),
                                               color: AppColors.bgWhite,
                                             ),
-                                            child: Center(
+                                            child: const Center(
                                               child: Icon(Icons.add,size: 20, color: AppColors.mainColor,),
                                             ),
                                           ),
@@ -244,7 +244,7 @@ class _CartScreenState extends State<CartScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(Icons.add_shopping_cart, size: 20, color: Colors.white,),
@@ -260,7 +260,7 @@ class _CartScreenState extends State<CartScreen> {
               ),
               Obx(() {
                   return Text("${cartController.totalPrice.toStringAsFixed(2)}€",
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
                         color: Colors.white

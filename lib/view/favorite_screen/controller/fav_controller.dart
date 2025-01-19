@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_rx/get_rx.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:nectar/data/global/global_variable.dart';
-
 import '../../../app_config.dart';
 import '../../../data/models/fav_list_model.dart';
 import '../../../data/service/api.service.dart';
@@ -41,9 +39,9 @@ class FavController extends GetxController {
     if(res.statusCode == 200){
       checkFavProduct(id);
       getFavProduct();
-      Get.snackbar("Success!", "Product has been added to favourite", backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Product has been added to favourite", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.black);
     }
   }
 
@@ -53,9 +51,9 @@ class FavController extends GetxController {
     if(res.statusCode == 200){
       checkFavProduct(id);
       getFavProduct();
-      Get.snackbar("Success!", "Product has been removed from favourite", backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Product has been removed from favourite", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.black);
     }
   }
 

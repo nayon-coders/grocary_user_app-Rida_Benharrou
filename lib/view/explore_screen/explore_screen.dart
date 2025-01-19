@@ -45,7 +45,7 @@ class ExploreScreen extends GetView<HomeController> {
         padding: const EdgeInsets.all(10),
         child: Obx(() {
             return controller.isGettingCategory.value
-                ? Center(child: AppShimmer(height: 100, width: 100))
+                ? const Center(child: AppShimmer(height: 100, width: 100))
                 : ListView.builder(
                     shrinkWrap: true,
                   //  physics: NeverScrollableScrollPhysics(),
@@ -63,16 +63,16 @@ class ExploreScreen extends GetView<HomeController> {
                             ),
                             child: Text(
                               data.name!,
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
                           ),
                           GridView.builder(
-                            physics: NeverScrollableScrollPhysics(),
+                            physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3,
                               crossAxisSpacing: 7.0,
                               mainAxisSpacing: 7.0,
@@ -84,7 +84,7 @@ class ExploreScreen extends GetView<HomeController> {
                               return InkWell(
                                 onTap: ()=>Get.to(CategoryProduct(categoryName: data.name!, subCategories: data.subCategories!, mainCatIndex: index, subCatName: subCat.name!)),
                                 child: Container(
-                                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                                   decoration: BoxDecoration(
                                       color: Colors.blue.shade50,
                                       borderRadius: BorderRadius.circular(5),
@@ -96,7 +96,7 @@ class ExploreScreen extends GetView<HomeController> {
                                       SizedBox(
                                         child: Text("${subCat.name}",
                                           textAlign: TextAlign.center,
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                               fontSize: 13,
                                               fontWeight: FontWeight.w400,
                                               color: Colors.black

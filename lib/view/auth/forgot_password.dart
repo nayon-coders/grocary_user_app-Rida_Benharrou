@@ -46,14 +46,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     padding: EdgeInsets.all(10),
                      height: 50,
                      width: 50,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppColors.bgGreen,
                     ),
-                    child: Center(child: Icon(Icons.keyboard_arrow_left,size:30,color: Colors.white,)),
+                    child: const Center(child: Icon(Icons.keyboard_arrow_left,size:30,color: Colors.white,)),
                   ),
                 ),
-                SizedBox(height: 150,),
+                const SizedBox(height: 150,),
                 Text("Mot de passe oublié",
                   style: TextStyle(
                     fontSize: bigFont,
@@ -61,7 +61,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     color: AppColors.textBlack,
                   ),
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 SizedBox(
                     width: 300,
                     child: Text("Veuillez saisir l'adresse e-mail à "
@@ -73,7 +73,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         color: AppColors.textGrey,
                       ),)
                 ),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
                 AppInput(controller: _emailController, hintText: "E-mail",
                       validator: (v) {
                         if (v!.isEmpty) {
@@ -83,7 +83,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         }
                       }
                 ),
-                SizedBox(height: 40,),
+                const SizedBox(height: 40,),
                 AppButton(
                   bgColor: AppColors.bgGreen,
                   name: "Continuer", isLoading: _isLoading, onClick: ()=> resetPasswordPressed(_emailController.text),

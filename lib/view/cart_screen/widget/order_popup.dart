@@ -94,8 +94,8 @@ class _OrderPopupState extends State<OrderPopup> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      height: 430,
+      padding: const EdgeInsets.all(10),
+      height: 450,
       width: double.infinity,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -111,7 +111,7 @@ class _OrderPopupState extends State<OrderPopup> {
             ),
             trailing: InkWell(
                 onTap: ()=>Navigator.pop(context),
-                child: Icon(Icons.close,color: Colors.black,)),
+                child: const Icon(Icons.close,color: Colors.black,)),
           ),
           Divider(color: Colors.grey.shade200,),
           Container(
@@ -262,10 +262,10 @@ class _OrderPopupState extends State<OrderPopup> {
             isOpen: false,
           ),
           Divider(color: Colors.grey.shade200,),
-          Spacer(),
+          const Spacer(),
           Center(
             child: Container(
-              margin: EdgeInsets.only(bottom: 20),
+              margin: const EdgeInsets.only(bottom: 10),
                 width:300,
                 child:
                 Obx(() {
@@ -274,10 +274,11 @@ class _OrderPopupState extends State<OrderPopup> {
                         isLoading: orderController.isPlacingOrder.value,
                         onClick: ()async{
                           if(_selectedAddress == null){
-                            Get.snackbar("Error!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.white);
+                            Get.snackbar("Error!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.black);
                             return;
                           }
                           orderController.placeOrder(selectedDeliveryDateTime, paymentMethod, deliveryFee, _selectedAddress!);
+                          Get.back();
                         });
                   }
                 )),

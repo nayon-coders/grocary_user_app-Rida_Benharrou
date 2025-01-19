@@ -73,9 +73,9 @@ class AuthController extends GetxController{
     print("response =---- ${response.body}");
     if(response.statusCode == 200){
       Get.offAllNamed(AppRoutes.HOME);
-      Get.snackbar("Success!", "Account has been created.", backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Account has been created.", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong with server.", backgroundColor: Colors.red);
+      Get.snackbar("Error!", "Something went wrong with server.", backgroundColor: Colors.red,colorText: Colors.black);
     }
     isSignUp.value = false;
   }
@@ -104,9 +104,9 @@ class AuthController extends GetxController{
     if(res.statusCode == 200){
       sharedPreferences!.setString("token", jsonDecode(res.body)["data"]["token"]);
       Get.offAllNamed(AppRoutes.HOME);
-      Get.snackbar("Success!", "Login Success", backgroundColor: Colors.green);
+      Get.snackbar("Success!", "Login Success", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "invalid credentials!", backgroundColor: Colors.red);
+      Get.snackbar("Error!", "invalid credentials!", backgroundColor: Colors.red,colorText: Colors.black);
     }
     isLogin.value = false;
   }

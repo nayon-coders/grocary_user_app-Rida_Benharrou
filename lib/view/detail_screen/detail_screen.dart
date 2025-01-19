@@ -69,14 +69,14 @@ class _DetailScreenState extends State<DetailScreen> {
         child: Scaffold(
           backgroundColor:AppColors.bgWhite,
           body: Obx((){
-              return _detailsScreenController.isLoading.value ? const Center(child: CircularProgressIndicator.adaptive(),)
+              return _detailsScreenController.isLoading.value ? Center(child: CircularProgressIndicator.adaptive(),)
                   : SingleChildScrollView(
                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          padding: const EdgeInsets.only(top: 30),
+                          padding: EdgeInsets.only(top: 30),
                           height: MediaQuery.of(context).size.height*0.35,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -92,7 +92,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                     onTap:(){
                                       Get.back();
                                     },
-                                    child: const SizedBox(
+                                    child: Container(
                                         height: 40,
                                         width: 40,
                                         child: Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
@@ -101,7 +101,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               Container(
                                 height: MediaQuery.of(context).size.height*0.23,
                                 width: MediaQuery.of(context).size.width*.65,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
 
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(20),
@@ -122,7 +122,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       borderRadius: BorderRadius.circular(100)
                                   ),
                                   child: Center(child: Text("${ singleProduct!.discountPrice!}% OFF",
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white
                                       )
@@ -152,7 +152,7 @@ class _DetailScreenState extends State<DetailScreen> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const SizedBox(height: 10,),
+                              SizedBox(height: 10,),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,6 +169,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black),
                                         ),
+                                        Text("${ singleProduct!.packaging.toString()}",
+                                          style: TextStyle(
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w400,
+                                              color: Colors.black),
+                                        ),
 
                                       ],
                                     ),
@@ -178,13 +184,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                     children: [
                                       Obx((){
                                         return
-                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}€",
-                                          style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
+                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent).toStringAsFixed(2)}€",
+                                          style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       }),
                                       Obx((){
                                         return
                                           Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw!}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
-                                          style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
+                                          style: TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
                                       }),
                                     ],
                                   )
@@ -196,17 +202,15 @@ class _DetailScreenState extends State<DetailScreen> {
                               ///Si
 
                               singleProduct!.shortDescription != null && singleProduct!.shortDescription!.isNotEmpty ? Container(
-                                margin: const EdgeInsets.only(top: 8),
+                                margin: EdgeInsets.only(top: 8),
                                 child: Text("${singleProduct!.shortDescription}",
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 12, color: Colors.black,
                                     fontWeight: FontWeight.w400,
                                   ),
                                 ),
                               ) : Center(),
-                              const SizedBox(height: 10,),
-
-                              //Increment Decrement
+                              SizedBox(height: 10,),
                               SizedBox(
                                 width: 120,
                                 child: Row(
@@ -257,9 +261,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   ],
                                 ),
                               ),
-                              const SizedBox(height: 15,),
-
-                              //Add Button
+                              SizedBox(height: 15,),
                               Obx(() {
                                   return AppButton(
                                     isLoading: carControllerNew.isAddingCart.value,
@@ -277,9 +279,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 }
                               ),
 
-                              const SizedBox(height: 15,),
-
-                              //product Details
+                              SizedBox(height: 15,),
                               ListTile(
                                 contentPadding: EdgeInsets.zero,
                                 title: InkWell(
@@ -314,10 +314,9 @@ class _DetailScreenState extends State<DetailScreen> {
 
                               ),
 
-                              const SizedBox(height: 30,),
+                              SizedBox(height: 30,),
 
 
-                              //similar Product
                               SimmilerProduct( singleProduct!),
 
 

@@ -33,7 +33,7 @@ class ForgotController extends GetxController{
 
       }else{
         print("OTP send Failed ${jsonDecode(res.body)["message"]}");
-        Get.snackbar("Failed", "OTP send Failed ${jsonDecode(res.body)["message"]}");
+        Get.snackbar("Failed", "OTP send Failed ${jsonDecode(res.body)["message"]}", backgroundColor: Colors.red,colorText: Colors.white);
       }
     }catch(e){
       print(e);

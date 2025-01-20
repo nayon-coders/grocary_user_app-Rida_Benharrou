@@ -265,7 +265,7 @@ class _OrderPopupState extends State<OrderPopup> {
           const Spacer(),
           Center(
             child: Container(
-              margin: const EdgeInsets.only(bottom: 10),
+              margin: const EdgeInsets.only(bottom: 20),
                 width:300,
                 child:
                 Obx(() {

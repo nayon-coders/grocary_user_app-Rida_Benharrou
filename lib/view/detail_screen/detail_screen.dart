@@ -111,7 +111,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               singleProduct!.discountPrice != null &&  singleProduct!.discountPrice! > 0 ? Positioned(
                                 right: 10, top: 30,
                                 child: Container(
-                                  width: 80,
+                                  width: 100,
                                   height: 30,
                                   decoration: BoxDecoration(
                                       color: Colors.red,
@@ -185,7 +185,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       }),
                                       Obx((){
                                         return
-                                          Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw!}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
+                                          Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw != null ? singleProduct!.uvw.toString() : "0.00"}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
                                           style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
                                       }),
                                     ],

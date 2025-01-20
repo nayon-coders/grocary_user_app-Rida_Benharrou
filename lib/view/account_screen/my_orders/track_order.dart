@@ -130,7 +130,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                               fontWeight: FontWeight.w400,
                                               color: Colors.black),
                                         ),
-                                        Text("${data.price}€",
+                                        Text("${double.parse("${data.price}").toStringAsFixed(2)}€",
                                           style: const TextStyle(fontSize: 10,
                                               fontWeight: FontWeight.w100,
                                               color: Colors.black),
@@ -157,7 +157,7 @@ class _TrackOrderState extends State<TrackOrder> {
                         ),
                       ),
                       SizedBox(
-                        width: 200,
+                        width: 180,
                         child: Text("${widget.orderModel!.userDeliveryAddress!.postCode}, ${widget.orderModel!.userDeliveryAddress!.city}, ${widget.orderModel!.userDeliveryAddress!.address}, ${widget.orderModel!.userDeliveryAddress!.contact}",
                           textAlign: TextAlign.right,
                           style: const TextStyle(

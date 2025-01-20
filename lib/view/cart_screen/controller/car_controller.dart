@@ -19,6 +19,7 @@ class CartControllerNew extends GetxController{
   void onInit() {
     // TODO: implement onInit
     super.onInit();
+
     getCartProduct();
   }
 
@@ -54,10 +55,11 @@ class CartControllerNew extends GetxController{
   RxBool isCartLoading = false.obs;
   Rx<CartListModel> cartList = CartListModel().obs;
   void getCartProduct()async{
+
     cartList.value = CartListModel();
     cartCount.value = 0;
-    // priceList.clear();
-    // qtyList.clear();
+    priceList.clear();
+    qtyList.clear();
     isCartLoading.value = true;
     var response = await ApiService.getApi(AppConfig.CART_GET);
     if(response.statusCode == 200){

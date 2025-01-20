@@ -119,7 +119,7 @@ class _CartScreenState extends State<CartScreen> {
                                       ///TODO: Cart api error
                                   Obx(() {
                                     return Text(
-                                      "${globalController.priceCalculat(data.productRegularPrice!.toStringAsFixed(2), data.productSellingPrice!.toStringAsFixed(2), data.productWholePrice!.toStringAsFixed(2), data.productSupperMarcent)}€ ",style: const TextStyle(
+                                      "${globalController.priceCalculat(data.productRegularPrice!.toStringAsFixed(2), data.productSellingPrice!.toStringAsFixed(2), data.productWholePrice!.toStringAsFixed(2), data.productSupperMarcent).toStringAsFixed(2)}€ ",style: const TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,
@@ -240,35 +240,38 @@ class _CartScreenState extends State<CartScreen> {
           ),
           padding: const EdgeInsets.only(left: 20.0,right: 20.0),
           margin: const EdgeInsets.only(left: 10.0,right: 10.0, bottom: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child:   Obx(() {
+              return cartController.isCartLoading.value ? Center(child: CircularProgressIndicator(),) : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
 
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.add_shopping_cart, size: 20, color: Colors.white,),
-                  SizedBox(width: 10,),
-                  Text("Passer la commande",
-                    style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
-                    ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.add_shopping_cart, size: 20, color: Colors.white,),
+                      SizedBox(width: 10,),
+                      Text("Passer la commande",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white
+                        ),
+                      )
+                    ],
+                  ),
+                  Obx(() {
+                      return Text("${cartController.totalPrice.toStringAsFixed(2)}€",
+                        style: const TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white
+                        ),
+                      );
+                    }
                   )
                 ],
-              ),
-              Obx(() {
-                  return Text("${cartController.totalPrice.toStringAsFixed(2)}€",
-                    style: const TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white
-                    ),
-                  );
-                }
-              )
-            ],
+              );
+            }
           ),
         ),
       ),

@@ -43,10 +43,10 @@ class SingleOrder {
   final String? deliveryDate;
   final String? orderStatus;
   final String? paymentMethod;
-  final int? subTotal;
+  final dynamic? subTotal;
   final double? tax;
   final double? taxAmount;
-  final int? deliveryFee;
+  final dynamic? deliveryFee;
   final double? total;
   final int? userDeliveryAddressId;
   final DateTime? createdAt;

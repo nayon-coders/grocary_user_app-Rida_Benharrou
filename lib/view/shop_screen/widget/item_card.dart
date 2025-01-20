@@ -90,7 +90,7 @@ class ItemCard extends StatelessWidget {
                       top: 5,
                       child: Container(
                         alignment: Alignment.centerRight,
-                        width: 60,
+                        width: 80,
                         height: 20,
                         decoration: const BoxDecoration(
                             color: Colors.red,

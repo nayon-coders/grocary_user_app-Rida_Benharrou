@@ -46,25 +46,25 @@ class NewPassword extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 70,),
-                const Text("Create new password",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
+                const Text("Créer un nouveau mot de passe",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
 
                 const SizedBox(height: 10,),
                 const SizedBox(
                   width: 300,
-                  child: Text("Your new password must be unique from those previously used.",style: TextStyle(
+                  child: Text("Votre nouveau mot de passe doit etre unique et différent du précédent",style: TextStyle(
                     fontWeight: FontWeight.w400,fontSize: 14,color: AppColors.textGrey,
                   ),
                   ),
                 ),
                 const SizedBox(height: 30,),
                 AppInput(
-                  hintText: "New Password",
+                  hintText: "Nouveau mot de passe",
                   controller: newPassword,
 
                 ),
                 const SizedBox(height: 15,),
                 AppInput(
-                  hintText: "Conform Password",
+                  hintText: "Confirmez le mot de passe",
                   controller: confPassword,
 
                 ),
@@ -72,7 +72,7 @@ class NewPassword extends StatelessWidget {
                 Obx(() {
                   return AppButton(
                     isLoading: controller.isLoading.value,
-                      name: "Reset Password",
+                      name: "Réinitialiser le mot de passe",
                       onClick: ()async{
                         if(newPassword.text == confPassword.text){
                           controller.createNewPassword(
@@ -81,7 +81,7 @@ class NewPassword extends StatelessWidget {
                             newPassword.text,
                           );
                         }else{
-                          Get.snackbar("Failed", "Passwords do not match",backgroundColor: Colors.red);
+                          Get.snackbar("Erreur ", "Les mots de passe ne correspondent pas",backgroundColor: Colors.red);
                         }
 
 

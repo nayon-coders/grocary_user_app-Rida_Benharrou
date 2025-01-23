@@ -23,7 +23,7 @@ class ForgotController extends GetxController{
       );
       if(res.statusCode ==200){
         print("otp send success");
-        Get.snackbar("Success", "Send OTP in your verify Email",
+        Get.snackbar("Bravo ", "Nous vous avons envoyé votre code d'authentification par email.",
             backgroundColor: Colors.green,
             colorText: Colors.white
         );
@@ -33,7 +33,7 @@ class ForgotController extends GetxController{
 
       }else{
         print("OTP send Failed ${jsonDecode(res.body)["message"]}");
-        Get.snackbar("Failed", "OTP send Failed ${jsonDecode(res.body)["message"]}", backgroundColor: Colors.red,colorText: Colors.white);
+        Get.snackbar("Erreur ", "Adresse email erronée. Merci d'indiquer une adresse email valide.", backgroundColor: Colors.red,colorText: Colors.white);
       }
     }catch(e){
       print(e);
@@ -53,7 +53,7 @@ class ForgotController extends GetxController{
           });
       if(res.statusCode == 200){
         print("OTP verify Successful");
-        Get.snackbar("Success", "OPT Verify Successful",
+        Get.snackbar("Bravo ", "Opération réussie",
           backgroundColor: Colors.green,
           colorText: Colors.white,
         );
@@ -67,7 +67,7 @@ class ForgotController extends GetxController{
 
       }else{
         print("OTP verify failed");
-        Get.snackbar("Failed", "OTP verify failed",backgroundColor: Colors.red,colorText: Colors.white);
+        Get.snackbar("Erreur ", "La vérification OTP a échoué",backgroundColor: Colors.red,colorText: Colors.white);
       }
     }catch(e){print(e);
     }finally{
@@ -91,11 +91,11 @@ class ForgotController extends GetxController{
           });
       if(res.statusCode == 200){
         print("set password success");
-        Get.snackbar("Successful", "Set new Password success",backgroundColor: Colors.green,colorText: Colors.white);
+        Get.snackbar("Bravo ", "Votre mot de passe a bien été modifié.",backgroundColor: Colors.green,colorText: Colors.white);
          Get.offAllNamed(AppRoutes.LOGIN);
       }else{
         print("Set password Failed");
-        Get.snackbar("Failed", "Set new password failed",colorText: Colors.white,backgroundColor: Colors.red);
+        Get.snackbar("Erreur ", "échec de définition du nouveau mot de passe",colorText: Colors.white,backgroundColor: Colors.red);
       }
     }catch(e){print(e);
     }finally{

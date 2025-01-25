@@ -80,6 +80,14 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
 
                       ProfileMenus(
+                        text: "Mes Factures",
+                        icon: Icons.file_download_done,
+                        onClick: (){
+                          Get.toNamed(AppRoutes.orderInvoiceList);
+                        },
+                      ),
+
+                      ProfileMenus(
                         text: "Adresses de livraison",
                         icon: Icons.location_on_outlined,
                         onClick: ()=>Get.toNamed(AppRoutes.addressList),

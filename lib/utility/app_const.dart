@@ -119,4 +119,17 @@ bool isPastOrder(String status, String currentStatus) {
   return statusIndex <= currentIndex;
 }
 
+String newDateFormate(String date) {
+  // Parsing the custom date format
+  DateTime parsedDate = DateFormat("dd/MM/yyyy HH'h'mm").parse(date);
+  // Formatting to the desired format
+  String deliveryDate = DateFormat("dd/MM/yyyy").format(parsedDate);
+  return deliveryDate;
+}
+String newDateFormate2(String date) {
+  // Parsing the custom date format
+  // Formatting to the desired format
+  String deliveryDate = DateFormat("dd/MM/yyyy").format(DateTime.parse("${date}"));
+  return deliveryDate;
+}
 String frenchDateFormat(date) => DateFormat("dd/mm/yyyy hh:mm ").format(DateTime.parse("${date}"));

@@ -12,4 +12,5 @@ class AppRoutes{
   static const String forgotScreen = "/forgot_screen";
   static const String otpVerify = "/otp_verify";
   static const String newPassword = "/new_password";
+  static const String orderInvoiceList = "/orderInvoiceList";
 }

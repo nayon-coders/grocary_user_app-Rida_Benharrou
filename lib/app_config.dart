@@ -53,6 +53,7 @@ class AppConfig{
   static const String CART_REMOVE = "$BASE_URL/cart/delete/";
   static const String CART_UPDATE = "$BASE_URL/cart/update";
   static const String RECOMANDATION_PRODUCT = "$BASE_URL/product/random";
+  static const String INVOICE_PDF_URL = "https://commandes-pro.onrender.com/user-order-invoice/";
 
 
   //order

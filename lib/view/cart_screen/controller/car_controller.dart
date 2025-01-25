@@ -63,6 +63,8 @@ class CartControllerNew extends GetxController{
     isCartLoading.value = true;
     var response = await ApiService.getApi(AppConfig.CART_GET);
     if(response.statusCode == 200){
+      isCartLoading.value = false;
+
       cartList.value = CartListModel.fromJson(jsonDecode(response.body));
       cartCount.value = cartList.value.totalProducts!;
       for(var i in cartList.value.data!){
@@ -73,6 +75,7 @@ class CartControllerNew extends GetxController{
         productTax.add(i.productTax!.toDouble());
       }
     //  cartList.value = response.body['data'];
+
     }
     isCartLoading.value = false;
   }

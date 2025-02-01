@@ -117,14 +117,14 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Center(child: Text("Promo - ${ singleProduct!.discountPrice!}%",
+                                  child: Center(child: Text("Promo - ${ singleProduct!.discountPrice.toString()}%",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white
                                       )
                                   ),),
                                 ),
-                              ) : Center(),
+                              ) : const Center(),
 
 
                               Positioned(
@@ -265,7 +265,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                   return AppButton(
                                     isLoading: carControllerNew.isAddingCart.value,
                                     bgColor:  carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? Colors.grey : AppColors.bgGreen,
-                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Produi déjà dans votre panier" : "Ajouter au panier",
+                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Produit déjà dans votre panier" : "Ajouter au panier",
                                     onClick: (){
                                       if( carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString())){
                                         return null;
@@ -309,7 +309,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 subtitle: _isShowDetiails ? Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text("${ singleProduct!.longDescription}"),
-                                ) : Center(),
+                                ) : const Center(),
 
                               ),
 

@@ -99,7 +99,7 @@ class ItemCard extends StatelessWidget {
                               bottomLeft: Radius.circular(100)
                             )
                         ),
-                        child: Center(child: Text("Promo - ${singleProduct!.discountPrice!}% ",
+                        child: Center(child: Text("Promo - ${singleProduct!.discountPrice.toString()}% ",
                             style: const TextStyle(
                                 fontWeight: FontWeight.normal,
                                 fontSize: 10, color: Colors.white

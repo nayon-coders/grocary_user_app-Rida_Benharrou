@@ -158,9 +158,12 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                           ),
                                         ),
+
+
                                         Obx(() {
                                             return  Container(
-                                                width: 25,
+                                              padding: EdgeInsets.only(left: 5,right: 5),
+
                                                 height: 27,
                                                 decoration: BoxDecoration(
                                                   border: Border.all(width: 1, color: AppColors.mainColor),

@@ -49,12 +49,12 @@ class OtpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 70,),
 
-                const Text("Verification ",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
+                const Text("Vérification",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),),
 
                 const SizedBox(height: 10,),
                 const SizedBox(
                   width: 300,
-                  child: Text("Indiquer ci-après le code de vérification reçu.",style: TextStyle(
+                  child: Text("Indiquez le code de vérification reçu par email.",style: TextStyle(
                     fontWeight: FontWeight.w400,fontSize: 14,color: AppColors.textGrey,
                   ),
                   ),

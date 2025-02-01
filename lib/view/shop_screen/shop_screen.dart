@@ -1,15 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nectar/data/global/global_controller.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/fontsize.dart';
-import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
 import 'package:nectar/view/shop_screen/controller/home_controller.dart';
 import 'package:nectar/view/shop_screen/widget/categoreis.dart';
 import 'package:nectar/view/shop_screen/widget/item_card.dart';
-import 'package:nectar/view/shop_screen/widget/offer_products.dart';
 import 'package:nectar/widget/show_hint_widgets.dart';
 
 import '../../utility/app_color.dart';
@@ -31,7 +28,7 @@ class Home extends GetView<HomeController> {
 
       backgroundColor: AppColors.bgWhite,
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,8 +52,8 @@ class Home extends GetView<HomeController> {
                               fontSize: smallFont,
                             ),
                           ),
-                          SizedBox(width: 5,),
-                          Icon(Icons.keyboard_arrow_down,color: Colors.pink,),
+                          const SizedBox(width: 5,),
+                          const Icon(Icons.keyboard_arrow_down,color: Colors.pink,),
                         ],
                       ),
                     ),
@@ -68,7 +65,7 @@ class Home extends GetView<HomeController> {
             //single category product
             Container(
               height: 280,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: Colors.pink.shade50
@@ -154,7 +151,7 @@ class Home extends GetView<HomeController> {
 
 
            // NewItems(),
-            SizedBox(height: 15,),
+            const SizedBox(height: 15,),
             //Categoreis()
             SubCategoreis(),
 

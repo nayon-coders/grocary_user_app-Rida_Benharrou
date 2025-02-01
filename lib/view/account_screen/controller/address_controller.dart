@@ -54,12 +54,12 @@ class AddressControllerNew extends GetxController {
     var res = await ApiService.postApi(AppConfig.DELIVERY_ADDRESS_ADD, data);
     if(res.statusCode == 200){
       Get.back();
-      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo!", "Nouvelle adresse bien ajoutée", backgroundColor: Colors.green,colorText: Colors.white);
       getAddress();
       clearTextField();
 
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.white);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }
@@ -87,9 +87,9 @@ class AddressControllerNew extends GetxController {
     if(res.statusCode == 200){
       getAddress();
       Get.back();
-      Get.snackbar("Success!", "Address has been deleted", backgroundColor: Colors.green);
+      Get.snackbar("Bravo!", "L'adresse a bien été supprimée", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }
@@ -111,10 +111,10 @@ class AddressControllerNew extends GetxController {
     if(res.statusCode == 200){
       getAddress();
       clearTextField();
-      Get.snackbar("Success!", "Address has been updated", backgroundColor: Colors.green);
+      Get.snackbar("Bravo!", "L'adresse a été mise à jour", backgroundColor: Colors.green,colorText: Colors.white);
       Get.back();
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }

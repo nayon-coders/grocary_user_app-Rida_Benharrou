@@ -53,7 +53,7 @@ class AddressList extends GetView<AddressControllerNew> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text("${data.city}",
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w600
                           ),
@@ -91,8 +91,8 @@ class AddressList extends GetView<AddressControllerNew> {
                                 InkWell(
                                     onTap: ()=>AppDialog(
                                         context,
-                                        "Delete this address",
-                                        "Are you sure you want delete this?",
+                                        "Supprimer cette adresse",
+                                        "Êtes-vous sûr de vouloir supprimer cette adresse?",
                                             ()async{
                                           await controller.deleteAddress(data.id.toString());
                                         }

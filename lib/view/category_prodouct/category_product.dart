@@ -95,10 +95,10 @@ class _CategoryProductState extends State<CategoryProduct> {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
-        title: Text("Catégorie"),
+        title: const Text("Catégories"),
         centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios),
+          icon: const Icon(Icons.arrow_back_ios),
           onPressed: (){
             // Remove "All" from the list
             categoryProductController.getCategoryProduct();
@@ -107,11 +107,11 @@ class _CategoryProductState extends State<CategoryProduct> {
           },
         ),
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: const Size.fromHeight(100),
           child: Column(
             children: [
               MainCatView(),
-              SizedBox(height: 10,),
+              const SizedBox(height: 10,),
               SubCatView(),
             ],
           ),
@@ -133,7 +133,7 @@ class _CategoryProductState extends State<CategoryProduct> {
               },
             );
           }else if( categoryProductController.catProductModel.value.data == null || categoryProductController.catProductModel.value.data!.isEmpty){
-            return NotFound();
+            return const NotFound();
           }else{
             return GridView.builder(
               itemCount: categoryProductController.catProductModel.value.data!.length,

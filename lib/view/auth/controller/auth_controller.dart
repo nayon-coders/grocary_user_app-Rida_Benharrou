@@ -66,7 +66,8 @@ class AuthController extends GetxController{
       "contract_comptabilité": "N/A",
       "contract_facturation": contactFacturation.value.text,
       "post_code":postCodeController.value.text,
-      "siret": stratController.value.text
+      "siret": stratController.value.text,
+      "status": "Deactivate"
     };
     print("body  =---- ${data}");
     var response = await http.post(Uri.parse(AppConfig.SIGNUP),
@@ -109,9 +110,15 @@ class AuthController extends GetxController{
     print("login response =---- ${res.statusCode}");
     print("login response =---- ${res.body}");
     if(res.statusCode == 200){
-      sharedPreferences!.setString("token", jsonDecode(res.body)["data"]["token"]);
-      Get.offAllNamed(AppRoutes.HOME);
-      Get.snackbar("Bravo!", "Vous pouvez commander!", backgroundColor: Colors.green,colorText: Colors.white);
+      if(jsonDecode(res.body)["data"]["user"]["status"] != "Actif"){
+        Get.snackbar("Désactiver le compte", "Votre compte est désactivé. Attendez l'approbation de l'administrateur !.", backgroundColor: Colors.red,colorText: Colors.white);
+
+      }else{
+        sharedPreferences!.setString("token", jsonDecode(res.body)["data"]["token"]);
+        Get.offAllNamed(AppRoutes.HOME);
+        Get.snackbar("Bravo!", "Vous pouvez commander!", backgroundColor: Colors.green,colorText: Colors.white);
+      }
+
     }else{
       Get.snackbar("Désolé!", "Email ou mot de passe incorrect", backgroundColor: Colors.red,colorText: Colors.white);
     }

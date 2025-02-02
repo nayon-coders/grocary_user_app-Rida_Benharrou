@@ -20,7 +20,7 @@ class AddressControllerNew extends GetxController {
   RxBool isLoading = false.obs;
 
   //get address data
-  void getAddress() async{
+   getAddress() async{
     isLoading.value = true;
     var res = await ApiService.getApi(AppConfig.DELIVERY_ADDRESS);
     if(res.statusCode == 200){
@@ -81,13 +81,18 @@ class AddressControllerNew extends GetxController {
 
 
   //delete address
-  Future deleteAddress(id) async{
+   deleteAddress(id) async{
     isLoading.value = true;
     var res = await ApiService.deleteApi(AppConfig.DELIVERY_ADDRESS_delete+id);
     if(res.statusCode == 200){
+
       getAddress();
+      print("delevery address delete success");
       Get.back();
       Get.snackbar("Bravo!", "L'adresse a bien été supprimée", backgroundColor: Colors.green,colorText: Colors.white);
+
+
+
     }else{
       Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
@@ -109,10 +114,12 @@ class AddressControllerNew extends GetxController {
 
     var res = await ApiService.putApi(AppConfig.DELIVERY_ADDRESS_UPDATE+id, data);
     if(res.statusCode == 200){
+      Get.back();
+      Get.snackbar("Bravo!", "L'adresse a été mise à jour", backgroundColor: Colors.green,colorText: Colors.white);
       getAddress();
       clearTextField();
-      Get.snackbar("Bravo!", "L'adresse a été mise à jour", backgroundColor: Colors.green,colorText: Colors.white);
-      Get.back();
+
+
     }else{
       Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }

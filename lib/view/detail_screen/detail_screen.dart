@@ -9,6 +9,7 @@ import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/detail_screen/widgets/simmiler_product.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
+import '../../data/models/fav_list_model.dart';
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
 import '../../widget/app_network_images.dart';
@@ -55,6 +56,8 @@ class _DetailScreenState extends State<DetailScreen> {
 
     // _detailsScreenController.getSingleProductByID(singleProduct!.id.toString());
   }
+
+  // SingleFavList singleFavList = Get.arguments;
 
 
   @override
@@ -117,7 +120,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Center(child: Text("Promo - ${ singleProduct!.discountPrice.toString()}%",
+                                  child: Center(child: Text("Promo - ${double.parse("${singleProduct!.discountPrice}").toStringAsFixed(0)}%",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white
@@ -165,7 +168,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black),
                                         ),
-                                        Text("${ singleProduct!.packaging.toString()}",
+                                        Text("${singleProduct?.packaging}",
                                           style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,

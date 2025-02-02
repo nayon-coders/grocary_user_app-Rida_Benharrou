@@ -46,12 +46,12 @@ class FavoriteScreen extends GetView<FavController> {
                       var data = controller.favProduct.value.data![index];
                       return ListTile(
                         onTap: (){
-                          Get.to(DetailScreen(singleProduct: SingleProduct.fromJson(data.toJson())));
+                          Get.to(DetailScreen(singleProduct: SingleProduct.fromJson(data.toJson())), arguments: data);
                          //  Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailScreen(singleProduct: data)));
                         },
-                        contentPadding: EdgeInsets.all(10),
+                        contentPadding: const EdgeInsets.all(10),
                         shape: Border.symmetric(horizontal: BorderSide(color: Colors.grey.shade200)),
-                        leading: AppNetworkImage(src: data.images![0]!.imageUrl!, height: 50, width: 50,),
+                        leading: data.images!.isEmpty ? Icon(Icons.error): AppNetworkImage(src: data.images![0]!.imageUrl!, height: 50, width: 50,),
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +63,7 @@ class FavoriteScreen extends GetView<FavController> {
                                 SizedBox(
                                   width: MediaQuery.of(context).size.width*.42,
                                   child: Text("${data.name.toString()}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w600,
                                       color:AppColors.textBlack,
@@ -75,7 +75,7 @@ class FavoriteScreen extends GetView<FavController> {
                           ],
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.delete, color: Colors.red,),
+                          icon: const Icon(Icons.delete, color: Colors.red,),
                           onPressed: (){
                             AppDialog(
                                 context,

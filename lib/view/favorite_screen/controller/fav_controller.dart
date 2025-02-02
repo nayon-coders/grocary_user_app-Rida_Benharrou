@@ -62,6 +62,9 @@ class FavController extends GetxController {
   RxString selectedFavProductId = "".obs;
   checkFavProduct(id)async{
     var res = await ApiService.getApi(AppConfig.FAVORITE_CHECK+id);
+    print("dsafdsfasd -- ${jsonDecode(res.body)["favorite"] }");
+    print("dsafdsfasd -- ${id}");
+    print("dsafdsfasd URl -- ${AppConfig.FAVORITE_CHECK+id}");
     if(res.statusCode == 200) {
       if(jsonDecode(res.body)["favorite"] == false){
         isFavProduct.value = false;

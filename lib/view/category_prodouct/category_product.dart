@@ -95,6 +95,7 @@ class _CategoryProductState extends State<CategoryProduct> {
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
+        surfaceTintColor: Colors.transparent,
         title: const Text("Catégories"),
         centerTitle: true,
         leading: IconButton(
@@ -116,41 +117,46 @@ class _CategoryProductState extends State<CategoryProduct> {
             ],
           ),
         ),),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Obx((){
-          if(categoryProductController.isLoading.value){
-            return GridView.builder(
-              itemCount: 10,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          await categoryProductController.getCategoryProduct();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Obx((){
+            if(categoryProductController.isLoading.value){
+              return GridView.builder(
+                itemCount: 10,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                    mainAxisExtent: 180
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  return const AppShimmer();
+                },
+              );
+            }else if( categoryProductController.catProductModel.value.data == null || categoryProductController.catProductModel.value.data!.isEmpty){
+              return const NotFound();
+            }else{
+              return GridView.builder(
+                itemCount: categoryProductController.catProductModel.value.data!.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   mainAxisExtent: 180
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                return const AppShimmer();
-              },
-            );
-          }else if( categoryProductController.catProductModel.value.data == null || categoryProductController.catProductModel.value.data!.isEmpty){
-            return const NotFound();
-          }else{
-            return GridView.builder(
-              itemCount: categoryProductController.catProductModel.value.data!.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-                mainAxisExtent: 180
-              ),
-              itemBuilder: (BuildContext context, int index) {
-                var data =  categoryProductController.catProductModel.value.data![index];
-                return ItemCard(singleProduct: data);
-              },
-            );
-          }
-
-        })
+                ),
+                itemBuilder: (BuildContext context, int index) {
+                  var data =  categoryProductController.catProductModel.value.data![index];
+                  return ItemCard(singleProduct: data);
+                },
+              );
+            }
+        
+          })
+        ),
       ),
 
       ///TODO:

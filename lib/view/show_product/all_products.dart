@@ -29,24 +29,31 @@ class _AllProductsState extends State<AllProducts> {
               color: Colors.black,
             ),
           ),
-          backgroundColor: Colors.white
+          backgroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent,
+        leading: IconButton(onPressed: ()=>Get.back(), icon: const Icon(Icons.arrow_back_ios)),
       ),
       backgroundColor: Colors.white,
 
-      body: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: GridView.builder(
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3,
-            crossAxisSpacing: 5.0,
-            mainAxisSpacing: 5.0,
-            mainAxisExtent: 200
-          ),
-          itemCount: widget.products.length,
-          itemBuilder: (context, index) {
-            return ItemCard(singleProduct: widget.products[index]);
-          },
-        )
+      body: RefreshIndicator(
+        onRefresh: ()async{
+          await controller.getAllProduct();
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 5.0,
+              mainAxisSpacing: 5.0,
+              mainAxisExtent: 200
+            ),
+            itemCount: widget.products.length,
+            itemBuilder: (context, index) {
+              return ItemCard(singleProduct: widget.products[index]);
+            },
+          )
+        ),
       ),
     );
   }

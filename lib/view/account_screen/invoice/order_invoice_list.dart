@@ -34,8 +34,8 @@ class OrderInvoiceList extends StatelessWidget {
                 backgroundColor: Colors.white,
                 primaryColor: AppColors.bgGreen,
                 onApplyClick: (start, end) {
-                  controller.startDate.value = DateFormat('yyyy-MM-dd').format(start);
-                  controller.endDate.value = DateFormat('yyyy-MM-dd').format(end);
+                  controller.startDate.value = DateFormat('dd/MM/yyyy').format(start);
+                  controller.endDate.value = DateFormat('dd/MM/yyyy').format(end);
 
                   //get product
                   controller.getMyInvoice();
@@ -65,7 +65,7 @@ class OrderInvoiceList extends StatelessWidget {
                   Obx(() {
                       return Column(
                         children: [
-                          Text("Form",
+                          Text("Depuis le",
                             style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600
                             ),
@@ -83,7 +83,7 @@ class OrderInvoiceList extends StatelessWidget {
                   Obx(() {
                     return Column(
                       children: [
-                        Text("To",
+                        Text("Jusqu'au",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600
                           ),
@@ -101,15 +101,15 @@ class OrderInvoiceList extends StatelessWidget {
 
 
       body: Padding(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Obx((){
           if(controller.isLoading.value){
-            return Center(
+            return const Center(
               child: CircularProgressIndicator.adaptive()
             );
           }else if(controller.invoiceOrderList!.isEmpty){
-            return Center(
-              child: Text("No order found"),
+            return const Center(
+              child: Text("Aucune facture"),
             );
           }else{
             return ListView.builder(
@@ -119,8 +119,8 @@ class OrderInvoiceList extends StatelessWidget {
 
 
                 return Container(
-                  margin: EdgeInsets.only(bottom: 10),
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  margin: const EdgeInsets.only(bottom: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     boxShadow: [
@@ -137,7 +137,7 @@ class OrderInvoiceList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("Order ID",
+                          const Text("Order ID",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12
@@ -153,13 +153,13 @@ class OrderInvoiceList extends StatelessWidget {
                        mainAxisAlignment: MainAxisAlignment.start,
                        crossAxisAlignment: CrossAxisAlignment.start,
                        children: [
-                         Text("DATE DE LIVRAISON",
+                         const Text("DATE DE LIVRAISON",
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             fontSize: 12
                           ),
                          ),
-                         Text("${newDateFormate(data.deliveryDate!)}"),
+                         Text(newDateFormate(data.deliveryDate!)),
                        ],
                      ),
                       Container(
@@ -170,7 +170,7 @@ class OrderInvoiceList extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text("STATUS",
+                          const Text("STATUS",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 fontSize: 12

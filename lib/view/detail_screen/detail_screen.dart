@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,7 +10,7 @@ import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/detail_screen/widgets/simmiler_product.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
-import '../../data/models/fav_list_model.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
 import '../../widget/app_network_images.dart';
@@ -56,6 +57,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
     // _detailsScreenController.getSingleProductByID(singleProduct!.id.toString());
   }
+  int activeIndex = 0;
 
   // SingleFavList singleFavList = Get.arguments;
 
@@ -86,17 +88,18 @@ class _DetailScreenState extends State<DetailScreen> {
                             children: [
 
                               Positioned(
-                                left: 10, top: 20,
+                                left: 10, top:15,
                                 child: InkWell(
                                     onTap:(){
                                       Get.back();
                                     },
-                                    child: Container(
+                                    child: const SizedBox(
                                         height: 40,
                                         width: 40,
-                                        child: const Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
+                                        child: Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
                               ),
 
+                              //Product image
                               Container(
                                 height: MediaQuery.of(context).size.height*0.23,
                                 width: MediaQuery.of(context).size.width*.65,
@@ -107,9 +110,60 @@ class _DetailScreenState extends State<DetailScreen> {
                                       bottomRight: Radius.circular(20)
                                   ),
                                 ),
-                                child: AppNetworkImage(src:  singleProduct!.images![0].imageUrl!, fit: BoxFit.contain,
+                                child: Column(
+                                  children: [
+                                    CarouselSlider.builder(
+                                      itemCount: singleProduct!.images!.length,
+                                      itemBuilder: (context, index, realIndex) {
+                                        return Container(
+
+                                          width: MediaQuery.of(context).size.width * 0.65,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                            child: AppNetworkImage(src:  singleProduct!.images![index].imageUrl!, fit: BoxFit.contain,),
+                                          ),
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        height: MediaQuery.of(context).size.height * 0.20,
+                                        autoPlay:false,
+                                        viewportFraction: 1.0,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            activeIndex = index;
+                                          });
+                                        },
+                                      ),
+                                    ),
+
+                                    const SizedBox(height: 8),
+
+                                    // **SmoothPageIndicator**
+                                    AnimatedSmoothIndicator(
+                                      activeIndex: activeIndex,
+                                      count: singleProduct!.images!.length,
+                                      effect: const ExpandingDotsEffect(
+                                        dotHeight: 5,
+                                        dotWidth: 5,
+                                        activeDotColor: Colors.blue,
+                                        dotColor: Colors.grey,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                                //child: AppNetworkImage(src:  singleProduct!.images![0].imageUrl!, fit: BoxFit.contain,),
                               ),
+                              const SizedBox(height: 10,),
+
 
                               singleProduct!.discountPrice != null &&  singleProduct!.discountPrice! > 0 ? Positioned(
                                 right: 10, top: 30,
@@ -129,12 +183,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                               ) : const Center(),
 
-
+                              //origin
                               Positioned(
                                   bottom: 10, left: 10,
                                   child: Text("Origine: ${ singleProduct!.country}")),
 
-                              ///TODO: Fav button
+                              // Fav button
                               Positioned(
                                   bottom: 10, right: 10,
                                   child: FavWidgets(id:  singleProduct!.id.toString())),
@@ -144,7 +198,7 @@ class _DetailScreenState extends State<DetailScreen> {
                         ),
 
 
-                        ///TODO:Product name
+                        //Product name
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Column(

@@ -120,7 +120,7 @@ class _OrderPopupState extends State<OrderPopup> {
             ),
             child: ListbottomSheet(
               title: "Adresse de livraison",
-              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode",style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
+              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Ajoutez une adresse",style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
               onClick: (){
                 showDialog<void>(
                   context: context,

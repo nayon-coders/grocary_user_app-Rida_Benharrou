@@ -19,7 +19,9 @@ class OrderInvoiceList extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.bgWhite,
       appBar: AppBar(
-        title: Text("Mes Factures"),
+        title: const Text("Mes Factures"),
+        surfaceTintColor: Colors.transparent,
+        leading: IconButton(onPressed: ()=>Get.back(), icon:const Icon(Icons.arrow_back_ios)),
         bottom: PreferredSize(
           preferredSize: Size(Get.width, 50),
           child: InkWell(
@@ -58,19 +60,23 @@ class OrderInvoiceList extends StatelessWidget {
                   )
                 ]
               ),
-              padding: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+              padding: const EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Obx(() {
                       return Column(
                         children: [
-                          Text("Depuis le",
+                          const Text("Depuis le",
                             style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600
                             ),
                           ),
-                          Text( "${controller.startDate.value.isEmpty ?"Select start date" : controller.startDate.value }" ),
+                          Text( "${controller.startDate.value.isEmpty ?"Sélectionnez la date de début" : controller.startDate.value }",
+                              style:const TextStyle(
+                              fontSize: 12, fontWeight: FontWeight.w400
+                          ),
+                          ),
                         ],
                       );
                     }
@@ -83,12 +89,14 @@ class OrderInvoiceList extends StatelessWidget {
                   Obx(() {
                     return Column(
                       children: [
-                        Text("Jusqu'au",
+                        const Text("Jusqu'au",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.w600
                           ),
                         ),
-                        Text( "${controller.endDate.value.isEmpty ?"Select end date" : controller.endDate.value }" ),
+                        Text( "${controller.endDate.value.isEmpty ?"Sélectionnez la date de fin" : controller.endDate.value }",style:const TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.w400
+                        ), ),
                       ],
                     );                  }
                   ),

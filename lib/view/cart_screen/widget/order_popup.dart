@@ -1,9 +1,8 @@
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nectar/view/account_screen/controller/address_controller.dart';
-import 'package:nectar/view/cart_screen/widget/select_payment_method.dart';
 import 'package:nectar/view/cart_screen/widget/selecte_delivery_address.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import '../../../data/models/delivery_address_model.dart';

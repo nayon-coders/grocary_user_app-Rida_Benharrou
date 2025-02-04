@@ -48,11 +48,12 @@ class _MyOrdersState extends State<MyOrders> {
         backgroundColor: AppColors.bgWhite,
         appBar: AppBar(
           backgroundColor: AppColors.bgWhite,
+          surfaceTintColor: Colors.transparent,
           leading: InkWell(
             onTap: (){
               Get.toNamed(AppRoutes.HOME);
             },
-              child: const Icon(Icons.arrow_back,size: 30,)),
+              child: const Icon(Icons.arrow_back_ios,size: 30,)),
       
         ),
         body: RefreshIndicator(

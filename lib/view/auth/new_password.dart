@@ -51,7 +51,7 @@ class NewPassword extends StatelessWidget {
                 const SizedBox(height: 10,),
                 const SizedBox(
                   width: 300,
-                  child: Text("Votre nouveau mot de passe doit etre unique et différent du précédent",style: TextStyle(
+                  child: Text("Créez votre nouveau mot de passe. Votre nouveau mot de passe doit être unique et différent du précédent.",style: TextStyle(
                     fontWeight: FontWeight.w400,fontSize: 14,color: AppColors.textGrey,
                   ),
                   ),

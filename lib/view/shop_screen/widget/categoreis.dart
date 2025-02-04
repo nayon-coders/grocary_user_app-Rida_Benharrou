@@ -19,7 +19,7 @@ class Categoreis extends GetView<HomeController> {
           return GridView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 3,
               crossAxisSpacing: 10.0,
               mainAxisSpacing: 10.0,
@@ -46,7 +46,7 @@ class Categoreis extends GetView<HomeController> {
                     Container(
                       height: 160,
                       width: 160,
-                      margin: EdgeInsets.only(right: 15),
+                      margin: const EdgeInsets.only(right: 15),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           color: Colors.red.shade100,
@@ -71,8 +71,8 @@ class Categoreis extends GetView<HomeController> {
                       right: 20,
                       bottom: 15,
                       child: Container(
-                        padding: EdgeInsets.all(5),
-                        decoration: BoxDecoration(
+                        padding: const EdgeInsets.all(5),
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: Colors.white,
                         ),
@@ -128,16 +128,16 @@ class SubCategoreis extends GetView<HomeController> {
     return Obx(() {
           if(controller.isGettingCategory.value){
             return GridView.builder(
-              physics: NeverScrollableScrollPhysics(),
+              physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 3,
                 crossAxisSpacing: 10.0,
                 mainAxisSpacing: 10.0,
               ),
               itemCount: 8,
               itemBuilder: (context, index) {
-                return AppShimmer();
+                return const AppShimmer();
               },
             );
           }
@@ -159,13 +159,13 @@ class SubCategoreis extends GetView<HomeController> {
                 children: [
                   Text("Par catégorie",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
                 ],
-              ) : Center(),
-              SizedBox(height: 15,),
+              ) : const Center(),
+              const SizedBox(height: 15,),
               SizedBox(
                 child: GridView.builder(
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
                     crossAxisSpacing: 7.0,
                     mainAxisSpacing: 7.0,

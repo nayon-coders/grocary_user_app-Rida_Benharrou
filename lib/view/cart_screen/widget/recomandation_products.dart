@@ -19,7 +19,7 @@ class RecomandationProducts extends GetView<CartControllerNew> {
       children: [
         Text("Recommandations",style: TextStyle(fontSize:titleFont,fontWeight: FontWeight.w600,color: Colors.black),),
 
-        SizedBox(height: 10,),
+        const SizedBox(height: 10,),
         Obx(() {
             return SizedBox(
               height: 200,

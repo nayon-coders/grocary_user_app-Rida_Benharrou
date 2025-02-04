@@ -20,7 +20,7 @@ class AddressControllerNew extends GetxController {
   RxBool isLoading = false.obs;
 
   //get address data
-  void getAddress() async{
+   getAddress() async{
     isLoading.value = true;
     var res = await ApiService.getApi(AppConfig.DELIVERY_ADDRESS);
     if(res.statusCode == 200){
@@ -54,12 +54,12 @@ class AddressControllerNew extends GetxController {
     var res = await ApiService.postApi(AppConfig.DELIVERY_ADDRESS_ADD, data);
     if(res.statusCode == 200){
       Get.back();
-      Get.snackbar("Success!", "New address has been added", backgroundColor: Colors.green,colorText: Colors.white);
+      Get.snackbar("Bravo!", "Nouvelle adresse bien ajoutée", backgroundColor: Colors.green,colorText: Colors.white);
       getAddress();
       clearTextField();
 
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red,colorText: Colors.white);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }
@@ -81,15 +81,20 @@ class AddressControllerNew extends GetxController {
 
 
   //delete address
-  Future deleteAddress(id) async{
+   deleteAddress(id) async{
     isLoading.value = true;
     var res = await ApiService.deleteApi(AppConfig.DELIVERY_ADDRESS_delete+id);
     if(res.statusCode == 200){
+
       getAddress();
+      print("delevery address delete success");
       Get.back();
-      Get.snackbar("Success!", "Address has been deleted", backgroundColor: Colors.green);
+      Get.snackbar("Bravo!", "L'adresse a bien été supprimée", backgroundColor: Colors.green,colorText: Colors.white);
+
+
+
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }
@@ -109,12 +114,14 @@ class AddressControllerNew extends GetxController {
 
     var res = await ApiService.putApi(AppConfig.DELIVERY_ADDRESS_UPDATE+id, data);
     if(res.statusCode == 200){
+      Get.back();
+      Get.snackbar("Bravo!", "L'adresse a été mise à jour", backgroundColor: Colors.green,colorText: Colors.white);
       getAddress();
       clearTextField();
-      Get.snackbar("Success!", "Address has been updated", backgroundColor: Colors.green);
-      Get.back();
+
+
     }else{
-      Get.snackbar("Error!", "Something went wrong", backgroundColor: Colors.red);
+      Get.snackbar("Désolé!", "Merci de vérifier vos informations", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isLoading.value = false;
   }

@@ -70,20 +70,21 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 const SizedBox(height: 20,),
                 const Text("Code Postal *"),
                 const SizedBox(height: 10,),
-                Obx((){
-                  return DropdownSearch<String>(
-                    key: dropDownKey,
-                    selectedItem: "Menu",
-                    items: (filter, infiniteScrollProps) =>addressController.postCodeList.value,
-                    decoratorProps: DropDownDecoratorProps(
-                      decoration: InputDecoration(
-                        labelText: 'Examples for: ',
-                        border: OutlineInputBorder(),
-                      ),
+                DropdownSearch<String>(
+                  key: dropDownKey,
+                  selectedItem: "Post Code",
+                  onChanged: (v){
+                    addressController.postCodeText.value = v.toString();
+                  },
+                  items: (filter, infiniteScrollProps) =>addressController.postCodeList.value,
+                  decoratorProps: DropDownDecoratorProps(
+                    decoration: InputDecoration(
+                      labelText: 'Post Code: ',
+                      border: OutlineInputBorder(),
                     ),
-                    popupProps: PopupProps.menu(fit: FlexFit.loose, constraints: BoxConstraints()),
-                  );
-                }),
+                  ),
+                  popupProps: PopupProps.menu(fit: FlexFit.loose, constraints: BoxConstraints()),
+                ),
                 const SizedBox(height: 20,),
                 const Text("Ville *"),
                 const SizedBox(height: 10,),

@@ -1,9 +1,8 @@
-import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:nectar/view/account_screen/controller/address_controller.dart';
-import 'package:nectar/view/cart_screen/widget/select_payment_method.dart';
 import 'package:nectar/view/cart_screen/widget/selecte_delivery_address.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import '../../../data/models/delivery_address_model.dart';
@@ -120,7 +119,7 @@ class _OrderPopupState extends State<OrderPopup> {
             ),
             child: ListbottomSheet(
               title: "Adresse de livraison",
-              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Sélectionnez la méthode", overflow: TextOverflow.ellipsis, style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
+              subtitle: SizedBox(width: MediaQuery.of(context).size.width*.40, child: Text(_selectedAddress != null ? "${_selectedAddress!.postCode}, ${_selectedAddress!.city}, ${_selectedAddress!.address}, ${_selectedAddress!.contact}" : "Ajoutez une adresse",style: TextStyle(color: _deliveryAddressAlert ? Colors.red : Colors.black,fontSize: 15,fontWeight: FontWeight.w500,),)),
               onClick: (){
                 showDialog<void>(
                   context: context,
@@ -232,7 +231,9 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
             title: "Frais de livraison",
-            subtitle: Text("${deliveryFee == 0.00 ? "Livraison gratuite" : "${deliveryFee}€"}",style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Text("${deliveryFee == 0.00 ? "Livraison gratuite" : "${deliveryFee.toStringAsFixed(2)}€"}",
+              style: TextStyle(color: deliveryFee == 0.00 ? Colors.green : AppColors.textBlack, fontSize: normalFont,fontWeight: FontWeight.w500),
+            ),
             onClick: (){},
             isOpen: false,
           ),
@@ -274,11 +275,11 @@ class _OrderPopupState extends State<OrderPopup> {
                         isLoading: orderController.isPlacingOrder.value,
                         onClick: ()async{
                           if(_selectedAddress == null){
-                            Get.snackbar("échoué!", "Veuillez sélectionner une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.black);
+                            Get.snackbar("Désolé!", "Veuillez ajouter une adresse de livraison",backgroundColor: Colors.red,colorText: Colors.white);
                             return;
                           }
                           orderController.placeOrder(selectedDeliveryDateTime, paymentMethod, deliveryFee, _selectedAddress!);
-                          Get.back();
+
                         });
                   }
                 )),

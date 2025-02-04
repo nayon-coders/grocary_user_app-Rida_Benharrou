@@ -36,7 +36,7 @@ class SimmilerProduct extends GetView<DetailsScreenController> {
           // Display "Produit similaire" if related products are available
           controller.relatedProduct.isNotEmpty
               ? const Text(
-            "Produit à ajouter",
+            "Produits à ajouter",
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,

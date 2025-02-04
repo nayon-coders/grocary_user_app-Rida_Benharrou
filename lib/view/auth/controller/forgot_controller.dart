@@ -23,7 +23,7 @@ class ForgotController extends GetxController{
       );
       if(res.statusCode ==200){
         print("otp send success");
-        Get.snackbar("Bravo ", "Nous vous avons envoyé votre code d'authentification par email.",
+        Get.snackbar("Bravo!", "Nous vous avons envoyé votre code d'authentification par email",
             backgroundColor: Colors.green,
             colorText: Colors.white
         );
@@ -33,7 +33,7 @@ class ForgotController extends GetxController{
 
       }else{
         print("OTP send Failed ${jsonDecode(res.body)["message"]}");
-        Get.snackbar("Erreur ", "Adresse email erronée. Merci d'indiquer une adresse email valide.", backgroundColor: Colors.red,colorText: Colors.white);
+        Get.snackbar("Erreur", "Adresse email erronée. Merci d'indiquer une adresse email valide.", backgroundColor: Colors.red,colorText: Colors.white);
       }
     }catch(e){
       print(e);
@@ -91,7 +91,7 @@ class ForgotController extends GetxController{
           });
       if(res.statusCode == 200){
         print("set password success");
-        Get.snackbar("Bravo ", "Votre mot de passe a bien été modifié.",backgroundColor: Colors.green,colorText: Colors.white);
+        Get.snackbar("Bravo ", " Votre mot de passe a bien été modifié.",backgroundColor: Colors.green,colorText: Colors.white);
          Get.offAllNamed(AppRoutes.LOGIN);
       }else{
         print("Set password Failed");

@@ -3,6 +3,7 @@ import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:nectar/data/binding/address_binding.dart';
 import 'package:nectar/data/binding/auth_binding.dart';
 import 'package:nectar/data/binding/home_binding.dart';
+import 'package:nectar/data/binding/invoice_binding.dart';
 import 'package:nectar/middleware/auth.middleware.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/account_screen/controller/address_controller.dart';
@@ -18,6 +19,7 @@ import 'package:nectar/view/detail_screen/detail_screen.dart';
 import 'package:nectar/view/flash/flash.dart';
 
 import '../data/binding/single_product_buind.dart';
+import '../view/account_screen/invoice/order_invoice_list.dart';
 import '../view/navigation_screen/navigation_screen.dart';
 
 class AppPages{
@@ -77,6 +79,11 @@ class AppPages{
       name: AppRoutes.newPassword,
       binding: AuthBinding(),
       page: () =>  NewPassword(),
+    ),
+    GetPage(
+      name: AppRoutes.orderInvoiceList,
+      page: () =>  OrderInvoiceList(),
+      binding: InvoiceBinding()
     ),
   ];
 

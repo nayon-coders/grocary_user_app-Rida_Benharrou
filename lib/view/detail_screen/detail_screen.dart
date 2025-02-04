@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,6 +10,7 @@ import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/widgets/fav_check.dart';
 import 'package:nectar/view/detail_screen/widgets/simmiler_product.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
 import '../../widget/app_network_images.dart';
@@ -52,8 +54,11 @@ class _DetailScreenState extends State<DetailScreen> {
       _detailsScreenController.getSingleProductByID(widget.productId.toString());
     });
 
-    // _detailsScreenController.get_detailsScreenController.singleProduct.valueByID(singleProduct!.id.toString());
+    // _detailsScreenController.get_detailsScreenController.singleProduct.valueByID(_detailsScreenController.singleProduct.value!.id.toString());
   }
+  int activeIndex = 0;
+
+  // SingleFavList singleFavList = Get.arguments;
 
 
   @override
@@ -62,270 +67,328 @@ class _DetailScreenState extends State<DetailScreen> {
       body: Container(
         color: Colors.white,
         child: Scaffold(
-          backgroundColor:AppColors.bgWhite,
-          body: Obx((){
-              return _detailsScreenController.isLoading.value ? const Center(child: CircularProgressIndicator.adaptive(),)
+            backgroundColor:AppColors.bgWhite,
+            body: Obx((){
+              return _detailsScreenController.isLoading.value ||  _detailsScreenController.singleProduct.value == null? const Center(child: CircularProgressIndicator.adaptive(),)
                   : SingleChildScrollView(
-                   child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 30),
-                          height: MediaQuery.of(context).size.height*0.35,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 30),
+                      height: MediaQuery.of(context).size.height*0.35,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                      ),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+
+                          Positioned(
+                            left: 10, top:15,
+                            child: InkWell(
+                                onTap:(){
+                                  Get.back();
+                                },
+                                child: const SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
                           ),
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
 
-                              Positioned(
-                                left: 10, top: 20,
-                                child: InkWell(
-                                    onTap:(){
-                                      Get.back();
-                                    },
-                                    child: Container(
-                                        height: 40,
-                                        width: 40,
-                                        child: const Center(child: Icon(Icons.keyboard_arrow_left_sharp,color: Colors.black, size: 40,)))),
+                          //Product image
+                          Container(
+                            height: MediaQuery.of(context).size.height*0.23,
+                            width: MediaQuery.of(context).size.width*.65,
+                            decoration: const BoxDecoration(
+
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)
                               ),
+                            ),
+                            child: Column(
+                              children: [
+                                Obx(() {
+                                    return _detailsScreenController.singleProduct.value!.images == null ? Center() : CarouselSlider.builder(
+                                      itemCount: _detailsScreenController.singleProduct.value!.images!.length,
+                                      itemBuilder: (context, index, realIndex) {
+                                        return Container(
 
-                              Container(
-                                height: MediaQuery.of(context).size.height*0.23,
-                                width: MediaQuery.of(context).size.width*.65,
-                                decoration: const BoxDecoration(
-
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(20),
-                                      bottomRight: Radius.circular(20)
-                                  ),
+                                          width: MediaQuery.of(context).size.width * 0.65,
+                                          decoration: const BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius: const BorderRadius.only(
+                                              bottomLeft: Radius.circular(20),
+                                              bottomRight: Radius.circular(20),
+                                            ),
+                                            child: AppNetworkImage(src:  _detailsScreenController.singleProduct.value!.images![index].imageUrl!, fit: BoxFit.contain,),
+                                          ),
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        height: MediaQuery.of(context).size.height * 0.20,
+                                        autoPlay:false,
+                                        viewportFraction: 1.0,
+                                        onPageChanged: (index, reason) {
+                                          setState(() {
+                                            activeIndex = index;
+                                          });
+                                        },
+                                      ),
+                                    );
+                                  }
                                 ),
-                                child: AppNetworkImage(src:  _detailsScreenController.singleProduct.value!.images![0].imageUrl!, fit: BoxFit.contain,
+
+                                const SizedBox(height: 8),
+
+                                // **SmoothPageIndicator**
+                                Obx(() {
+                                    return   _detailsScreenController.singleProduct.value == null ? Center() : AnimatedSmoothIndicator(
+                                      activeIndex: activeIndex,
+                                      count: _detailsScreenController.singleProduct.value!.images!.length,
+                                      effect: const ExpandingDotsEffect(
+                                        dotHeight: 5,
+                                        dotWidth: 5,
+                                        activeDotColor: Colors.blue,
+                                        dotColor: Colors.grey,
+                                      ),
+                                    );
+                                  }
                                 ),
-                              ),
-
-                              _detailsScreenController.singleProduct.value!.discountPrice != null &&  _detailsScreenController.singleProduct.value!.discountPrice! > 0 ? Positioned(
-                                right: 10, top: 30,
-                                child: Container(
-                                  width: 100,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      borderRadius: BorderRadius.circular(100)
-                                  ),
-                                  child: Center(child: Text("Promo - ${ _detailsScreenController.singleProduct.value!.discountPrice!}%",
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.normal,
-                                          fontSize: 13, color: Colors.white
-                                      )
-                                  ),),
-                                ),
-                              ) : Center(),
-
-
-                              Positioned(
-                                  bottom: 10, left: 10,
-                                  child: Text("Origine: ${ _detailsScreenController.singleProduct.value!.country}")),
-
-                              ///TODO: Fav button
-                              Positioned(
-                                  bottom: 10, right: 10,
-                                  child: FavWidgets(id:  _detailsScreenController.singleProduct.value!.id.toString())),
-
-                            ],
+                              ],
+                            ),
+                            //child: AppNetworkImage(src:  _detailsScreenController.singleProduct.value!.images![0].imageUrl!, fit: BoxFit.contain,),
                           ),
-                        ),
+                          const SizedBox(height: 10,),
 
 
-                        ///TODO:Product name
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 10,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.of(context).size.width*.70,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("${ _detailsScreenController.singleProduct.value!.name.toString()}",
-                                          style: TextStyle(
-                                              fontSize: titleFont,
-                                              fontWeight: FontWeight.w600,
-                                              color: Colors.black),
-                                        ),
-                                        Text("${_detailsScreenController.singleProduct.value!.packaging.toString()}",
-                                          style: const TextStyle(
-                                              fontSize: 12,
-                                              fontWeight: FontWeight.w400,
-                                              color: Colors.black),
-                                        ),
-
-                                      ],
-                                    ),
-                                  ),
-
-                                  Column(
-                                    children: [
-                                      Obx((){
-                                        return
-                                          Text("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent).toStringAsFixed(2)}€",
-                                          style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
-                                      }),
-                                      Obx((){
-                                        return
-                                          Text("${(double.parse("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent)}") / double.parse("${_detailsScreenController.singleProduct.value!.uvw != null ? _detailsScreenController.singleProduct.value!.uvw.toString() : "0.00"}")).toStringAsFixed(2)} € / 1 ${_detailsScreenController.singleProduct.value!.unit!.split(" ")[0]}",
-                                          style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
-                                      }),
-                                    ],
-                                  )
-
-                                ],
+                          _detailsScreenController.singleProduct.value!.discountPrice != null &&  _detailsScreenController.singleProduct.value!.discountPrice! > 0 ? Positioned(
+                            right: 10, top: 30,
+                            child: Container(
+                              width: 100,
+                              height: 30,
+                              decoration: BoxDecoration(
+                                  color: Colors.red,
+                                  borderRadius: BorderRadius.circular(100)
                               ),
-
-                              ///Edit increment
-                              ///Si
-
-                              _detailsScreenController.singleProduct.value!.shortDescription != null && _detailsScreenController.singleProduct.value!.shortDescription!.isNotEmpty ? Container(
-                                margin: const EdgeInsets.only(top: 8),
-                                child: Text("${_detailsScreenController.singleProduct.value!.shortDescription}",
+                              child: Center(child: Text("Promo - ${double.parse("${_detailsScreenController.singleProduct.value!.discountPrice}").toStringAsFixed(0)}%",
                                   style: const TextStyle(
-                                    fontSize: 12, color: Colors.black,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                ),
-                              ) : const Center(),
-                              const SizedBox(height: 10,),
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 13, color: Colors.white
+                                  )
+                              ),),
+                            ),
+                          ) : const Center(),
 
-                              //increment decrement
+                          //origin
+                          Positioned(
+                              bottom: 10, left: 10,
+                              child: Text("Origine: ${ _detailsScreenController.singleProduct.value!.country}")),
+
+                          // Fav button
+                          Positioned(
+                              bottom: 10, right: 10,
+                              child: FavWidgets(id:  _detailsScreenController.singleProduct.value!.id.toString())),
+
+                        ],
+                      ),
+                    ),
+
+
+                    //Product name
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 10,),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
                               SizedBox(
-                                width: 120,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                width: MediaQuery.of(context).size.width*.70,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          if(_initial > 1){
-                                            _initial--;
-                                          }
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.shade200),
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: AppColors.bgWhite,
-                                        ),
-                                        child: const Center(
-                                          child: Icon(Icons.remove,color: AppColors.textGrey,),
-                                        ),
-                                      ),
+                                    Text("${ _detailsScreenController.singleProduct.value!.name.toString()}",
+                                      style: TextStyle(
+                                          fontSize: titleFont,
+                                          fontWeight: FontWeight.w600,
+                                          color: Colors.black),
                                     ),
-                                    const SizedBox(width: 10,),
-                                    Text("${_initial}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: normalFont,color: Colors.black),),
-                                    const SizedBox(width: 10,),
-                                    InkWell(
-                                      onTap: (){
-                                        setState(() {
-                                          _initial++;
-                                        });
-                                      },
-                                      child: Container(
-                                        padding: const EdgeInsets.all(5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.grey.shade200),
-                                          borderRadius: BorderRadius.circular(10),
-                                          color: AppColors.bgWhite,
-                                        ),
-                                        child: const Center(
-                                          child: Icon(Icons.add,color: Colors.green,),
-                                        ),
-                                      ),
+                                    Text("${_detailsScreenController.singleProduct.value!.packaging}",
+                                      style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black),
                                     ),
+
                                   ],
                                 ),
                               ),
 
-                              const SizedBox(height: 15,),
-                              Obx(() {
-                                  return AppButton(
-                                    isLoading: carControllerNew.isAddingCart.value,
-                                    bgColor:  carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? Colors.grey : AppColors.bgGreen,
-                                    name: carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? "Produi déjà dans votre panier" : "Ajouter au panier",
-                                    onClick: (){
-                                      if( carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString())){
-                                        return null;
-                                      }else{
-                                        carControllerNew.addToCart(_initial, _detailsScreenController.singleProduct.value!.id.toString());
-                                      }
-
-                                    },
-                                  );
-                                }
-                              ),
-
-                              const SizedBox(height: 15,),
-                              ListTile(
-                                contentPadding: EdgeInsets.zero,
-                                title: InkWell(
-                                  onTap: (){
-                                    setState(() {
-                                      _isShowDetiails = !_isShowDetiails;
-                                    });
-                                  },
-                                  child: Container(
-                                      padding: const EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey.shade100,
-                                          borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          const Text("Détails du produit",
-                                            style: TextStyle(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.w700
-                                            ),
-                                          ),
-                                          Icon(_isShowDetiails ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_outlined)
-                                        ],
-                                      )),
-                                ),
-                                subtitle: _isShowDetiails ? Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text("${ _detailsScreenController.singleProduct.value!.longDescription}"),
-                                ) : Center(),
-
-                              ),
-
-                              const SizedBox(height: 30,),
-
-
-                              SimmilerProduct( _detailsScreenController.singleProduct.value!),
-
+                              Column(
+                                children: [
+                                  Obx((){
+                                    return
+                                      Text("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent).toStringAsFixed(2)}€",
+                                        style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
+                                  }),
+                                  Obx((){
+                                    return
+                                      Text("${(double.parse("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent)}") / double.parse("${_detailsScreenController.singleProduct.value!.uvw != null ? _detailsScreenController.singleProduct.value!.uvw.toString() : "0.00"}")).toStringAsFixed(2)} € / 1 ${_detailsScreenController.singleProduct.value!.unit?.split(" ")[0]}",
+                                        style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
+                                  }),
+                                ],
+                              )
 
                             ],
                           ),
-                        )
-                      ],
+
+                          ///Edit increment
+                          ///Si
+
+                          _detailsScreenController.singleProduct.value!.shortDescription != null && _detailsScreenController.singleProduct.value!.shortDescription!.isNotEmpty ? Container(
+                            margin: const EdgeInsets.only(top: 8),
+                            child: Text("${_detailsScreenController.singleProduct.value!.shortDescription}",
+                              style: const TextStyle(
+                                fontSize: 12, color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ) : const Center(),
+                          const SizedBox(height: 10,),
+
+                          //increment decrement
+                          SizedBox(
+                            width: 120,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      if(_initial > 1){
+                                        _initial--;
+                                      }
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey.shade200),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColors.bgWhite,
+                                    ),
+                                    child: const Center(
+                                      child: Icon(Icons.remove,color: AppColors.textGrey,),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 10,),
+                                Text("${_initial}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: normalFont,color: Colors.black),),
+                                const SizedBox(width: 10,),
+                                InkWell(
+                                  onTap: (){
+                                    setState(() {
+                                      _initial++;
+                                    });
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.grey.shade200),
+                                      borderRadius: BorderRadius.circular(10),
+                                      color: AppColors.bgWhite,
+                                    ),
+                                    child: const Center(
+                                      child: Icon(Icons.add,color: Colors.green,),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+
+                          const SizedBox(height: 15,),
+                          Obx(() {
+                            return AppButton(
+                              isLoading: carControllerNew.isAddingCart.value,
+                              bgColor:  carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? Colors.grey : AppColors.bgGreen,
+                              name: carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? "Produit déjà dans votre panier" : "Ajouter au panier",
+                              onClick: (){
+                                if( carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString())){
+                                  return null;
+                                }else{
+                                  carControllerNew.addToCart(_initial, _detailsScreenController.singleProduct.value!.id.toString());
+                                }
+
+                              },
+                            );
+                          }
+                          ),
+
+                          const SizedBox(height: 15,),
+                          ListTile(
+                              contentPadding: EdgeInsets.zero,
+                              title: InkWell(
+                                onTap: (){
+                                  setState(() {
+                                    _isShowDetiails = !_isShowDetiails;
+                                  });
+                                },
+                                child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.grey.shade100,
+                                        borderRadius: BorderRadius.circular(10)
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        const Text("Détails du produit",
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              fontWeight: FontWeight.w700
+                                          ),
+                                        ),
+                                        Icon(_isShowDetiails ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down_outlined)
+                                      ],
+                                    )),
+                              ),
+                              subtitle: _isShowDetiails ? Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text("${ _detailsScreenController.singleProduct.value!.longDescription}"),
+                              )  : Center()
+
+                          ),
+
+                          const SizedBox(height: 30,),
+
+
+                          SimmilerProduct( _detailsScreenController.singleProduct.value!),
+
+
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               );
             }
-          )
+            )
         ),
       ),
       bottomNavigationBar: ClipRRect(

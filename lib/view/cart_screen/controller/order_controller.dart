@@ -100,6 +100,7 @@ class OrderControllerNew extends GetxController {
     var response = await ApiService.postApi(AppConfig.ORDER_PLACE, body);
 
     if (response.statusCode == 200) {
+      Get.back();
       getOrderList();
       //show success message
       await ApiService.deleteApi(AppConfig.ORDER_BULK_DELETE);

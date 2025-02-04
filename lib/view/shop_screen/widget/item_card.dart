@@ -28,7 +28,7 @@ class ItemCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailScreen(singleProduct: singleProduct)));
+        Navigator.push(context, MaterialPageRoute(builder: (context)=>DetailScreen(productId: singleProduct.id.toString(),)));
 
       },
 

@@ -5,12 +5,11 @@ import 'package:nectar/app_config.dart';
 import 'package:nectar/data/service/api.service.dart';
 
 import '../../../data/models/product_model.dart';
-import '../../../data/models/single_product_model.dart';
 
 class DetailsScreenController extends GetxController{
 
 
-  Rx<SingleProductModel> singleProduct = SingleProductModel().obs;
+  Rx<SingleProduct> singleProduct = SingleProduct().obs;
   RxBool isLoading = false.obs;
 
   onInit(){
@@ -22,21 +21,22 @@ class DetailsScreenController extends GetxController{
     isLoading.value = true;
     var res = await ApiService.getApi(AppConfig.PRPDUCT_SINGLE+"$id");
     if(res.statusCode == 200){
-      singleProduct.value = SingleProductModel.fromJson(jsonDecode(res.body));
+      print("single product response --- ${res.body}");
+      singleProduct.value = SingleProduct.fromJson(jsonDecode(res.body)["data"]);
     }
     isLoading.value = false;
   }
 
 
 
-  getSingleProductByCategory()async{
-    isLoading.value = true;
-    var res = await ApiService.getApi(AppConfig.PRPDUCT_GET+"");
-    if(res.statusCode == 200){
-      singleProduct.value = SingleProductModel.fromJson(jsonDecode(res.body));
-    }
-    isLoading.value = false;
-  }
+  // getSingleProductByCategory()async{
+  //   isLoading.value = true;
+  //   var res = await ApiService.getApi(AppConfig.PRPDUCT_GET+"");
+  //   if(res.statusCode == 200){
+  //     singleProduct.value = SingleProduct.fromJson(jsonDecode(res.body));
+  //   }
+  //   isLoading.value = false;
+  // }
 
 
   RxBool isGetRelatedProduct = false.obs;

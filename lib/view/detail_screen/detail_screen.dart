@@ -16,8 +16,8 @@ import '../cart_screen/controller/car_controller.dart';
 import 'controller/details_screen_controller.dart';
 
 class DetailScreen extends StatefulWidget {
-  final SingleProduct? singleProduct;
-  DetailScreen({this.singleProduct});
+  final String? productId;
+  DetailScreen({this.productId});
   @override
   State<DetailScreen> createState() => _DetailScreenState();
 }
@@ -42,18 +42,17 @@ class _DetailScreenState extends State<DetailScreen> {
 
   String? role;
   var totalCart;
-  SingleProduct? singleProduct;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    singleProduct = widget.singleProduct;
     // Ensure this happens after the build phase
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _detailsScreenController.getMainCatRelatedProduct(singleProduct!.categoryName.toString());
+      _detailsScreenController.getMainCatRelatedProduct(widget.productId.toString());
+      _detailsScreenController.getSingleProductByID(widget.productId.toString());
     });
 
-    // _detailsScreenController.getSingleProductByID(singleProduct!.id.toString());
+    // _detailsScreenController.get_detailsScreenController.singleProduct.valueByID(singleProduct!.id.toString());
   }
 
 
@@ -104,11 +103,11 @@ class _DetailScreenState extends State<DetailScreen> {
                                       bottomRight: Radius.circular(20)
                                   ),
                                 ),
-                                child: AppNetworkImage(src:  singleProduct!.images![0].imageUrl!, fit: BoxFit.contain,
+                                child: AppNetworkImage(src:  _detailsScreenController.singleProduct.value!.images![0].imageUrl!, fit: BoxFit.contain,
                                 ),
                               ),
 
-                              singleProduct!.discountPrice != null &&  singleProduct!.discountPrice! > 0 ? Positioned(
+                              _detailsScreenController.singleProduct.value!.discountPrice != null &&  _detailsScreenController.singleProduct.value!.discountPrice! > 0 ? Positioned(
                                 right: 10, top: 30,
                                 child: Container(
                                   width: 100,
@@ -117,7 +116,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                       color: Colors.red,
                                       borderRadius: BorderRadius.circular(100)
                                   ),
-                                  child: Center(child: Text("Promo - ${ singleProduct!.discountPrice!}%",
+                                  child: Center(child: Text("Promo - ${ _detailsScreenController.singleProduct.value!.discountPrice!}%",
                                       style: const TextStyle(
                                           fontWeight: FontWeight.normal,
                                           fontSize: 13, color: Colors.white
@@ -129,12 +128,12 @@ class _DetailScreenState extends State<DetailScreen> {
 
                               Positioned(
                                   bottom: 10, left: 10,
-                                  child: Text("Origine: ${ singleProduct!.country}")),
+                                  child: Text("Origine: ${ _detailsScreenController.singleProduct.value!.country}")),
 
                               ///TODO: Fav button
                               Positioned(
                                   bottom: 10, right: 10,
-                                  child: FavWidgets(id:  singleProduct!.id.toString())),
+                                  child: FavWidgets(id:  _detailsScreenController.singleProduct.value!.id.toString())),
 
                             ],
                           ),
@@ -159,13 +158,13 @@ class _DetailScreenState extends State<DetailScreen> {
                                       mainAxisAlignment: MainAxisAlignment.start,
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Text("${ singleProduct!.name.toString()}",
+                                        Text("${ _detailsScreenController.singleProduct.value!.name.toString()}",
                                           style: TextStyle(
                                               fontSize: titleFont,
                                               fontWeight: FontWeight.w600,
                                               color: Colors.black),
                                         ),
-                                        Text("${ singleProduct!.packaging.toString()}",
+                                        Text("${_detailsScreenController.singleProduct.value!.packaging.toString()}",
                                           style: const TextStyle(
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
@@ -180,12 +179,12 @@ class _DetailScreenState extends State<DetailScreen> {
                                     children: [
                                       Obx((){
                                         return
-                                          Text("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent).toStringAsFixed(2)}€",
+                                          Text("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent).toStringAsFixed(2)}€",
                                           style: const TextStyle(fontWeight: FontWeight.w600,fontSize: 18,color: Colors.black),);
                                       }),
                                       Obx((){
                                         return
-                                          Text("${(double.parse("${globalController.priceCalculat(singleProduct!.regularPrice, singleProduct!.sellingPrice, singleProduct!.wholePrice, singleProduct!.supperMarcent)}") / double.parse("${singleProduct!.uvw != null ? singleProduct!.uvw.toString() : "0.00"}")).toStringAsFixed(2)} € / 1 ${singleProduct!.unit!.split(" ")[0]}",
+                                          Text("${(double.parse("${globalController.priceCalculat(_detailsScreenController.singleProduct.value!.regularPrice, _detailsScreenController.singleProduct.value!.sellingPrice, _detailsScreenController.singleProduct.value!.wholePrice, _detailsScreenController.singleProduct.value!.supperMarcent)}") / double.parse("${_detailsScreenController.singleProduct.value!.uvw != null ? _detailsScreenController.singleProduct.value!.uvw.toString() : "0.00"}")).toStringAsFixed(2)} € / 1 ${_detailsScreenController.singleProduct.value!.unit!.split(" ")[0]}",
                                           style: const TextStyle(fontWeight: FontWeight.w400,fontSize: 12,color: Colors.black),);
                                       }),
                                     ],
@@ -197,9 +196,9 @@ class _DetailScreenState extends State<DetailScreen> {
                               ///Edit increment
                               ///Si
 
-                              singleProduct!.shortDescription != null && singleProduct!.shortDescription!.isNotEmpty ? Container(
+                              _detailsScreenController.singleProduct.value!.shortDescription != null && _detailsScreenController.singleProduct.value!.shortDescription!.isNotEmpty ? Container(
                                 margin: const EdgeInsets.only(top: 8),
-                                child: Text("${singleProduct!.shortDescription}",
+                                child: Text("${_detailsScreenController.singleProduct.value!.shortDescription}",
                                   style: const TextStyle(
                                     fontSize: 12, color: Colors.black,
                                     fontWeight: FontWeight.w400,
@@ -264,13 +263,13 @@ class _DetailScreenState extends State<DetailScreen> {
                               Obx(() {
                                   return AppButton(
                                     isLoading: carControllerNew.isAddingCart.value,
-                                    bgColor:  carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? Colors.grey : AppColors.bgGreen,
-                                    name: carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString()) ? "Produi déjà dans votre panier" : "Ajouter au panier",
+                                    bgColor:  carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? Colors.grey : AppColors.bgGreen,
+                                    name: carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString()) ? "Produi déjà dans votre panier" : "Ajouter au panier",
                                     onClick: (){
-                                      if( carControllerNew.isAlreadyInCart(widget.singleProduct!.id.toString())){
+                                      if( carControllerNew.isAlreadyInCart(_detailsScreenController.singleProduct.value!.id.toString())){
                                         return null;
                                       }else{
-                                        carControllerNew.addToCart(_initial, singleProduct!.id.toString());
+                                        carControllerNew.addToCart(_initial, _detailsScreenController.singleProduct.value!.id.toString());
                                       }
 
                                     },
@@ -308,7 +307,7 @@ class _DetailScreenState extends State<DetailScreen> {
                                 ),
                                 subtitle: _isShowDetiails ? Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text("${ singleProduct!.longDescription}"),
+                                  child: Text("${ _detailsScreenController.singleProduct.value!.longDescription}"),
                                 ) : Center(),
 
                               ),
@@ -316,7 +315,7 @@ class _DetailScreenState extends State<DetailScreen> {
                               const SizedBox(height: 30,),
 
 
-                              SimmilerProduct( singleProduct!),
+                              SimmilerProduct( _detailsScreenController.singleProduct.value!),
 
 
                             ],

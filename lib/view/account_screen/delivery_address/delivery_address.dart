@@ -18,6 +18,8 @@ class DeliveryAddress extends StatefulWidget {
 }
 
 class _DeliveryAddressState extends State<DeliveryAddress> {
+  final dropDownKey = GlobalKey<DropdownSearchState>();
+
   bool onClick = false;
   final _formKey = GlobalKey<FormState>();
   final addressModel = Get.arguments;
@@ -68,40 +70,28 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 const SizedBox(height: 20,),
                 const Text("Code Postal *"),
                 const SizedBox(height: 10,),
-                Obx(()=>DropdownSearch<String>(
-                  popupProps: PopupProps.menu(
-                    showSelectedItems: true,
-                    disabledItemFn: (String s) => s.startsWith('I'),
-                  ),
-                  items: addressController.postCodeList.value,
-                  dropdownDecoratorProps: DropDownDecoratorProps(
-                    dropdownSearchDecoration: InputDecoration(
-                        hintText: "Code Postal",
-                        hintStyle: const TextStyle(
-                            fontSize: 13,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w600
-                        ),
-                        contentPadding: const EdgeInsets.only(left: 10, right: 10),
-                        border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(10)
-                        ),
-                        fillColor: Colors.grey.shade100,
-                        filled: true
+                Obx((){
+                  return DropdownSearch<String>(
+                    key: dropDownKey,
+                    selectedItem: "Menu",
+                    items: (filter, infiniteScrollProps) =>addressController.postCodeList.value,
+                    decoratorProps: DropDownDecoratorProps(
+                      decoration: InputDecoration(
+                        labelText: 'Examples for: ',
+                        border: OutlineInputBorder(),
+                      ),
                     ),
-                  ),
-                  onChanged: (v){
-                    addressController.postCodeText.value = v.toString();
-                  },
-                  //selectedItem: "Code Postal",
-                )),
+                    popupProps: PopupProps.menu(fit: FlexFit.loose, constraints: BoxConstraints()),
+                  );
+                }),
                 const SizedBox(height: 20,),
                 const Text("Ville *"),
                 const SizedBox(height: 10,),
                 AppInput(
-                    validator: (value)=>value!.isEmpty ? "Indiquez la ville":null,
-                    controller: addressController.villeText.value, hintText: "Indiquez la ville"),
+                    validator: (value)=>value!.isEmpty ? "Indiquez la ville" : null,
+                    controller: addressController.villeText.value,
+                    hintText: "Indiquez la ville"
+                ),
                 const SizedBox(height: 20,),
                 const Text("Message *"),
                 const SizedBox(height: 10,),

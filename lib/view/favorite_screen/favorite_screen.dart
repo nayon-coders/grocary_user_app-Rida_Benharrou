@@ -46,7 +46,7 @@ class FavoriteScreen extends GetView<FavController> {
                       var data = controller.favProduct.value.data![index];
                       return ListTile(
                         onTap: (){
-                          Get.to(DetailScreen(singleProduct: SingleProduct.fromJson(data.toJson())));
+                          Get.to(DetailScreen(productId: data.productId.toString()));
                          //  Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailScreen(singleProduct: data)));
                         },
                         contentPadding: EdgeInsets.all(10),

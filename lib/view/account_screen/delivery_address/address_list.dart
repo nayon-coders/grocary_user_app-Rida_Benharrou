@@ -70,7 +70,7 @@ class AddressList extends GetView<AddressControllerNew> {
                             children: [
                               SizedBox(
                                 width: MediaQuery.of(context).size.width*.60,
-                                child: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}",
+                                child: Text("${data.address}, ${data.city},${data.postCode} ",
                                   style: TextStyle(
                                       fontSize: smallFont,
                                       fontWeight: FontWeight.w400,

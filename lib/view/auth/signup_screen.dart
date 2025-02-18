@@ -349,6 +349,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           isLoading: _authController.isSignUp.value,
                            bgColor: AppColors.bgGreen,
                            name: "S'inscrire", onClick: ()async{
+
+                            if(!_checkTerms){
+                              appSnackBar(context: context, text: "Veuillez accepter les conditions avant de continuer.", bgColor: Colors.red);
+                              return;
+                            }
                              if( _authController.selectedAccountType.value.isEmpty){
                                appSnackBar(context: context, text: "Veuillez choisir votre type de compte", bgColor: Colors.red);
                                return;

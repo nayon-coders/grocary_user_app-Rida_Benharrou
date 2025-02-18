@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
@@ -77,7 +78,7 @@ class _MyOrdersState extends State<MyOrders> {
                 Obx((){
                   if(orderController.isLoading.value){
                     return const Center(child: CircularProgressIndicator.adaptive(),);
-                  }else if(orderController.orderModel.value.data!.isEmpty){
+                  }else if(orderController.orderModel.value.data!.isEmpty  || orderController.orderModel.value.data == null){
                     return const NotFound();
                   }else{
 
@@ -116,7 +117,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                       color: AppColors.textBlack),
                                                 ),
                                                 const SizedBox(height: 8,),
-                                                Text("${data.createdAt.toString()}",
+                                                Text(DateFormat("dd-MM-yyyy+HH:mm").format(data.createdAt as DateTime),
                                                   style: const TextStyle(fontWeight: FontWeight.w400,
                                                       fontSize: 12,
                                                       color: AppColors.textGrey),
@@ -124,7 +125,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                 const SizedBox(height: 3,),
                                                 SizedBox(
                                                   width: 160,
-                                                  child: Text("Expected delivery on: ${data.deliveryDate.toString()}",
+                                                  child: Text("Livraison prévue le: ${data.deliveryDate.toString()}",
                                                     style: const TextStyle(fontWeight: FontWeight.w400,
                                                         fontSize: 12,
                                                         color: Colors.black),

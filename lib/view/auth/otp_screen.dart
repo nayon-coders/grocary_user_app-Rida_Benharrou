@@ -76,7 +76,7 @@ class OtpScreen extends StatelessWidget {
                 Obx(() {
                     return AppButton(
                       isLoading: controller.isLoading.value,
-                        name: "Verify",
+                        name: "Valider",
                         onClick: ()async{
                           if(_key.currentState!.validate()){
                             controller.verifyOtp(email, _otpController.text);

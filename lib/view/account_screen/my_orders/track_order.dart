@@ -369,7 +369,7 @@ class _TrackOrderState extends State<TrackOrder> {
                                 const SizedBox(height: 4,),
 
                                 //Status Date time
-                                isPastOrder(orderStatus[index], widget.orderModel.orderStatus!) ?Text("${DateFormat('dd/MM/yyyy hh:mm a').format(DateTime.now())}",
+                                isPastOrder(orderStatus[index], widget.orderModel.orderStatus!) ?Text("${DateFormat('dd/MM/yyyy HH:mm').format(DateTime.now())}",
                                   style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,

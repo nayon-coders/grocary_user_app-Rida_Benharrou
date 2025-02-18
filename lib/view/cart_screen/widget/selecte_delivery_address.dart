@@ -26,6 +26,7 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,
           child: Scaffold(
+            backgroundColor: Colors.white,
               appBar: AppBar(
                 title: const Text("Sélectionnez l'adresse de livraison"),
               ),
@@ -38,7 +39,7 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
                             onPressed: (){
                               Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));
                             },
-                            child: const Text("Ajouter une nouvelle adress")
+                            child: const Text("Ajouter une nouvelle adresse+")
                           ),
                   );
                 }else{

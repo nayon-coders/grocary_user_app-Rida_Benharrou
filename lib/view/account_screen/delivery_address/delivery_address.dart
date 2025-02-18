@@ -65,7 +65,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 20,),
-                  const Text("Adress *"),
+                  const Text("Adresse *"),
                   const SizedBox(height: 10,),
                   AppInput(
                       validator: (value) =>

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/auth/controller/forgot_controller.dart';
+import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/widget/app_button.dart';
 import 'package:nectar/widget/app_input.dart';
 
@@ -33,7 +34,7 @@ class ForgotPassword extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: ()=>Navigator.pop(context),
+                  onTap: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen())),
                   child: Container(
                     padding: EdgeInsets.all(10),
                      height: 50,

@@ -42,7 +42,10 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
           centerTitle: true,
           backgroundColor: AppColors.bgWhite,
           leading: InkWell(
-              onTap: () => Navigator.pop(context),
+              onTap: (){
+                addressController.clearTextField();
+                Navigator.pop(context);
+              },
               child: const Icon(
                 Icons.arrow_back_ios_sharp, color: AppColors.textBlack,
                 size: 30,)),
@@ -76,7 +79,9 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                   const SizedBox(height: 10,),
                   DropdownSearch<String>(
                     key: dropDownKey,
-                    selectedItem: "Post Code",
+                    selectedItem: addressController.postCodeText.value.isNotEmpty
+                        ? addressController.postCodeText.value
+                        : "Post Code",
                     onChanged: (v) {
                       addressController.postCodeText.value = v.toString();
                     },

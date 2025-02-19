@@ -61,7 +61,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 20,),
-                const Text("Adress *"),
+                const Text("Adresse *"),
                 const SizedBox(height: 10,),
                 AppInput(
                     validator: (value)=>value!.isEmpty ? "Indiquez l'adresse":null,
@@ -72,7 +72,7 @@ class _DeliveryAddressState extends State<DeliveryAddress> {
                 const SizedBox(height: 10,),
                 DropdownSearch<String>(
                   key: dropDownKey,
-                  selectedItem: "Post Code",
+                  selectedItem: "${addressController.postCodeText.value}",
                   onChanged: (v){
                     addressController.postCodeText.value = v.toString();
                   },

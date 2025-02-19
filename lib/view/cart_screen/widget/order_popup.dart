@@ -135,54 +135,27 @@ class _OrderPopupState extends State<OrderPopup> {
           ListbottomSheet(
             title: "Date de livraison",
             subtitle:  Text("${ selectedDeliveryDateTime  ?? "Date de livraison"}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
-            onClick: ()async{
-              var selectedTime =  await showOmniDateTimePicker(
-              context: context,
-              initialDate: getInitialDate(),
-              firstDate: DateTime(1600).subtract(const Duration(days: 10000)),
-              lastDate: DateTime.now().add(
-                const Duration(days: 10000),
-              ),
-              is24HourMode: false,
-              isShowSeconds: false,
-              minutesInterval: 1,
-              secondsInterval: 1,
-              borderRadius: const BorderRadius.all(Radius.circular(16)),
-              constraints: const BoxConstraints(
-                maxWidth: 350,
-                maxHeight: 650,
-              ),
-              transitionBuilder: (context, anim1, anim2, child) {
-                return FadeTransition(
-                  opacity: anim1.drive(
-                    Tween(
-                      begin: 0,
-                      end: 1,
-                    ),
-                  ),
-                  child: child,
-                );
-              },
-              transitionDuration: const Duration(milliseconds: 200),
-              barrierDismissible: true,
-              selectableDayPredicate: (dateTime) {
-                if (dateTime.weekday == DateTime.saturday || dateTime.weekday == DateTime.sunday) {
-                  return false;
-                } else {
-                  return true;
-                }
-              }
-
+            onClick: () async {
+              var selectedDate = await showDatePicker(
+                context: context,
+                initialDate: getInitialDate(),
+                firstDate: DateTime(1600),
+                lastDate: DateTime.now().add(const Duration(days: 10000)),
+                locale: const Locale("fr", "FR"), // French Language
+                selectableDayPredicate: (dateTime) {
+                  return dateTime.weekday != DateTime.saturday &&
+                      dateTime.weekday != DateTime.sunday;
+                },
               );
 
-
-
-
-              setState(() {
-                selectedDeliveryDateTime = DateFormat("dd/MM/yyyy").format(selectedTime!);
-              });
-
+              if (selectedDate != null) {
+                setState(() {
+                  selectedDeliveryDateTime =
+                      DateFormat("dd MMMM yyyy", "fr_FR").format(selectedDate);
+                });
+              }
             },
+
             isOpen: false,
           ),
           // Divider(color: Colors.grey.shade200,),
@@ -247,9 +220,15 @@ class _OrderPopupState extends State<OrderPopup> {
           ),
           Divider(color: Colors.grey.shade200,),
           Obx((){
-              return ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
+            var productVAT = (_cartController.totalTVAamount - _cartController.totalPrice);
+            var deliveryVAT = 3.00; // its statics 20%
+            var totalTVA = productVAT;
+            if(deliveryFee != 0.00){
+              totalTVA = totalTVA + deliveryVAT;
+            }
+            return ListbottomSheet( ///TODO: if you want to add dynamic text by back office you car change it
                 title: "Total TVA",
-                subtitle: Text("${(_cartController.totalTVAamount - _cartController.totalPrice).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+                subtitle: Text("${(totalTVA).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
                 onClick: (){},
                 isOpen: false,
               );
@@ -258,7 +237,14 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Total TTC ",
-            subtitle: Text("${(_cartController.totalTVAamount + deliveryFee).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle: Obx(() {
+              var deliveryVAT = 0.00; // its statics 20%
+              if(deliveryFee != 0.00){
+                deliveryVAT = 3.00;
+              }
+                return Text("${(_cartController.totalTVAamount + deliveryFee+deliveryVAT).toStringAsFixed(2)}€",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),);
+              }
+            ),
             onClick: (){},
             isOpen: false,
           ),

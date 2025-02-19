@@ -137,6 +137,7 @@ class CartControllerNew extends GetxController{
   // Getter for calculating the total amount including tax (TVA)
   double get totalTVAamount {
     double totalTax = 0.0; // Initialize the total tax amount
+    double totalDeliveryFeeVAT = 3.00; // this is static 20% VAT
     for (int i = 0; i < priceList.length; i++) {
       double subtotal = priceList[i] * qtyList[i]; // Subtotal for each product
       double taxAmount = (subtotal / 100) * double.parse(productTax[i].toString()); // Tax for each product

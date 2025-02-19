@@ -57,7 +57,7 @@ class AuthController extends GetxController{
       "name": contactFacturation.value.text,
       "email": emailController.value.text,
       "password": passwordController.value.text,
-      "account_email": emailController.value.text,
+      "account_email": contactEmail.value.text,
       "account_phone": contactPhone.value.text,
       "account_type": selectedAccountType.value[0],
       "brand": brandController.value.text,

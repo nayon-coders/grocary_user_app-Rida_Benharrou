@@ -24,9 +24,6 @@ I’m the founder of BrightFuture IT, where we specialize in Flutter development
 
 [//]: # (<p> And more......</p>)
 
-## 📲 Download My App
-## 📲 Download My App
-
 [//]: # ()
 [//]: # (<p align="center">)
 

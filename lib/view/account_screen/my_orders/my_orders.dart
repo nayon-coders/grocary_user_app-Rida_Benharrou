@@ -78,7 +78,7 @@ class _MyOrdersState extends State<MyOrders> {
                 Obx((){
                   if(orderController.isLoading.value){
                     return const Center(child: CircularProgressIndicator.adaptive(),);
-                  }else if(orderController.orderModel.value.data!.isEmpty  || orderController.orderModel.value.data == null){
+                  }else if(orderController.orderModel.value.data == null || orderController.orderModel.value.data!.isEmpty  ){
                     return const NotFound();
                   }else{
 

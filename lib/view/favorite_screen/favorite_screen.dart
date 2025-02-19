@@ -1,27 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:nectar/controller/favourite_controller.dart';
-import 'package:nectar/model/product_model.dart';
+import 'package:get/get.dart';
+import 'package:nectar/data/models/product_model.dart';
 import 'package:nectar/utility/app_color.dart';
-import 'package:nectar/utility/app_const.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/detail_screen/detail_screen.dart';
-import 'package:nectar/widget/app_button.dart';
+import 'package:nectar/view/favorite_screen/controller/fav_controller.dart';
 import 'package:nectar/widget/app_network_images.dart';
-import 'package:nectar/widget/dialog.dart';
+import '../../widget/app_dialog.dart';
 
-import '../../utility/assets.dart';
-import '../../widget/not_found.dart';
-
-class FavoriteScreen extends StatefulWidget {
+class FavoriteScreen extends GetView<FavController> {
   const FavoriteScreen({super.key});
 
-  @override
-  State<FavoriteScreen> createState() => _FavoriteScreenState();
-}
-
-class _FavoriteScreenState extends State<FavoriteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,66 +31,70 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            FutureBuilder(
-              future: FavouriteController.getFavProduct(),
-              builder: (context, snapshot) {
-                if(snapshot.connectionState == ConnectionState.waiting){
-                  return Center(child: CircularProgressIndicator(),);
-                }else{
-                  return Expanded(
-                    child: snapshot.data!.isNotEmpty ? ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context,index){
-                          var data = snapshot.data![index];
-                          return ListTile(
-                            onTap: (){
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailScreen(productModel: data)));
-                            },
-                            contentPadding: EdgeInsets.all(10),
-                            shape: Border.symmetric(horizontal: BorderSide(color: Colors.grey.shade200)),
-                            leading: AppNetworkImage(src: data.images![0], height: 60, width: 60,),
-                            title: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
+        child: Obx(() {
+              if(controller.isLoading.value){
+                return Center(child: CircularProgressIndicator());
+              }else if(controller.favProduct.value.data == null){
+                return Center(
+                  child: Text("Aucun produit favori trouvé"),
+                );
+
+              }else{
+                return ListView.builder(
+                    itemCount: controller.favProduct.value.data!.length,
+                    itemBuilder: (context,index){
+                      var data = controller.favProduct.value.data![index];
+                      return ListTile(
+                        onTap: (){
+                          Get.to(DetailScreen(productId: data.productId.toString()));
+                         //  Navigator.push(context, MaterialPageRoute(builder: (context)=> DetailScreen(singleProduct: data)));
+                        },
+                        contentPadding: EdgeInsets.all(10),
+                        shape: Border.symmetric(horizontal: BorderSide(color: Colors.grey.shade200)),
+                        leading: AppNetworkImage(src: data.images![0]!.imageUrl!, height: 50, width: 50,),
+                        title: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      width: MediaQuery.of(context).size.width*.42,
-                                      child: Text("${data.name.toString()}",
-                                        style: TextStyle(
-                                          fontSize: titleFont,
-                                          fontWeight: FontWeight.w600,
-                                          color:AppColors.textBlack,
-                                        ),
-                                      ),
+                                SizedBox(
+                                  width: MediaQuery.of(context).size.width*.42,
+                                  child: Text("${data.name.toString()}",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                      color:AppColors.textBlack,
                                     ),
-                                    Text("${data.categoryS!.categoryName!}",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w400,
-                                          fontSize:smallFont,
-                                          color: AppColors.textGrey
-                                      ),
-                                    ),
-                                  ],
+                                  ),
                                 ),
                               ],
                             ),
-                            trailing: Icon(Icons.keyboard_arrow_right,color: Colors.black,),
+                          ],
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.delete, color: Colors.red,),
+                          onPressed: (){
+                            AppDialog(
+                                context,
+                                "Supprimer",
+                                "Voulez-vous vraiment supprimer ce produit de vos favoris?",
+                                    (){
+                                      controller.removeFavProduct(data.productId.toString());
+                                      Get.back();
+                                    }
+                            );
 
-                          );
-                        }) : NotFound());
-                }
+                          },
+                        )
 
-
-
+                      );
+                    });
               }
-            ),
-          ],
+
+          }
         ),
       ),
     );

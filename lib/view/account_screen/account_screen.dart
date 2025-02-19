@@ -3,18 +3,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:nectar/controller/auth_controller.dart';
-import 'package:nectar/controller/setting_controller.dart';
-import 'package:nectar/utility/assets.dart';
-import 'package:nectar/utility/fontsize.dart';
-import 'package:nectar/view/account_screen/about_us.dart';
+import 'package:get/get.dart';
+import 'package:nectar/routes/app_routes.dart';
 import 'package:nectar/view/account_screen/contact_widgets/terms_conditions.dart';
-import 'package:nectar/view/account_screen/delivery_address/address_list.dart';
-import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
+import 'package:nectar/view/account_screen/controller/acocunt_controller.dart';
 import 'package:nectar/view/account_screen/my_orders/my_orders.dart';
 import 'package:nectar/view/account_screen/widget/button.dart';
+import 'package:nectar/view/account_screen/widget/my_profile_widgets_top_info.dart';
 import 'package:nectar/view/account_screen/widget/profile_menus.dart';
-import 'package:nectar/view/auth/login_screen.dart';
+import 'package:nectar/view/auth/controller/auth_controller.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:nectar/widget/app_dialog.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -32,31 +29,14 @@ class _AccountScreenState extends State<AccountScreen> {
 
   //get social media
   var whatsapp, whatsAppMessages, terms, policy, legal;
-  getSocialMedia()async{
-    var res = await SettingController.getSocialMedia();
-    print("res --- ${res}");
-    setState(() {
-      whatsapp = res.data()["whatssapp"];
-      whatsAppMessages = res.data()["whatsapp_messages"];
-    });
-  }
-
-  getSettings()async{
-    var res = await SettingController.getSetting();
-    print("res --- ${res}");
-    setState(() {
-      terms = res.data()["terms"];
-      policy = res.data()["privacy"];
-      legal = res.data()["legal"];
-    });
-  }
+  AuthController authController = Get.put(AuthController());
+  AccountController accountController = Get.put(AccountController());
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    getSocialMedia();
-    getSettings();
+
   }
 
 
@@ -69,36 +49,9 @@ class _AccountScreenState extends State<AccountScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
 
-            Container(
-              height: 200,
-              padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.pink.shade100
-              ),
-              child: FutureBuilder(
-                  future: AuthController.getMyInfo(),
-                  builder: (context, snapshot) {
-                    if(snapshot.connectionState == ConnectionState.waiting){
-                      return Center();
-                    }
-                    return Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Ravis de vous revoir,",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            color: Colors.pink,
-                            fontSize: 35
-                          ),
-                        ),
-                        Text("${snapshot.data!.docs[0].data()["company"]}",style: TextStyle(fontSize: 30,fontWeight: FontWeight.w600, color: Colors.pink),),
-                      ],
-                    );
-                  }
-              ),
-            ),
+            //my profile top widgets
+            MyProfileInfoTopWidgets(),//my profile top widgets
+
             SizedBox(height: 10,),
             Padding(
               padding: EdgeInsets.all(15),
@@ -127,9 +80,17 @@ class _AccountScreenState extends State<AccountScreen> {
                       ),
 
                       ProfileMenus(
+                        text: "Mes Factures",
+                        icon: Icons.file_download_done,
+                        onClick: (){
+                          Get.toNamed(AppRoutes.orderInvoiceList);
+                        },
+                      ),
+
+                      ProfileMenus(
                         text: "Adresses de livraison",
                         icon: Icons.location_on_outlined,
-                        onClick: ()=>Navigator.push(context,MaterialPageRoute(builder: (_)=>AddressList())),
+                        onClick: ()=>Get.toNamed(AppRoutes.addressList),
                       ),
                       ProfileMenus(
                         text: "Favoris",
@@ -162,19 +123,19 @@ class _AccountScreenState extends State<AccountScreen> {
                       ProfileMenus(
                         text: "Conditions générales de vente",
                         icon: Icons.info_outline,
-                       onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: terms ?? "Terms", title: "Conditions générales de vente",))),
+                       onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.terms ?? "Terms", title: "Conditions générales de vente",))),
                        // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/conditions-generales-de-vente/")),
                       ),
                       ProfileMenus(
                         text: "Politique de confidentialité",
                         icon: Icons.info_outline,
-                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: policy ?? "Privacy", title: "Politique de confidentialité",))),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.privacy ?? "Privacy", title: "Politique de confidentialité",))),
 
                         // onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ), ProfileMenus(
                         text: "Mentions légales",
                         icon: Icons.info_outline,
-                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: legal ??"Legal", title: "Mentions légales",))),
+                        onClick: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>TermsAndConditions(data: accountController.pageModel.value!.data!.legal ??"Legal", title: "Mentions légales",))),
 
                         //onClick: ()=>_launchUrl(Uri.parse("https://commandespros.com/politique-de-confidentialite/")),
                       ),
@@ -202,7 +163,7 @@ class _AccountScreenState extends State<AccountScreen> {
                               "Suppression de votre compte",
                               "Souhaitez-vous réellement supprimer votre compte?",
                                   () async{
-                                await AuthController.deleteAccout(context);
+                                //await authController.deleteAccout(context);
                               }
                           );
                         },
@@ -227,7 +188,8 @@ class _AccountScreenState extends State<AccountScreen> {
               "Déconnexion",
               "Souhaitez-vous vraiment vous déconnecter?",
                   () async{
-                await AuthController.logOut(context);
+                //await AuthControllerOld.logOut(context);
+                await authController.logout();
               }
           );
         },
@@ -243,6 +205,5 @@ class _AccountScreenState extends State<AccountScreen> {
     }
   }
 }
-
 
 

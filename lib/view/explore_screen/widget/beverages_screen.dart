@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:nectar/data/models/product_model.dart';
 import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/utility/fontsize.dart';
 import 'package:nectar/view/shop_screen/widget/item_card.dart';
@@ -43,7 +44,7 @@ class _BeveragesScreenState extends State<BeveragesScreen> {
                 childAspectRatio: 0.69,
             ),
             itemBuilder: (context,index){
-              return ItemCard();
+              return ItemCard(singleProduct: SingleProduct(),);
             }),
       ),
     ));

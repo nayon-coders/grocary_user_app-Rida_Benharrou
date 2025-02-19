@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 String categoryCollection = "category";
@@ -21,15 +22,11 @@ String postCodeCollection = "post_code";
 
 
 
-String restaurantAccount = "Restaurant";
-String wholeSellerAccount = "Whole Seller";
-String sellerAccount = "Seller";
+String restaurantAccount = "Restauration";
+String wholeSellerAccount = "Grossiste";
+String sellerAccount = "Revendeur";
+String supperMarcent = "Supper Marcent";
 
-
-List orderStatus = [
-  //"En attente", "Confirmée", "Expédition", "Annulée", "Rejetée", "Livrée"
-  "Reçue en attente", "En préparation", "En cours de livraison", "Livré", "À régler", "Terminé"
-];
 
 
 
@@ -81,3 +78,58 @@ List unitList = [
     "kgName" : "U "
   }
 ];
+
+
+
+
+List orderStatus = [
+  'Reçue en Attente',
+  'En Préparation',
+  'Prête pour Dispatch',
+  'En cours de Livraison',
+  'Livré',
+  'À régler',
+  'Terminé',
+  'Annulé',
+];
+
+//check order status is past or not
+bool isPastOrder(String status, String currentStatus) {
+  // Define the order of statuses
+  const List<String> orderStatus = [
+    'Reçue en Attente',
+    'En Préparation',
+    'Prête pour Dispatch',
+    'En cours de Livraison',
+    'Livré',
+    'À régler',
+    'Terminé',
+    'Annulé',
+  ];
+
+  print("current status --- ${currentStatus}");
+  print("current status --- ${status}");
+  // Get the index of the current status
+  int currentIndex = orderStatus.indexOf(currentStatus);
+
+  // Get the index of the status to check
+  int statusIndex = orderStatus.indexOf(status);
+
+  // Check if the status is earlier or the same as the currentStatus
+  return statusIndex <= currentIndex;
+}
+
+String newDateFormate(String date) {
+  // Parsing the custom date format
+  DateTime parsedDate = DateFormat("dd/MM/yyyy HH'h'mm").parse(date);
+  // Formatting to the desired format
+  String deliveryDate = DateFormat("dd/MM/yyyy").format(parsedDate);
+  return deliveryDate;
+}
+String newDateFormate2(String date) {
+  // Parsing the custom date format
+  // Formatting to the desired format
+  String deliveryDate = DateFormat("dd/MM/yyyy").format(DateTime.parse("${date}"));
+  return deliveryDate;
+}
+String frenchDateFormat(date) => DateFormat("dd/mm/yyyy hh:mm ").format(DateTime.parse("${date}"));

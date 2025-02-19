@@ -17,7 +17,7 @@ class NotFound extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Image.asset(AppAssets.empty, height: 150,),
+          Image.asset(AppAssets.empty, height: 100,),
           Text("Aucun produit à afficher ici")
         ],
       ),

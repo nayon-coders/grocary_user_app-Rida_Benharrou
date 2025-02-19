@@ -32,7 +32,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
             fit: BoxFit.contain,
             ),
           ),
-          SizedBox(height: 15,),
+          const SizedBox(height: 15,),
           SizedBox(
             width: 230,
             child: Text("Votre commande a été acceptée",
@@ -44,7 +44,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
               ),
             ),
           ),
-          SizedBox(height: 15,),
+          const SizedBox(height: 15,),
           SizedBox(
             width: 200,
             child: Text("Vos articles ont été placés et sont en cours de traitement",
@@ -66,7 +66,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
         child: Column(
           children: [
             AppButton(name: "Suivre ma commande", onClick: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyOrders()), (route) => false)),
-            SizedBox(height: 10,),
+            const SizedBox(height: 10,),
             TextButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>NavigationScreen())), child: Text("Retour à la page d’accueil",
               style: TextStyle(fontSize: normalFont,
                   fontWeight: FontWeight.w400,

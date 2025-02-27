@@ -150,7 +150,7 @@ class _TrackOrderState extends State<TrackOrder> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Adresse de livrasion: ",
+                      const Text("Adresse de livraison: ",
                         style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600

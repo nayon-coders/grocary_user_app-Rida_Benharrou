@@ -83,7 +83,7 @@ class AuthController extends GetxController{
       Get.offAllNamed(AppRoutes.HOME);
       Get.snackbar("Bravo ", "Votre compte a bien été créé! Un membre de notre équipe prendra contact avec vous pour activer votre compte", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Désolé!", "Une erreur s'est produite avec le serveur.", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Désolé!", "Veuillez remplir tous les champs", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isSignUp.value = false;
   }

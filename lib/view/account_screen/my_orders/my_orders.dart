@@ -117,7 +117,7 @@ class _MyOrdersState extends State<MyOrders> {
                                                       color: AppColors.textBlack),
                                                 ),
                                                 const SizedBox(height: 8,),
-                                                Text(DateFormat("dd-MM-yyyy+HH:mm").format(data.createdAt as DateTime),
+                                                Text(DateFormat("dd-MM-yyyy HH:mm").format(data.createdAt as DateTime),
                                                   style: const TextStyle(fontWeight: FontWeight.w400,
                                                       fontSize: 12,
                                                       color: AppColors.textGrey),

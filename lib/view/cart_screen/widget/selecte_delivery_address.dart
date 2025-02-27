@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:nectar/utility/app_color.dart';
 import 'package:nectar/view/account_screen/delivery_address/delivery_address.dart';
 import '../../../data/models/delivery_address_model.dart';
 import '../../account_screen/controller/address_controller.dart';
@@ -9,8 +10,10 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
 
   final Function(AddressModel) callback;
 
+
   @override
   Widget build(BuildContext context) {
+    RxInt selectedIndex = (-1).obs;
     return  SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -49,30 +52,44 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
                       itemCount: controller.address.value.data!.length,
                       itemBuilder: (context, index){
                         var data = controller.address.value.data![index];
-                        return InkWell(
-                          onTap: (){
-                            callback(data);
-                            Navigator.pop(context);
+                        return Obx((){
+                            return InkWell(
+                              onTap: (){
+                                selectedIndex.value = index;
+                                callback(data);
+                                Navigator.pop(context);
 
-                          },
-                          child: Container(
-                            margin: const EdgeInsets.only(bottom: 10),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(width: 1, color: Colors.grey)
-                            ),
-                            child: ListTile(
-                              title: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}"),
-                              subtitle: Text("${data.message}"),
-                            ),
-                          ),
+                              },
+                              child: Container(
+                                    margin: const EdgeInsets.only(bottom: 10),
+                                    decoration: BoxDecoration(
+                                        color:selectedIndex.value ==index?AppColors.mainColor: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                        border: Border.all(width: 1, color: Colors.grey)
+                                    ),
+                                    child: ListTile(
+                                      title: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}",style: TextStyle(
+                                        color: selectedIndex.value == index ? Colors.white : Colors.black,
+                                        fontWeight: FontWeight.bold,
+                                      ),),
+                                      subtitle: Text("${data.message}", style: TextStyle(
+                                      color: selectedIndex.value == index ? Colors.white70 : Colors.black54,
+                                      ),),
+                                    ),
+                                  ),
+
+                            );
+                          }
                         );
                       },
                     ),
                   );
                 }
               }),
+            floatingActionButton: FloatingActionButton(
+              backgroundColor: AppColors.mainColor,
+                child: Icon(Icons.add,color: Colors.white,),
+                onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>DeliveryAddress()));}),
 
           ),
         ),

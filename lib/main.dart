@@ -10,7 +10,7 @@ import 'package:nectar/view/auth/login_screen.dart';
 import 'package:nectar/view/flash/flash.dart';
 import 'package:nectar/view/navigation_screen/navigation_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'routes/app_pages.dart';
 
 // Declare global controller
@@ -35,6 +35,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: "kanitFont"
       ),
+      locale: const Locale('fr', 'FR'), // Set French as default
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('fr', 'FR'), // Add French support
+      ],
+      localizationsDelegates: [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.flashScreen,
       getPages: AppPages.routes,

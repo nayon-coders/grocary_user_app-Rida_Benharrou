@@ -57,6 +57,7 @@ dependencies:
   pinput:
   custom_date_range_picker:
   smooth_page_indicator:
+  flutter_localization: ^0.3.1
 
 
 dev_dependencies:

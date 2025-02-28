@@ -41,7 +41,7 @@ class AddressList extends GetView<AddressControllerNew> {
             if(controller.isLoading.value){
               return const Center(child: CircularProgressIndicator.adaptive(),);
             }else if(controller.address.value.data == null || controller.address.value.data!.isEmpty){
-              return const NotFound();
+              return const NotFound(name:"Ajoutez une adresse de livraison");
             }else{
               return ListView.builder(
                   itemCount: controller.address.value.data!.length,

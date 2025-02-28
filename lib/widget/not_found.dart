@@ -6,8 +6,9 @@ import '../generated/assets.dart';
 
 class NotFound extends StatelessWidget {
   const NotFound({
-    super.key,
+    super.key,  this.name="Aucun produit à afficher ici",
   });
+  final String? name;
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +19,8 @@ class NotFound extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Image.asset(AppAssets.empty, height: 100,),
-          Text("Panier vide")
+          Text(name!),
+          //Text("Panier vide")
         ],
       ),
     ),);

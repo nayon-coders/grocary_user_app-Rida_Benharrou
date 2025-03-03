@@ -43,7 +43,7 @@ I’m the founder of BrightFuture IT, where we specialize in Flutter development
 
 ## 🖼️ Developer
 
-  <img src="developer/nayon.coders.png" alt="nayon coders" width="30%"/>
+<img src="developer/nayon.coders.png" alt="nayon coders" width="30%"/>
 
 
 

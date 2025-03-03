@@ -156,7 +156,8 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      SizedBox(
+                      widget.orderModel!.userDeliveryAddress!.postCode!.isEmpty || widget.orderModel!.userDeliveryAddress!.city!.isEmpty || widget.orderModel!.userDeliveryAddress!.address!.isEmpty || widget.orderModel!.userDeliveryAddress!.contact!.isEmpty
+                   ? Center(child: Text("vide"),) :  SizedBox(
                         width: 180,
                         child: Text("${widget.orderModel!.userDeliveryAddress!.postCode}, ${widget.orderModel!.userDeliveryAddress!.city}, ${widget.orderModel!.userDeliveryAddress!.address}, ${widget.orderModel!.userDeliveryAddress!.contact}",
                           textAlign: TextAlign.right,

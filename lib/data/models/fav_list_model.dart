@@ -60,7 +60,7 @@ class SingleFavList {
   final int? isStock;
   final DateTime? createdAt;
   final DateTime? updatedAt;
-  final int? purchasePrice;
+  final double? purchasePrice;
   final double? regularPrice;
   final double? sellingPrice;
   final double? wholePrice;
@@ -117,7 +117,7 @@ class SingleFavList {
     isStock: json["is_stock"],
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
-    purchasePrice: json["purchase_price"],
+    purchasePrice: json["purchase_price"]?.toDouble(),
     regularPrice: json["regular_price"]?.toDouble(),
     sellingPrice: json["selling_price"]?.toDouble(),
     wholePrice: json["whole_price"]?.toDouble(),

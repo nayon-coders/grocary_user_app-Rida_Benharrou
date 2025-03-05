@@ -151,7 +151,7 @@ class _OrderPopupState extends State<OrderPopup> {
               if (selectedDate != null) {
                 setState(() {
                   selectedDeliveryDateTime =
-                      DateFormat("dd MMMM yyyy", "fr_FR").format(selectedDate);
+                      DateFormat("dd MMMM yyyy").format(selectedDate);
                 });
               }
             },

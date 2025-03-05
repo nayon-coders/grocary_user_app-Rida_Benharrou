@@ -13,7 +13,7 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
 
   @override
   Widget build(BuildContext context) {
-    RxInt selectedIndex = (-1).obs;
+
     return  SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height,
@@ -52,28 +52,31 @@ class SelectDeliveryAddress extends GetView<AddressControllerNew> {
                       itemCount: controller.address.value.data!.length,
                       itemBuilder: (context, index){
                         var data = controller.address.value.data![index];
+                        print("controller.selectedIndex.value ==index  before --- ${controller.selectedIndex.value ==index}");
+
                         return Obx((){
                             return InkWell(
                               onTap: (){
-                                selectedIndex.value = index;
+                                controller.selectedIndex.value = index;
                                 callback(data);
                                 Navigator.pop(context);
+                                print("controller.selectedIndex.value ==index --- ${controller.selectedIndex.value ==index}");
 
                               },
                               child: Container(
                                     margin: const EdgeInsets.only(bottom: 10),
                                     decoration: BoxDecoration(
-                                        color:selectedIndex.value ==index?AppColors.mainColor: Colors.white,
+                                        color: controller.selectedIndex.value ==index ? AppColors.mainColor: Colors.white,
                                         borderRadius: BorderRadius.circular(10),
                                         border: Border.all(width: 1, color: Colors.grey)
                                     ),
                                     child: ListTile(
                                       title: Text("${data.postCode}, ${data.city}, ${data.address}, ${data.contact}",style: TextStyle(
-                                        color: selectedIndex.value == index ? Colors.white : Colors.black,
+                                        color: controller.selectedIndex.value == index ? Colors.white : Colors.black,
                                         fontWeight: FontWeight.bold,
                                       ),),
                                       subtitle: Text("${data.message}", style: TextStyle(
-                                      color: selectedIndex.value == index ? Colors.white70 : Colors.black54,
+                                      color: controller.selectedIndex.value == index ? Colors.white70 : Colors.black54,
                                       ),),
                                     ),
                                   ),

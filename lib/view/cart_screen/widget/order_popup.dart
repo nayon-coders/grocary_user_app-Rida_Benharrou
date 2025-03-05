@@ -63,6 +63,7 @@ class _OrderPopupState extends State<OrderPopup> {
   var _onSelectionChanged;
 
   var selectedDeliveryDateTime;
+  var selectedDeliveryDateTimeFrontEnd;
 
   @override
   void initState() {
@@ -81,7 +82,8 @@ class _OrderPopupState extends State<OrderPopup> {
     });
 
     //init date
-    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy").format(DateTime.now().add(Duration(days: 1)));
+    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy H:M").format(DateTime.now().add(Duration(days: 1)));
+    selectedDeliveryDateTimeFrontEnd = DateFormat("dd/MM/yyyy").format(DateTime.now().add(Duration(days: 1)));
 
 
     //init payment method
@@ -134,7 +136,7 @@ class _OrderPopupState extends State<OrderPopup> {
           Divider(color: Colors.grey.shade200,),
           ListbottomSheet(
             title: "Date de livraison",
-            subtitle:  Text("${ selectedDeliveryDateTime  ?? "Date de livraison"}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
+            subtitle:  Text("${selectedDeliveryDateTime ?? "Date de livraison"}",style: TextStyle(color: AppColors.textBlack,fontSize: normalFont,fontWeight: FontWeight.w500),),
             onClick: () async {
               var selectedDate = await showDatePicker(
                 context: context,
@@ -150,8 +152,11 @@ class _OrderPopupState extends State<OrderPopup> {
 
               if (selectedDate != null) {
                 setState(() {
-                  selectedDeliveryDateTime =
-                      DateFormat("dd MMMM yyyy").format(selectedDate);
+               //   selectedDeliveryDateTime = "2000-12-23 15:40";
+                  selectedDeliveryDateTime = DateFormat("yyyy-MM-dd").format(selectedDate);
+                  print(selectedDate);
+                  print(selectedDeliveryDateTime);
+                     // DateFormat("dd MMMM yyyy", "fr_FR").format(selectedDate);
                 });
               }
             },

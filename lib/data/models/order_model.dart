@@ -40,7 +40,7 @@ class SingleOrder {
   final int? id;
   final String? company;
   final int? createdBy;
-  final String? deliveryDate;
+  final dynamic? deliveryDate;
   final String? orderStatus;
   final String? paymentMethod;
   final dynamic? subTotal;

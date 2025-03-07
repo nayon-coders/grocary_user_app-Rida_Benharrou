@@ -268,7 +268,7 @@ class _TrackOrderState extends State<TrackOrder> {
                             fontWeight: FontWeight.w600
                         ),
                       ),
-                      Text("${widget.orderModel.taxAmount!.toStringAsFixed(2)}€",
+                      Text("${(widget.orderModel.taxAmount! + 3.00).toStringAsFixed(2)}€",
                         style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w600

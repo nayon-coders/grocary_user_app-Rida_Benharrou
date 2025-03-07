@@ -179,7 +179,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         
                            },
                            icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
-                         )),
+                         )
+                     ),
         
                      // SizedBox(height: 20,),
                      // Text("Nom d'utilisateur *",
@@ -288,6 +289,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      AppField(
                        controller:  _authController.contactEmail.value,
                        hintText: "Email",
+                       validator: (v){
+                         if(v == null && v!.isEmpty){
+                           return "doit être requis";
+                         }
+                         return null;
+                       },
                      ),
                      SizedBox(height: 20,),
         
@@ -299,6 +306,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                      AppField(
                        controller:  _authController.contactPhone.value,
                        hintText: "Mobile / Ligne direct",
+                       validator: (v){
+                         if(v == null && v!.isEmpty){
+                           return "doit être requis";
+                         }
+                         return null;
+                       },
                      ),
                      SizedBox(height: 20,),
         

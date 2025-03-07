@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:nectar/view/auth/controller/forgot_controller.dart';
+import 'package:nectar/view/auth/widget/app_field.dart';
 
 import '../../utility/app_color.dart';
 import '../../widget/app_button.dart';
-import '../../widget/app_input.dart';
 
-class NewPassword extends StatelessWidget {
-   NewPassword({super.key});
 
+class NewPassword extends StatefulWidget {
+   const NewPassword({super.key});
+
+  @override
+  State<NewPassword> createState() => _NewPasswordState();
+}
+
+class _NewPasswordState extends State<NewPassword> {
    final ForgotController controller = Get.find<ForgotController>();
+
   final newPassword = TextEditingController();
+
   final confPassword = TextEditingController();
+
   final _key = GlobalKey<FormState>();
+
+    bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +68,39 @@ class NewPassword extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 30,),
-                AppInput(
+                Text("Nouveau mot de passe",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black),),
+                SizedBox(height: 6,),
+                AppField(
                   hintText: "Nouveau mot de passe",
                   controller: newPassword,
+                    obscureText: _obscureText,
+                    suffixIcon: IconButton(
+                      onPressed: (){
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+
+                      },
+                      icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
+                    )
 
                 ),
-                const SizedBox(height: 15,),
-                AppInput(
+                const SizedBox(height: 20,),
+                Text("Confirmez le nouveau mot de passe",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16,color: Colors.black),),
+                SizedBox(height: 6,),
+                AppField(
                   hintText: "Confirmez le mot de passe",
                   controller: confPassword,
+                    obscureText: _obscureText,
+                    suffixIcon: IconButton(
+                      onPressed: (){
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+
+                      },
+                      icon: Icon(_obscureText ? Icons.remove_red_eye : Icons.visibility_off,color: AppColors.textGrey,),
+                    )
 
                 ),
                 const SizedBox(height: 30,),
@@ -81,7 +116,7 @@ class NewPassword extends StatelessWidget {
                             newPassword.text,
                           );
                         }else{
-                          Get.snackbar("Erreur ", "Les mots de passe ne correspondent pas",backgroundColor: Colors.red);
+                          Get.snackbar("Erreur ", "Les mots de passes doivent être identiques",backgroundColor: Colors.red,colorText: Colors.white);
                         }
 
 

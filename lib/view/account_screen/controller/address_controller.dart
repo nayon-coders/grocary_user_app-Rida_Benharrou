@@ -14,6 +14,7 @@ class AddressControllerNew extends GetxController {
     getPostCode();
   }
 
+  RxInt selectedIndex = (-1).obs;
   //address model
    Rx<DeliveryAddressModel> address = DeliveryAddressModel().obs;
 
@@ -22,6 +23,7 @@ class AddressControllerNew extends GetxController {
   //get address data
    getAddress() async{
     isLoading.value = true;
+    address.value = DeliveryAddressModel();
     var res = await ApiService.getApi(AppConfig.DELIVERY_ADDRESS);
     if(res.statusCode == 200){
       address.value = DeliveryAddressModel.fromJson(jsonDecode(res.body));

@@ -70,7 +70,7 @@ class _CartScreenState extends State<CartScreen> {
                       return Container(margin: const EdgeInsets.only(bottom: 10), height: 70, child: const AppShimmer());
                     });
               }else if(cartController.cartList.value.data == null|| cartController.cartList.value.data!.isEmpty || cartController.qtyList.isEmpty || cartController.priceList.isEmpty){
-                return const NotFound();
+                return const NotFound(name:"Panier vide");
               }else{
                 return ListView.builder(
                     shrinkWrap: true,

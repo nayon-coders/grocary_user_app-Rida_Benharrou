@@ -60,7 +60,7 @@ class AuthController extends GetxController{
       "name": contactFacturation.value.text,
       "email": emailController.value.text,
       "password": passwordController.value.text,
-      "account_email": emailController.value.text,
+      "account_email": contactEmail.value.text,
       "account_phone": contactPhone.value.text,
       "account_type": selectedAccountType.value[0],
       "brand": brandController.value.text,
@@ -86,7 +86,7 @@ class AuthController extends GetxController{
       Get.offAllNamed(AppRoutes.HOME);
       Get.snackbar("Bravo ", "Votre compte a bien été créé! Un membre de notre équipe prendra contact avec vous pour activer votre compte", backgroundColor: Colors.green,colorText: Colors.white);
     }else{
-      Get.snackbar("Désolé!", "Une erreur s'est produite avec le serveur.", backgroundColor: Colors.red,colorText: Colors.black);
+      Get.snackbar("Désolé!", "Veuillez remplir tous les champs", backgroundColor: Colors.red,colorText: Colors.white);
     }
     isSignUp.value = false;
   }

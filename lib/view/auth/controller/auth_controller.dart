@@ -12,6 +12,9 @@ import 'package:nectar/data/service/api.service.dart';
 import 'package:http/http.dart' as http;
 import 'package:nectar/main.dart';
 import 'package:nectar/routes/app_routes.dart';
+import 'package:nectar/view/cart_screen/controller/car_controller.dart';
+import 'package:nectar/view/cart_screen/controller/order_controller.dart';
+import 'package:nectar/view/favorite_screen/controller/fav_controller.dart';
 
 class AuthController extends GetxController{
 
@@ -157,6 +160,11 @@ class AuthController extends GetxController{
   //logout
   logout()async{
     sharedPreferences!.clear();
+    //remove all Get Dependency
+    Get.delete<FavController>(); // Delete the controller
+    Get.delete<CartControllerNew>(); // Delete the controller
+    Get.delete<OrderControllerNew>(); // Delete the controller
+
     Get.offAllNamed(AppRoutes.LOGIN);
   }
 

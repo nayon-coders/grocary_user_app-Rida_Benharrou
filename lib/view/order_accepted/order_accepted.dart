@@ -18,7 +18,7 @@ class OrderAccepted extends StatefulWidget {
 class _OrderAcceptedState extends State<OrderAccepted> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
       backgroundColor: AppColors.bgWhite,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -62,7 +62,7 @@ class _OrderAcceptedState extends State<OrderAccepted> {
       bottomNavigationBar: Container(
         height: 140,
         padding: EdgeInsets.all(10),
-
+    
         child: Column(
           children: [
             AppButton(name: "Suivre ma commande", onClick: ()=>Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>MyOrders()), (route) => false)),
@@ -72,10 +72,10 @@ class _OrderAcceptedState extends State<OrderAccepted> {
                   fontWeight: FontWeight.w400,
                   color: AppColors.textBlack),
             ))
-
+    
           ],
         ),
       ),
-    ));
+    );
   }
 }

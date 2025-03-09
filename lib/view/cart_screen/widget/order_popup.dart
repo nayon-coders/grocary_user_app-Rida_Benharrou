@@ -82,7 +82,7 @@ class _OrderPopupState extends State<OrderPopup> {
     });
 
     //init date
-    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy H:M").format(DateTime.now().add(Duration(days: 1)));
+    selectedDeliveryDateTime = DateFormat("dd/MM/yyyy").format(DateTime.now().add(Duration(days: 1)));
     selectedDeliveryDateTimeFrontEnd = DateFormat("dd/MM/yyyy").format(DateTime.now().add(Duration(days: 1)));
 
 

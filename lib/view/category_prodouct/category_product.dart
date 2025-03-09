@@ -92,7 +92,7 @@ class _CategoryProductState extends State<CategoryProduct> {
     });
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
         backgroundColor: Colors.grey.shade100,
         surfaceTintColor: Colors.transparent,
@@ -125,18 +125,19 @@ class _CategoryProductState extends State<CategoryProduct> {
           padding: const EdgeInsets.all(15),
           child: Obx((){
             if(categoryProductController.isLoading.value){
-              return GridView.builder(
-                itemCount: 10,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    mainAxisExtent: 180
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  return const AppShimmer();
-                },
-              );
+              // return GridView.builder(
+              //   itemCount: 10,
+              //   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 3,
+              //       crossAxisSpacing: 5,
+              //       mainAxisSpacing: 5,
+              //       mainAxisExtent: 180
+              //   ),
+              //   itemBuilder: (BuildContext context, int index) {
+              //     return const AppShimmer();
+              //   },
+              // );
+              return Center(child: CircularProgressIndicator.adaptive(backgroundColor: AppColors.mainColor,),);
             }else if( categoryProductController.catProductModel.value.data == null || categoryProductController.catProductModel.value.data!.isEmpty){
               return const NotFound();
             }else{

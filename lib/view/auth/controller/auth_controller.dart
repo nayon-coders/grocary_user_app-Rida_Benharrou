@@ -164,6 +164,7 @@ class AuthController extends GetxController{
     Get.delete<FavController>(); // Delete the controller
     Get.delete<CartControllerNew>(); // Delete the controller
     Get.delete<OrderControllerNew>(); // Delete the controller
+    Get.delete<FavController>(); // Delete the controller
 
     Get.offAllNamed(AppRoutes.LOGIN);
   }

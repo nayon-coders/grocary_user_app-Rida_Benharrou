@@ -25,27 +25,29 @@ class OrderInvoiceList extends StatelessWidget {
         bottom: PreferredSize(
           preferredSize: Size(Get.width, 50),
           child: InkWell(
-            onTap: (){
+            onTap: () {
+
+              // Set locale to French
+              Intl.defaultLocale = 'fr_FR';
               showCustomDateRangePicker(
                 context,
                 dismissible: true,
                 minimumDate: DateTime.now().subtract(const Duration(days: 2000)),
                 maximumDate: DateTime.now().add(const Duration(days: 30)),
-                // endDate: DateTime(2025, 2, 2),
-                // startDate: DateTime(2025, 1, 1),
                 backgroundColor: Colors.white,
                 primaryColor: AppColors.bgGreen,
                 onApplyClick: (start, end) {
-                  controller.startDate.value = DateFormat('dd/MM/yyyy').format(start);
-                  controller.endDate.value = DateFormat('dd/MM/yyyy').format(end);
 
-                  //get product
+                  controller.startDate.value = DateFormat('dd/MM/yyyy', 'fr_FR').format(start);
+                  controller.endDate.value = DateFormat('dd/MM/yyyy', 'fr_FR').format(end);
+
+                  // Fetch product data
                   controller.getMyInvoice();
                 },
                 onCancelClick: () {
                   controller.startDate.value = "";
                   controller.endDate.value = "";
-                  },
+                },
               );
             },
             child: Container(
